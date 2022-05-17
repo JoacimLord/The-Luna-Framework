@@ -3,7 +3,7 @@
 #include "Lunapch.h"
 
 #include "LunaAPI/Core/Defines.h"
-#include "LunaAPI/Core/WindowData.h" 
+#include "LunaAPI/Core/window.h"
 #include "LunaAPI/Event/Event.h"
 #include "LunaAPI/Event/ApplicationEvent.h"
 #include "LunaAPI/ImGui/UI.h"
@@ -35,13 +35,11 @@ namespace Luna {
 		void Update(); //Step 5
 		static void BuildUI(); //Outside of class in its own namespace?
 
-
 	//Used internally, use on own risk
 	public:
 		inline static Application& Get() { return *s_Instance; }
 		WindowInterface& GetWindow() const { return *m_Window; }
 		void OnGUIClose();
-
 
 	private:
 		void OnEvent(Event& event);
