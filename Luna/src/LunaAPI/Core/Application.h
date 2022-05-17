@@ -3,7 +3,7 @@
 #include "Lunapch.h"
 
 #include "LunaAPI/Core/Defines.h"
-#include "LunaAPI/Core/WindowData.h" 
+#include "LunaAPI/Core/Window.h" 
 #include "LunaAPI/Event/Event.h"
 #include "LunaAPI/Event/ApplicationEvent.h"
 #include "LunaAPI/ImGui/UI.h"
