@@ -10,7 +10,6 @@ Resources/
 
 #Files
 
-*.gitattributes
 *.sln
 *.ini
 *.vcxproj
