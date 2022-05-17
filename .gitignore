@@ -15,3 +15,6 @@ Resources/
 *.vcxproj
 *.vcxproj.user
 *.vcxproj.filters
+
+#Exclude
+!Vendor/bin
