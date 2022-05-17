@@ -25,7 +25,6 @@
 #include "Luna.h"		 //Contains everything you need!
 #include <imgui/imgui.h> //Needed if you want to build your own UI.
 
-
 //-------------------------------------------------------
 //		   EXAMPLE OF HOW TO BUILD A BASIC OBJ
 //-------------------------------------------------------
@@ -114,6 +113,5 @@ int main()
 		//Flush and repeat, updates window and events
 		app.Update();
 	}
-
 	std::cout << "Closing window...\n";
 }
