@@ -5,13 +5,13 @@ Application/
 bin/
 bin-int/
 x64/
+Resources/
+
 
 #Files
 
 *.sln
+*.ini
 *.vcxproj
 *.vcxproj.user
 *.vcxproj.filters
-
-#Exludes
-!Vendor/bin
