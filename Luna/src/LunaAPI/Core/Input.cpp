@@ -31,20 +31,16 @@ namespace Luna {
 	float Input::GetMousePositionX()
 	{
 		auto* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetOriginalWindow());
-
 		double xPos, yPos;
 		glfwGetCursorPos(window, &xPos, &yPos);
-
 		return (float)xPos;
 	}
 
 	float Input::GetMousePositionY()
 	{
 		auto* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetOriginalWindow());
-
 		double xPos, yPos;
 		glfwGetCursorPos(window, &xPos, &yPos);
-
 		return (float)yPos;
 	}
 }

@@ -26,7 +26,7 @@
 #include "LunaAPI/Core/Input.h"
 
 //GUI
-#include "LunaAPI/ImGui/UI.h"
+#include "LunaAPI/UI/UI.h"
 
 //EVENTS
 #include "LunaAPI/Event/Event.h"

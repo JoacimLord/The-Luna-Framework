@@ -23,6 +23,7 @@ namespace Luna {
 
 	Application::~Application()
 	{
+		//Do nothing
 	}
 
 	void Application::OnEvent(Event& event)
@@ -66,7 +67,7 @@ namespace Luna {
 	}
 
 
-	float Application::GetElapesedRuntime()
+	float Application::GetElapsedRuntime()
 	{
 		return (float)glfwGetTime();
 	}
@@ -79,13 +80,19 @@ namespace Luna {
 	void Application::UpdateWindow()
 	{
 		UpdateGUI(); //Updates ImGUI, abstracted away in this function call. Goes before the window-update.
-
 		m_Window->OnUpdate();
 	}
 
 	void Application::Clear(float r, float g, float b, float transparent)
 	{
+
 		m_ImGuiLayer.BindFramebuffer(r, g, b, transparent);
+	}
+
+
+	void Application::Clear(glm::vec4& temp)
+	{
+		m_ImGuiLayer.BindFramebuffer(temp.x, temp.y, temp.z, temp.w);
 	}
 
 	void Application::Render(std::shared_ptr<Texture>& texture, glm::mat4 transform)

@@ -6,14 +6,7 @@
 namespace Luna {
     
     const uint32_t QUAD_SIZE = 6;
-    
-    enum class SceneState
-    {
-        NONE = 0,
-        Runtime,
-        Editor
-    };
-
+ 
     struct Camera 
     {
         glm::mat4 proj = glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f, -1.0f, 1.0f);
@@ -87,6 +80,7 @@ namespace Luna {
 
     void Renderer::ClearColor(float r, float g, float b, float transparent)
     {
+        
         glClearColor(r, g, b, transparent);
     }
 

@@ -11,8 +11,10 @@ namespace Luna {
 		WindowResizeEvent(uint32_t width, uint32_t height)
 			: m_Width(width), m_Height(height) {}
 
-		inline unsigned int GetWidth() const { return m_Width; }
-		inline unsigned int GetHeight() const { return m_Height; }
+		//inline unsigned int GetWidth() const { return m_Width; }
+		//inline unsigned int GetHeight() const { return m_Height; }
+		uint32_t GetWidth() const { return m_Width; }
+		uint32_t GetHeight() const { return m_Height; }
 
 		EVENT_TYPE(WindowResize)
 		EVENT_CATEGORY(EventCategoryApplication)

@@ -4,9 +4,10 @@
 
 #include "LunaAPI/Core/Defines.h"
 #include "LunaAPI/Core/Window.h" 
+#include "LunaAPI/Core/WindowInterface.h" 
 #include "LunaAPI/Event/Event.h"
 #include "LunaAPI/Event/ApplicationEvent.h"
-#include "LunaAPI/ImGui/UI.h"
+#include "LunaAPI/UI/UI.h"
 #include "LunaAPI/Core/DeltaTime.h"
 #include "LunaAPI/Renderer/Framebuffer.h"
 
@@ -18,17 +19,16 @@ namespace Luna {
 	class Application
 	{
 	public:
-		UI m_ImGuiLayer;
-
-	public:
 		Application(const std::string name);
 		virtual ~Application();
 
 		//API for the main.cpp (app dev)
 		void ShowImGuiDemoWindow();
-		float GetElapesedRuntime();
+		float GetElapsedRuntime();
 		bool IsRunning();
 		void Clear(float r, float g, float b, float transparent); //Step 1
+		void Clear(glm::vec4& temp); //To enable passing in a vec4
+
 		void Render(std::shared_ptr<Texture>& texture, glm::mat4 transform); //Step 2
 		void Display(); //Step 3
 		void DrawUI(); //Step 4
@@ -36,12 +36,12 @@ namespace Luna {
 		static void BuildUI(); //Outside of class in its own namespace?
 
 
-	//Used internally, use on own risk
+	// -DISCLAIMER! -
+	//Used internally, use on own risk. Change to private later.
 	public:
 		inline static Application& Get() { return *s_Instance; }
 		WindowInterface& GetWindow() const { return *m_Window; }
 		void OnGUIClose();
-
 
 	private:
 		void OnEvent(Event& event);
@@ -51,6 +51,9 @@ namespace Luna {
 		void UpdateGUI();
 		void EndRendering();
 		void UpdateWindow();
+
+	public:
+		UI m_ImGuiLayer;
 
 	private:
 		static Application* s_Instance;

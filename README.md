@@ -1,6 +1,6 @@
-# The Luna Framework
+# The Luna Framework - Version 1.01
 
-(last edited 220517)
+(last edited 220520)
 
 The Luna Framework is a "low level" framework based on the API of the "Luna Engine" (currently in development).
 
@@ -80,7 +80,7 @@ int main()
 ```
 
 As you can see in the example we render to the window with a texture and an 'anchor'.
-The texture needs to be a pointer at this current state, stack allocation will be supported later down the line.
+The texture needs to be a pointer.
 
 An anchor is just a transform with a scale, translation and rotation combined.
 Initiate like:
@@ -186,7 +186,7 @@ int main()
 ```cpp
 
 //This is how you calculate deltatime with the API
-float elapsedTime = app.GetElapesedRuntime();
+float elapsedTime = app.GetElapsedRuntime();
 Luna::DeltaTime deltaTime = elapsedTime - m_LastFrameTime;
 m_LastFrameTime = elapsedTime;
 

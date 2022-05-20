@@ -41,7 +41,7 @@ namespace Luna {
     void Framebuffer::Bind()
     {
         glBindFramebuffer(GL_FRAMEBUFFER, m_ID);
-        glBindTexture(GL_TEXTURE_2D, m_ColorAttachment); //Görs redan??
+        glBindTexture(GL_TEXTURE_2D, m_ColorAttachment); //Why again?
  
         //glfwGetFramebufferSize(window, &displayWidth, &displayHeight);
         glViewport(0, 0, m_FramebufferSpecification.Width, m_FramebufferSpecification.Height);

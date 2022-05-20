@@ -29,6 +29,5 @@ namespace Luna {
 		uint32_t m_ColorAttachment;
 		uint32_t m_DepthAttachment;
 		FramebufferSpecification m_FramebufferSpecification;
-
 	};
 }

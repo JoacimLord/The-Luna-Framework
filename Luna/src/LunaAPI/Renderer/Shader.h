@@ -14,13 +14,9 @@ typedef unsigned int GLuint;
 
 namespace Luna {
 
-	std::string GetFileContents(const char* filename);
 
 	class Shader
 	{
-	public:
-		GLuint m_ID;
-
 	public:
 		Shader();//const char* vertexFile, const char* fragmentFile);
 		~Shader();
@@ -29,6 +25,12 @@ namespace Luna {
 		void SetMat4(glm::mat4 ModelViewMatrix);
 
 	private:
-		void CompileErrors(unsigned int shader, const char* type);
+		void CompileErrors(unsigned int shader, const char* type); //Thx Victor Gordan - OpenGL Tutorials!
+
+	public:
+		GLuint m_ID;
 	};
+
+	//Thx Victor Gordan - OpenGL Tutorials!
+	std::string GetFileContents(const char* filename);
 }

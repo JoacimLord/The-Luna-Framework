@@ -1,22 +1,40 @@
 #pragma once
 
 #include "LunaAPI/Core/Window.h"
+#include "LunaAPI/Core/WindowInterface.h"
 #include "GLFW/glfw3.h"
 
 namespace Luna {
 
 	class WindowLogic : public WindowInterface
 	{
-
 	public:
 		WindowLogic(const Window& details);
 		virtual ~WindowLogic();
 
+		void SetWindowData(const Window& data);
 		void OnUpdate() override;
-		inline unsigned int GetWidth() override { return m_Data.Width; }
-		inline unsigned int GetHeight() override { return m_Data.Width; }
+
+		//inline?
+		//inline unsigned int GetWidth() override { return m_Data.Width; }
+		//inline unsigned int GetHeight() override { return m_Data.Width; }
+		uint32_t GetWidth() override { return m_Data.Width; }
+		uint32_t GetHeight() override { return m_Data.Width; }
+
 
 		void SetEventCallback(const EventCallBackFn& callback) override { m_Data.EventCallback = callback; }
+
+
+		//Setup for callback
+		void SetCallbackResize();
+		void SetCallbackClose();
+		void SetCallbackKeyboard();
+		void SetCallbackChars();
+		void SetCallbackMouseBtn();
+		void SetCallbackMouseScroll();
+		void SetCallbackCursorPos();
+
+
 		void SetVSync(bool enabled) override;
 		bool VSyncActive() const override;
 		virtual void* GetOriginalWindow() const { return m_Window; }

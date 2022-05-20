@@ -1,7 +1,7 @@
 #include "Lunapch.h"
 #include "LunaAPI/Core/Defines.h"
-#include "LunaAPI/ImGui/UI.h"
-#include "LunaAPI/ImGui/ImGuiImpl.h"
+#include "LunaAPI/UI/UI.h"
+#include "LunaAPI/UI/ImGuiImpl.h"
 #include "LunaAPI/Core/Application.h"
 
 #include <backends/imgui_impl_glfw.h> 
@@ -232,6 +232,7 @@ namespace Luna {
 		}
 	}
 
+	//Thx Cherno!
 	void UI::SetThemeColors(const std::string& theme)
 	{
 		if (theme == "dark" || "DARK" || "Dark")

@@ -16,17 +16,16 @@ namespace Luna {
 
 	class Clock
 	{
-	private:
-		std::chrono::time_point<std::chrono::high_resolution_clock> m_Start;
-
 	public:
 		Clock();
-
 		void Reset();
 		float Elapsed();
 		float ElapsedMilliSeconds();
 		void PrintElapsedTime(const char* format);
 		void ResetAfterSeconds(const int seconds);
+
+	private:
+		std::chrono::time_point<std::chrono::high_resolution_clock> m_Start;
 	};
 
 	Clock::Clock()
