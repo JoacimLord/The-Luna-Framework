@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "LunaAPI/Core/Defines.h"
-#include "LunaAPI/Event/Event.h"
+#include "LunaAPI/EventHandler/MainEventBaseClass.h"
 #include "LunaAPI/Core/Window.h"
 
 

@@ -28,11 +28,26 @@
 //GUI
 #include "LunaAPI/UI/UI.h"
 
-//EVENTS
-#include "LunaAPI/Event/Event.h"
-#include "LunaAPI/Event/ApplicationEvent.h"
-#include "LunaAPI/Event/KeyEvent.h"
-#include "LunaAPI/Event/MouseEvent.h"
 
-//TIMER
+//EVENTS
+#include "LunaAPI/EventHandler/MainEventBaseClass.h"
+
+//NEW!!!!!!!!!!
+#include "LunaAPI/EventHandler/KeyEvents/KeyButtonBaseEvent.h"
+#include "LunaAPI/EventHandler/KeyEvents/KeyPressed.h"
+#include "LunaAPI/EventHandler/KeyEvents/KeyReleased.h"
+#include "LunaAPI/EventHandler/KeyEvents/KeyTyped.h"
+
+//MOUSE
+#include "LunaAPI/EventHandler/MouseEvents/MouseButtonBaseEvent.h"
+#include "LunaAPI/EventHandler/MouseEvents/MouseButtonPressed.h"
+#include "LunaAPI/EventHandler/MouseEvents/MouseButtonReleased.h"
+#include "LunaAPI/EventHandler/MouseEvents/MouseMove.h"
+#include "LunaAPI/EventHandler/MouseEvents/MouseWheelScroll.h"
+
+//WINDOW			
+#include "LunaAPI/EventHandler/WindowEvents/WindowClose.h"
+#include "LunaAPI/EventHandler/WindowEvents/WindowResize.h"
+
+
 #include "LunaAPI/Core/Clock.h"

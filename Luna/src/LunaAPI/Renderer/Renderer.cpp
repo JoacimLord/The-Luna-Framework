@@ -140,6 +140,15 @@ namespace Luna {
 
     }
 
+    //NEW!! - 220526
+    void Renderer::OnWindowResize(float width, float height)
+    {
+        std::cout << "glViewport changing\n";
+        glViewport(0, 0, width, height);
+    }
+
+
+
     Statistics Renderer::GetDrawCalls()
     {
         return s_RendererData.Stats;

@@ -34,6 +34,11 @@ namespace Luna {
 		static void DrawElements(std::shared_ptr<VertexArray>& vertexArray, uint32_t size);
 		static void OpenGLEnables();
 
+		//NEW!! - 220526
+		static void OnWindowResize(float width, float height);
+
+
+
 		static Statistics GetDrawCalls();
 		static void ClearFrame(float r, float g, float b, float transparent);
 	};

@@ -31,6 +31,16 @@ namespace Luna {
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(DEFINE_EVENT_TYPE(Application::OnWindowCloseEvent));
 		dispatcher.Dispatch<WindowResizeEvent>(DEFINE_EVENT_TYPE(Application::OnWindowResizeEvent));
+
+
+		//NEW!!!!!!
+		//for (auto it = m_Layerstack.end(); it != m_Layerstack.begin(); )
+		//{
+		//	(*--it)->OnEvent(e);
+		//	if (e.Handled)
+		//		break;
+		//}
+
 	}
 	
 	bool Application::OnWindowCloseEvent(WindowCloseEvent& e)
@@ -41,6 +51,12 @@ namespace Luna {
 
 	bool Application::OnWindowResizeEvent(WindowResizeEvent& e)
 	{
+		if (e.GetWidth() == 0 || e.GetHeight() == 0)
+		{
+			std::cout << "Minimized\n";
+		}
+
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
 		return false;
 	}
 

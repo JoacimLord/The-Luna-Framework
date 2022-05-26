@@ -2,18 +2,14 @@
 #include "LunaAPI/Core/WindowLogic.h"
 
 //EVENTS  
-#include "LunaAPI/Event/Event.h"
-#include "LunaAPI/Event/ApplicationEvent.h"
-#include "LunaAPI/Event/KeyEvent.h"
-#include "LunaAPI/Event/MouseEvent.h"
 
 #include <imgui.h>
 #include <glad/glad.h>
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
 
-namespace Luna {
 
+namespace Luna {
 
 	static bool s_GLFWInitialize = false;
 
@@ -24,7 +20,7 @@ namespace Luna {
 
 	WindowLogic::~WindowLogic()
 	{
-		//Close GLFW-wiwdow
+		//Close GLFW-window
 		Shutdown();
 	}
 
@@ -43,7 +39,6 @@ namespace Luna {
 		m_Data.Title = data.Title;
 		m_Data.Width = data.Width;
 		m_Data.Height = data.Height;
-		//SetWindowData(data);
 
 		if (!s_GLFWInitialize)
 		{

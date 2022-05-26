@@ -1,7 +1,16 @@
 #pragma once
 
+
+//Moved from the cpp file
 #include "LunaAPI/Core/Window.h"
 #include "LunaAPI/Core/WindowInterface.h"
+#include "LunaAPI/EventHandler/MainEventBaseClass.h"
+#include "LunaAPI/EventHandler/KeyEvents/KeyButtonBaseEvent.h"
+#include "LunaAPI/EventHandler/KeyEvents/KeyPressed.h"
+#include "LunaAPI/EventHandler/KeyEvents/KeyReleased.h"
+#include "LunaAPI/EventHandler/KeyEvents/KeyTyped.h"
+
+
 #include "GLFW/glfw3.h"
 
 namespace Luna {

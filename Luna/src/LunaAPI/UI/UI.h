@@ -2,9 +2,7 @@
 
 
 #include "LunaAPI/Core/Defines.h"
-#include "LunaAPI/Event/ApplicationEvent.h"
-#include "LunaAPI/Event/KeyEvent.h"
-#include "LunaAPI/Event/MouseEvent.h"
+#include "LunaAPI/EventHandler/KeyEvents/KeyButtonBaseEvent.h"
 
 #include "LunaAPI/Renderer/Framebuffer.h"
 #include "LunaAPI/Renderer/VertexArray.h"

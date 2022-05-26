@@ -16,6 +16,6 @@ namespace Luna {
 		float GetMilliSeconds() const { return m_Time * 1000.0f; } //seconds * 1000 (milli)
 
 	private:
-		float m_Time
+		float m_Time;
 	};
 }

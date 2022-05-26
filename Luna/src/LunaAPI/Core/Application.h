@@ -5,11 +5,26 @@
 #include "LunaAPI/Core/Defines.h"
 #include "LunaAPI/Core/Window.h" 
 #include "LunaAPI/Core/WindowInterface.h" 
-#include "LunaAPI/Event/Event.h"
-#include "LunaAPI/Event/ApplicationEvent.h"
+#include "LunaAPI/EventHandler/MainEventBaseClass.h"
 #include "LunaAPI/UI/UI.h"
 #include "LunaAPI/Core/DeltaTime.h"
 #include "LunaAPI/Renderer/Framebuffer.h"
+
+
+//MOUSE
+#include "LunaAPI/EventHandler/MouseEvents/MouseButtonBaseEvent.h"
+#include "LunaAPI/EventHandler/MouseEvents/MouseButtonPressed.h"
+#include "LunaAPI/EventHandler/MouseEvents/MouseButtonReleased.h"
+#include "LunaAPI/EventHandler/MouseEvents/MouseMove.h"
+#include "LunaAPI/EventHandler/MouseEvents/MouseWheelScroll.h"
+
+//WINDOW
+#include "LunaAPI/EventHandler/WindowEvents/WindowClose.h"
+#include "LunaAPI/EventHandler/WindowEvents/WindowResize.h"
+
+
+#include "LunaAPI/EventHandler/EventDispatcher/EventDispatcher.h"
+
 
 #include "GLFW/glfw3.h"
 
