@@ -14,23 +14,27 @@ typedef unsigned int GLuint;
 
 namespace Luna {
 
-
 	class Shader
 	{
 	public:
-		Shader();//const char* vertexFile, const char* fragmentFile);
+		Shader(std::string& mode);//const char* vertexFile, const char* fragmentFile);
 		~Shader();
 		void Bind();
 		void Unbind();
 		void SetMat4(glm::mat4 ModelViewMatrix);
 
+
+		//Added 220605, needs renaming!
+		void SetShaderColor(glm::vec4 clr);
+
+
 	private:
-		void CompileErrors(unsigned int shader, const char* type); //Thx Victor Gordan - OpenGL Tutorials!
+		void CompileErrors(unsigned int shader, const char* type);
 
 	public:
 		GLuint m_ID;
 	};
 
-	//Thx Victor Gordan - OpenGL Tutorials!
+	//Move to a separate "Reader" class
 	std::string GetFileContents(const char* filename);
 }

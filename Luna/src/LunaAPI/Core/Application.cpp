@@ -11,14 +11,14 @@ namespace Luna {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application(const std::string name)
+	Application::Application(const std::string name) //by ref?
 	{
 		s_Instance = this;
 		m_Window = std::unique_ptr<WindowInterface>(WindowInterface::Create(name));
 		m_Window->SetEventCallback(DEFINE_EVENT_TYPE(OnEvent));
 	
 		Renderer::Init();
-		m_ImGuiLayer.OnAttach(); //Needs to happen here, crashes if it gets called in ImGuiLayers constructor.
+		m_UI.OnAttach(); //Needs to happen here, crashes if it gets called in ImGuiLayers constructor.
 	}
 
 	Application::~Application()
@@ -31,16 +31,6 @@ namespace Luna {
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(DEFINE_EVENT_TYPE(Application::OnWindowCloseEvent));
 		dispatcher.Dispatch<WindowResizeEvent>(DEFINE_EVENT_TYPE(Application::OnWindowResizeEvent));
-
-
-		//NEW!!!!!!
-		//for (auto it = m_Layerstack.end(); it != m_Layerstack.begin(); )
-		//{
-		//	(*--it)->OnEvent(e);
-		//	if (e.Handled)
-		//		break;
-		//}
-
 	}
 	
 	bool Application::OnWindowCloseEvent(WindowCloseEvent& e)
@@ -72,14 +62,14 @@ namespace Luna {
 
 	void Application::UpdateGUI()
 	{
-		m_ImGuiLayer.StartRenderFrame();
-		m_ImGuiLayer.RenderFrame();
-		m_ImGuiLayer.EndRenderFrame();
+		m_UI.StartRenderFrame();
+		m_UI.RenderFrame();
+		m_UI.EndRenderFrame();
 	}
 
 	void  Application::ShowImGuiDemoWindow()
 	{
-		m_ImGuiLayer.showDemo = true;
+		m_UI.showDemo = true;
 	}
 
 
@@ -90,25 +80,23 @@ namespace Luna {
 
 	void Application::EndRendering()
 	{
-		m_ImGuiLayer.UnbindFramebuffer();
+		m_UI.UnbindFramebuffer();
 	}
 
 	void Application::UpdateWindow()
 	{
-		UpdateGUI(); //Updates ImGUI, abstracted away in this function call. Goes before the window-update.
 		m_Window->OnUpdate();
 	}
 
 	void Application::Clear(float r, float g, float b, float transparent)
 	{
-
-		m_ImGuiLayer.BindFramebuffer(r, g, b, transparent);
+		m_UI.BindFramebuffer(r, g, b, transparent);
 	}
 
 
 	void Application::Clear(glm::vec4& temp)
 	{
-		m_ImGuiLayer.BindFramebuffer(temp.x, temp.y, temp.z, temp.w);
+		m_UI.BindFramebuffer(temp.x, temp.y, temp.z, temp.w);
 	}
 
 	void Application::Render(std::shared_ptr<Texture>& texture, glm::mat4 transform)
@@ -120,6 +108,7 @@ namespace Luna {
 	{
 		EndRendering();
 		DrawUI();
+		UpdateWindow();
 	}
 
 	void Application::DrawUI()
@@ -127,8 +116,9 @@ namespace Luna {
 		UpdateGUI();
 	}
 
-	void Application::Update()
+	//RENAME!
+	void Application::RenderShaderColor(glm::vec4 clr, glm::mat4 transform) //by refs (&) ?
 	{
-		UpdateWindow();
+		Luna::Renderer::DrawParticleTest(clr, transform);
 	}
 }

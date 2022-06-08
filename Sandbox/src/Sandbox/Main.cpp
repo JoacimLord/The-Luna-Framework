@@ -29,11 +29,15 @@ struct Entity
 //		   EXAMPLE OF HOW TO IMPLEMENT IMGUI
 //-------------------------------------------------------
 
+
+static float col2[4] = { 0.4f, 0.7f, 0.0f, 0.5f };
+
 //Build your own UI here by overriding this function. Comment out / remove to not use ImGui.
 void Luna::Application::BuildUI()
 {
 	ImGui::Begin("My own UI!");
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::ColorEdit4("Color", col2);
 	ImGui::End();
 }
 
@@ -43,22 +47,24 @@ int main()
 	std::cout << "Opening new window!\n";
 	Luna::Application app("App");
 
-	//Abstraction in progress, how to load textures.
-	std::shared_ptr<Luna::Texture> backdrop = std::make_shared<Luna::Texture>("");
-	std::shared_ptr<Luna::Texture> red = std::make_shared<Luna::Texture>("");
-
-	Entity bg;
-	bg.SetSize(1500.0f, 800.0f);
-	bg.SetPosition(600.0f, 350.0f);
-
-	Entity square;
-	square.SetSize(50.0f, 50.0f);
-	square.SetPosition(600.0f, 350.0f);
+	Entity pos1;
+	pos1.SetSize(50.0f, 50.0f);
+	pos1.SetPosition(600.0f, 350.0f);
 	
+	Entity pos2;
+	pos2.SetSize(50.0f, 50.0f);
+	pos2.SetPosition(300.0f, 150.0f);
+
+	Entity pos3;
+	pos3.SetSize(50.0f, 50.0f);
+	pos3.SetPosition(150.0f, 300.0f);
+
 	float m_LastFrameTime = 0.0f;
 
 	//Un-comment to show GUI examples (ImGui).
 	//app.ShowImGuiDemoWindow();
+
+	std::shared_ptr<Luna::Texture> texture = std::make_shared<Luna::Texture>("D:/dev/LFW_Luna-Framework_Experimental/Resources/blue.png");
 
 	while (app.IsRunning())
 	{
@@ -66,31 +72,24 @@ int main()
 		Luna::DeltaTime deltaTime = elapsedTime - m_LastFrameTime;
 		m_LastFrameTime = elapsedTime;
 
-		//Input scope
-		{
-			if (Luna::Input::IsKeyPressed(Luna::Key::Z))
-			{
-				//Do something
-			}
-			else if (Luna::Input::IsKeyPressed(Luna::Key::X))
-			{
-				//Do something else
-			}
-		}
+		app.Clear(Luna::Colors::Grey);
 
+		//For loop to AttachColor in a function from renderer?
+		//Function for this?
 
-		//Clears screen and sets the framebuffer. Choose a pre-defined color or your own float values
-		//app.Clear(1.0f, 0.0f, 1.0f, 1.0f);
-		app.Clear(Luna::Colors::Pink);
-		//Takes in a texture and anchor/transform (position and scale)
-		//app.Render(backdrop, bg.anchor.GetTransform());
-		//app.Render(red, square.anchor.GetTransform());
-		
-		//Clears the framebuffer
+		glm::vec4 clr;// = { 0.4f, 0.7f, 0.0f, 0.5f };
+		clr[0] = col2[0];
+		clr[1] = col2[1];
+		clr[2] = col2[2];
+		clr[3] = 1.0f; //Transparency
+
+		//BindColorFromValues
+
+		app.Render(texture, pos3.anchor.GetTransform()); //TEXTURE
+		app.RenderShaderColor(clr, pos1.anchor.GetTransform());	   //SHADER
+
+		//Clears the framebuffer. Flush and repeat, updates window and events
 		app.Display();
-
-		//Flush and repeat, updates window and events
-		app.Update();
 	}
 	std::cout << "Closing window...\n";
 }

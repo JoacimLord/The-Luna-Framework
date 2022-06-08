@@ -3,6 +3,7 @@
 #include "LunaAPI/UI/UI.h"
 #include "LunaAPI/UI/ImGuiImpl.h"
 #include "LunaAPI/Core/Application.h"
+#include "LunaAPI/Core/Input.h"
 
 #include <backends/imgui_impl_glfw.h> 
 #include <backends/imgui_impl_opengl3.h>
@@ -36,11 +37,13 @@ namespace Luna {
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
 
-		ImGui::StyleColorsDark();
-		ImGuiStyle& style = ImGui::GetStyle();
+		//io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
+		//io.ConfigFlags != ImGuiButtonFlags_MouseButtonRight;
 
-		//Thx The Cherno for this function (and ofc alot more)
-		SetThemeColors("Dark");
+
+		ImGui::StyleColorsDark();
+
+		ImGuiStyle& style = ImGui::GetStyle();
 
 		Application& app = Application::Get();
 		GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetOriginalWindow());
@@ -61,7 +64,8 @@ namespace Luna {
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 	}
-	
+
+	//REMOVE?
 	void UI::OnEvent(Event& event) { EventDispatcher dispatcher(event); }
 
 	void UI::StartRenderFrame()
@@ -89,7 +93,6 @@ namespace Luna {
 		m_Framebuffer->Invalidate();
 	}
 
-	//UILayer
 	//Used in app
 	void UI::RenderFrame()
 	{
@@ -113,6 +116,13 @@ namespace Luna {
 
 			if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
 				window_flags |= ImGuiWindowFlags_NoBackground;
+
+
+			//if (Luna::Input::IsMouseButtonPressed(Mouse::ButtonRight))
+			//{
+			//	std::cout << "Right msbtn pressed\n";
+			//	return;
+			//}
 
 
 			//----------------------------------------------
@@ -176,6 +186,7 @@ namespace Luna {
 			m_ViewportBounds[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
 			m_ViewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
 
+			//Needed?
 			m_ViewportFocused = ImGui::IsWindowFocused();
 			m_ViewportHovered = ImGui::IsWindowHovered();
 
@@ -184,6 +195,7 @@ namespace Luna {
 
 			uint64_t textureID = m_Framebuffer->GetColorAttachment();
 			ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+
 
 			ImGui::End();
 			ImGui::PopStyleVar();
@@ -195,9 +207,12 @@ namespace Luna {
 			//					DEMO WINDOW
 			//---------------------------------------------------
 			// if()
-			
+
+			if (Luna::Input::IsMouseButtonPressed(Mouse::ButtonRight) && !showDemo) showDemo = true;
+
 			if (showDemo) { OnUIRender(); }
 			Luna::Application::BuildUI();
+
 	}
 
 
@@ -230,44 +245,5 @@ namespace Luna {
 			ImGui::RenderPlatformWindowsDefault();
 			glfwMakeContextCurrent(backup_current_context);
 		}
-	}
-
-	//Thx Cherno!
-	void UI::SetThemeColors(const std::string& theme)
-	{
-		if (theme == "dark" || "DARK" || "Dark")
-		{
-			std::cout << "Dark Theme Colors has been set!\n";
-		}
-
-		auto& colors = ImGui::GetStyle().Colors;
-		colors[ImGuiCol_WindowBg] = ImVec4{ 0.1f, 0.105f, 0.11f, 1.0f };
-
-		// Headers
-		colors[ImGuiCol_Header] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
-		colors[ImGuiCol_HeaderHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
-		colors[ImGuiCol_HeaderActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-
-		// Buttons
-		colors[ImGuiCol_Button] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
-		colors[ImGuiCol_ButtonHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
-		colors[ImGuiCol_ButtonActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-
-		// Frame BG
-		colors[ImGuiCol_FrameBg] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
-		colors[ImGuiCol_FrameBgHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
-		colors[ImGuiCol_FrameBgActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-
-		// Tabs
-		colors[ImGuiCol_Tab] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-		colors[ImGuiCol_TabHovered] = ImVec4{ 0.38f, 0.3805f, 0.381f, 1.0f };
-		colors[ImGuiCol_TabActive] = ImVec4{ 0.28f, 0.2805f, 0.281f, 1.0f };
-		colors[ImGuiCol_TabUnfocused] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-		colors[ImGuiCol_TabUnfocusedActive] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
-
-		// Title
-		colors[ImGuiCol_TitleBg] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-		colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-		colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
 	}
 }

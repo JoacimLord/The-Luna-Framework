@@ -47,11 +47,15 @@ namespace Luna {
 		void Render(std::shared_ptr<Texture>& texture, glm::mat4 transform); //Step 2
 		void Display(); //Step 3
 		void DrawUI(); //Step 4
-		void Update(); //Step 5
+
+
+		//RenderShaderColor
+		void RenderShaderColor(glm::vec4 clr, glm::mat4 transform);
+
 		static void BuildUI(); //Outside of class in its own namespace?
 
 
-	// -DISCLAIMER! -
+	// - DISCLAIMER! -
 	//Used internally, use on own risk. Change to private later.
 	public:
 		inline static Application& Get() { return *s_Instance; }
@@ -68,7 +72,7 @@ namespace Luna {
 		void UpdateWindow();
 
 	public:
-		UI m_ImGuiLayer;
+		UI m_UI;
 
 	private:
 		static Application* s_Instance;

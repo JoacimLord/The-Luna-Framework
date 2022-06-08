@@ -2,6 +2,7 @@
 #include "Renderer.h"
 
 #include <glad/glad.h>
+#include <LunaAPI/Core/Input.h>
 
 namespace Luna {
     
@@ -26,6 +27,13 @@ namespace Luna {
 
     struct RendererData
     {
+        //Rename someday :>
+        //Shader & VA for !textures
+        std::shared_ptr<VertexArray> ClrVA;
+        std::shared_ptr<Shader> ClrShader;
+
+
+        //Shader & VA for textures
         std::shared_ptr<VertexArray> VertexArray;
         std::shared_ptr<Shader> Shader;
         std::array<std::shared_ptr<Texture>, 32> TextureSlots;
@@ -38,19 +46,41 @@ namespace Luna {
     static RendererData s_RendererData;
 
 
+    //Do nothing?
     Renderer::Renderer()
     {
     }
 
+    //Do nothing?
     Renderer::~Renderer()
     {
     }
 
     void Renderer::Init()
     {
+        //can const these & move them
+        std::string txtMode = "txt";
+        std::string clrtMode = "clr";
+
         OpenGLEnables();
         s_RendererData.VertexArray = std::make_shared<VertexArray>();
-        s_RendererData.Shader = std::make_shared<Shader>();
+        s_RendererData.Shader = std::make_shared<Shader>(txtMode);
+
+        //Clr
+        s_RendererData.ClrVA = std::make_shared<VertexArray>();
+        s_RendererData.ClrShader = std::make_shared<Shader>(clrtMode);
+
+
+        //COLORS IN HERE!
+        //GLfloat vertices[] =
+        //{
+        //    //CORDINATES				//COLORS		//TEXCORDS
+        //   -0.5f, -0.5f, 0.0f, 1.0f,	0.0f, 0.0f,		 0.0f,	0.0f,
+        //    0.5f, -0.5f, 0.0f, 1.0f,	1.0f, 0.0f,		 1.0f,	0.0f,
+        //    0.5f,  0.5f, 0.0f, 1.0f,	0.0f, 1.0f,		 1.0f,	1.0f,
+        //   -0.5f,  0.5f, 0.0f, 1.0f,	1.0f, 1.0f,		 0.0f,	1.0f
+        //};
+
 
         GLfloat vertices[] =
         {
@@ -61,16 +91,22 @@ namespace Luna {
            -0.5f,  0.5f, 0.0f, 1.0f,	1.0f, 1.0f,		 0.0f,	1.0f
         };
 
+
         GLuint indices[] =
         {
             0, 2, 1,
             0, 3, 2
         };
 
+        //Abstract away or is it to confusing otherwise?
         std::shared_ptr<VertexBuffer> VBO = std::make_shared<VertexBuffer>(vertices, sizeof(vertices));
 
         s_RendererData.VertexArray->AddElementBuffer(indices);
         s_RendererData.VertexArray->AddVertexBuffer(VBO);
+
+        //Clr
+        s_RendererData.ClrVA->AddElementBuffer(indices);
+        s_RendererData.ClrVA->AddVertexBuffer(VBO);
     }
 
     void Renderer::Clear()
@@ -94,7 +130,7 @@ namespace Luna {
     {
         glm::mat4 ModelViewMatrix = s_Camera.GetProjection() * s_Camera.GetView() * entityTransform;
         s_RendererData.Shader->SetMat4(ModelViewMatrix);
-       
+
         s_RendererData.TextureSlots[s_RendererData.TextureIndex] = texture;
         s_RendererData.TextureIndex++;
 
@@ -140,14 +176,29 @@ namespace Luna {
 
     }
 
-    //NEW!! - 220526
+    //Added 220526
     void Renderer::OnWindowResize(float width, float height)
     {
         std::cout << "glViewport changing\n";
         glViewport(0, 0, width, height);
     }
+     
 
+    void Renderer::DrawParticleTest(glm::vec4 clr, glm::mat4 pos)
+    { 
+        glm::mat4 ModelViewMatrix = s_Camera.GetProjection() * s_Camera.GetView() * pos;
+        s_RendererData.ClrShader->SetMat4(ModelViewMatrix);
+        s_RendererData.ClrShader->Bind();
+        
+        s_RendererData.ClrShader->SetShaderColor(clr);
+        DrawElements(s_RendererData.ClrVA, QUAD_SIZE);
+    }
 
+    glm::vec3 Renderer::GetCamera()
+    {
+        glm::vec3 proj;
+        return proj;
+    }
 
     Statistics Renderer::GetDrawCalls()
     {

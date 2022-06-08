@@ -18,7 +18,7 @@ namespace Luna {
 		uint32_t DrawCalls = 0;
 	};
 
-	//Change to a namespace and remove class?
+	//Push into a namespace and remove class, is it really needed?
 	class Renderer
 	{
 	public:
@@ -34,10 +34,14 @@ namespace Luna {
 		static void DrawElements(std::shared_ptr<VertexArray>& vertexArray, uint32_t size);
 		static void OpenGLEnables();
 
-		//NEW!! - 220526
+		//Added 220526
 		static void OnWindowResize(float width, float height);
 
+		//Rename and implement!
+		static void DrawParticleTest(glm::vec4 clr, glm::mat4 pos);
 
+		//wip
+		static glm::vec3 GetCamera();
 
 		static Statistics GetDrawCalls();
 		static void ClearFrame(float r, float g, float b, float transparent);
