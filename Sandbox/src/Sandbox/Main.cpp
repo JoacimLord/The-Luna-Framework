@@ -30,14 +30,15 @@ struct Entity
 //-------------------------------------------------------
 
 
-static float col2[4] = { 0.4f, 0.7f, 0.0f, 0.5f };
+static float clrEdit4[4] = { 0.4f, 0.7f, 0.0f, 0.5f };
 
-//Build your own UI here by overriding this function. Comment out / remove to not use ImGui.
+//Build your own UI here by declairing this function!
 void Luna::Application::BuildUI()
 {
+	//Comment out / remove to not use ImGui
 	ImGui::Begin("My own UI!");
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	ImGui::ColorEdit4("Color", col2);
+	ImGui::ColorEdit4("Color", clrEdit4);
 	ImGui::End();
 }
 
@@ -57,39 +58,38 @@ glm::vec4 BindColorFromValues(static float clrIn[4])
 int main()
 {
 	std::cout << "Opening new window!\n";
-	Luna::Application app("App");
+	Luna::Application app("App"); //Recommended to use a smart ptr instead!
 
-
-	Entity pos1;
-	pos1.SetSize(50.0f, 50.0f);
-	pos1.SetPosition(600.0f, 350.0f);
+	Entity positionOne;
+	positionOne.SetSize(50.0f, 50.0f);
+	positionOne.SetPosition(600.0f, 350.0f);
 	
-	Entity pos2;
-	pos2.SetSize(50.0f, 50.0f);
-	pos2.SetPosition(300.0f, 150.0f);
+	Entity positionTwo;
+	positionTwo.SetSize(50.0f, 50.0f);
+	positionTwo.SetPosition(300.0f, 150.0f);
 
-
-	float m_LastFrameTime = 0.0f;
+	float lastFrameTime = 0.0f;
 
 	//Un-comment to show GUI examples (ImGui).
 	//app.ShowImGuiDemoWindow();
 
-	std::shared_ptr<Luna::Texture> texture = std::make_shared<Luna::Texture>("D:/dev/LFW_Luna-Framework_Experimental/Resources/blue.png");
+	const char* filePath = "";
+	std::shared_ptr<Luna::Texture> texture = std::make_shared<Luna::Texture>(filePath);
 
-
+	//Main-loop
 	while (app.IsRunning())
 	{
+		//Calculate delta
 		float elapsedTime = app.GetElapsedRuntime();
-		Luna::DeltaTime deltaTime = elapsedTime - m_LastFrameTime;
-		m_LastFrameTime = elapsedTime;
+		Luna::DeltaTime deltaTime = elapsedTime - lastFrameTime;
+		lastFrameTime = elapsedTime;
 
+		//Clears screen
 		app.Clear(Luna::Colors::Grey);
 
-
-		glm::vec4 clr = BindColorFromValues(col2);
-
-		app.Render(texture, pos1.anchor.GetTransform()); //TEXTURE
-		app.RenderShaderColor(clr, pos2.anchor.GetTransform());	   //SHADER
+		glm::vec4 color = BindColorFromValues(clrEdit4);
+		app.Render(texture, positionOne.anchor.GetTransform());			  //Texture
+		app.RenderShaderColor(color, positionTwo.anchor.GetTransform());  //Shader color
 
 		//Clears the framebuffer. Flush and repeat, updates window and events
 		app.Display();
