@@ -1,6 +1,10 @@
-# The Luna Framework - Version 1.01
+# The Luna Framework - Version 1.02
 
-(last edited 220520)
+Last update:
+- Added basic support for multiple shaders. Now possible to render textures and simple shader colors at the same time.
+
+(last edited 220608)
+
 
 The Luna Framework is a "low level" framework based on the API of the "Luna Engine" (currently in development).
 
@@ -32,7 +36,7 @@ Third party libraries in use:
 
 # How to get started
 
-Simply clone or download the project. Run the Setup.bat file to generate your solution.
+Simply clone, fork or download the project. Run the Setup.bat file to generate your solution.
 The only file that you need to include is the "Luna.h" header file and the <imgui/imgui.h> file.
 Feel free to use the Sandbox project as your starting point.
 
@@ -60,7 +64,7 @@ void Luna::Application::BuildUI()
 
 int main()
 {
-	//How to initalize a window and name it
+	//How to initalize a window and name it. Recommended to use a smart ptr, this stack allocation is for demo purposes.
 	Luna::Application app("App"); 
 
 	//Move directly into the while-loop, app.IsRunning() needs to be included here
@@ -71,9 +75,8 @@ int main()
 
 		app.Render(); //To render graphics to the viewport, needs to take in a texture and a anchor.GetTransform().
 
-		//If your application only need the ImGui setup, only keep this and Update */
+		//If your application only need the ImGui setup, only keep this */
 		app.Display(); 
-		app.Update(); 
 	}
 }
 
@@ -173,9 +176,8 @@ int main()
 		//Then we render textures in the correct order (furthest "back" to the "front" as in the example list above)
 		app.Render(texture, object.anchor.GetTransform()); //Renders the texture at the anchors position and with the anchors scale.
 		
-		//Display our graphics and update the window, needs to be in this order for a correct result
+		//Display our graphics
 		app.Display();
-		app.Update();
 	}
 }
 
@@ -197,7 +199,6 @@ m_LastFrameTime = elapsedTime;
 
 ```cpp
 
-//For mouse
 if (Luna::Input::IsKeyPressed(Luna::Key::X))
 {
 	//Do something
@@ -224,7 +225,6 @@ I don't recommend to use other API calls than the ones listed in this doc :)
 4. Clear the window and prepare the framebuffer
 5. Render your graphics
 6. Display
-7. Update
 
 
 
