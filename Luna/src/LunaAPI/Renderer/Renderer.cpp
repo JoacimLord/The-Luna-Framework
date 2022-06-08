@@ -194,6 +194,16 @@ namespace Luna {
         DrawElements(s_RendererData.ClrVA, QUAD_SIZE);
     }
 
+    //(Fix and chain over to application.cpp/h)
+    void Renderer::BindColorFromValues(glm::vec4 clrIn, static float clrOut[4])
+    {
+        clrIn[0] = clrOut[0];
+        clrIn[1] = clrOut[1];
+        clrIn[2] = clrOut[2];
+        clrIn[3] = 1.0f; //Transparency
+    }
+
+
     glm::vec3 Renderer::GetCamera()
     {
         glm::vec3 proj;

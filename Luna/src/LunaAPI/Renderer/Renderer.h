@@ -37,8 +37,11 @@ namespace Luna {
 		//Added 220526
 		static void OnWindowResize(float width, float height);
 
-		//Rename and implement!
-		static void DrawParticleTest(glm::vec4 clr, glm::mat4 pos);
+		//Rename and implement properly!
+		static void DrawParticleTest(glm::vec4 clr, glm::mat4 pos); //by ref(&)?
+
+		//(Fix and chain over to application.cpp/h)
+		static void BindColorFromValues(glm::vec4 clrIn, static float clrOut[4]); //by ref(&)?
 
 		//wip
 		static glm::vec3 GetCamera();

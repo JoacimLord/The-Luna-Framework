@@ -41,11 +41,24 @@ void Luna::Application::BuildUI()
 	ImGui::End();
 }
 
+//TODO: Move to renderer later. Here for the example!
+glm::vec4 BindColorFromValues(static float clrIn[4])
+{
+	glm::vec4 clr;
+	clr[0] = clrIn[0];
+	clr[1] = clrIn[1];
+	clr[2] = clrIn[2];
+	clr[3] = 1.0f; //Transparency
+
+	return clr;
+}
+
 //Here we go!
 int main()
 {
 	std::cout << "Opening new window!\n";
 	Luna::Application app("App");
+
 
 	Entity pos1;
 	pos1.SetSize(50.0f, 50.0f);
@@ -55,9 +68,6 @@ int main()
 	pos2.SetSize(50.0f, 50.0f);
 	pos2.SetPosition(300.0f, 150.0f);
 
-	Entity pos3;
-	pos3.SetSize(50.0f, 50.0f);
-	pos3.SetPosition(150.0f, 300.0f);
 
 	float m_LastFrameTime = 0.0f;
 
@@ -65,6 +75,7 @@ int main()
 	//app.ShowImGuiDemoWindow();
 
 	std::shared_ptr<Luna::Texture> texture = std::make_shared<Luna::Texture>("D:/dev/LFW_Luna-Framework_Experimental/Resources/blue.png");
+
 
 	while (app.IsRunning())
 	{
@@ -74,19 +85,11 @@ int main()
 
 		app.Clear(Luna::Colors::Grey);
 
-		//For loop to AttachColor in a function from renderer?
-		//Function for this?
 
-		glm::vec4 clr;// = { 0.4f, 0.7f, 0.0f, 0.5f };
-		clr[0] = col2[0];
-		clr[1] = col2[1];
-		clr[2] = col2[2];
-		clr[3] = 1.0f; //Transparency
+		glm::vec4 clr = BindColorFromValues(col2);
 
-		//BindColorFromValues
-
-		app.Render(texture, pos3.anchor.GetTransform()); //TEXTURE
-		app.RenderShaderColor(clr, pos1.anchor.GetTransform());	   //SHADER
+		app.Render(texture, pos1.anchor.GetTransform()); //TEXTURE
+		app.RenderShaderColor(clr, pos2.anchor.GetTransform());	   //SHADER
 
 		//Clears the framebuffer. Flush and repeat, updates window and events
 		app.Display();
