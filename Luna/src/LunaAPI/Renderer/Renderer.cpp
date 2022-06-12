@@ -8,22 +8,22 @@ namespace Luna {
     
     const uint32_t QUAD_SIZE = 6;
  
-    struct Camera 
-    {
-        glm::mat4 proj = glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f, -1.0f, 1.0f);
-        glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 0.0f, 0.0f)); //5.0??
-
-        glm::mat4 GetProjection()
-        {
-            return proj;
-        
-        }
-
-        glm::mat4 GetView()
-        {
-            return view;
-        }
-    };
+    //struct Camera 
+    //{
+    //    glm::mat4 proj = glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f, -1.0f, 1.0f);
+    //    glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 0.0f, 0.0f)); //5.0??
+    //
+    //    glm::mat4 GetProjection()
+    //    {
+    //        return proj;
+    //    
+    //    }
+    //
+    //    glm::mat4 GetView()
+    //    {
+    //        return view;
+    //    }
+    //};
 
     struct RendererData
     {
@@ -42,9 +42,53 @@ namespace Luna {
         Statistics Stats;
     };
 
-    static Camera s_Camera;
+    //static Camera s_Camera;
     static RendererData s_RendererData;
+   
+    float l = -1.6f;
+    float r = 1.6f;
+    float b = -0.9f;
+    float t = 0.9f;
+    static OrthoCam s_OrthoCam(l, r, b, t);
 
+    ////OrthoCam - NEW
+    //class OrthoCam
+    //{
+    //public:
+    //    glm::mat4 projMatrix;
+    //    glm::mat4 viewMatrix;
+    //    glm::mat4 viewProjMatrix;
+    //
+    //    glm::vec3 pos = { 0.0f, 0.0f, 0.0f };
+    //    float rotation = 0.0f;
+    //
+    //    OrthoCam(float l, float r, float b, float t)
+    //        : projMatrix(glm::ortho(l, r, b, t, -1.0f, 1.0f))
+    //    {
+    //        //Do nothing
+    //        RecalcMatrix();
+    //    }
+    //
+    //
+    //    const glm::vec3& GetPos() const { return pos; }
+    //    
+    //    void RecalcMatrix()
+    //    {
+    //        glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * 
+    //            glm::rotate(glm::mat4(1.0f), rotation, glm::vec3(0, 0, 1));
+    //
+    //        viewMatrix = glm::inverse(transform);
+    //        viewProjMatrix = projMatrix * viewMatrix;
+    //    }
+    //
+    //    void SetPos(const glm::vec3& temppos) { pos = temppos; RecalcMatrix(); }
+    //};
+    //
+
+    //16 x 9 aspect ratio - NEW
+    //Add ratio by text?
+    //OrthoCam s_OrthoCam(-1.6f, 1.6f, -0.9f, 0.9f);
+    
 
     //Do nothing?
     Renderer::Renderer()
@@ -63,23 +107,13 @@ namespace Luna {
         std::string clrtMode = "clr";
 
         OpenGLEnables();
+
         s_RendererData.VertexArray = std::make_shared<VertexArray>();
         s_RendererData.Shader = std::make_shared<Shader>(txtMode);
 
         //Clr
         s_RendererData.ClrVA = std::make_shared<VertexArray>();
         s_RendererData.ClrShader = std::make_shared<Shader>(clrtMode);
-
-
-        //COLORS IN HERE!
-        //GLfloat vertices[] =
-        //{
-        //    //CORDINATES				//COLORS		//TEXCORDS
-        //   -0.5f, -0.5f, 0.0f, 1.0f,	0.0f, 0.0f,		 0.0f,	0.0f,
-        //    0.5f, -0.5f, 0.0f, 1.0f,	1.0f, 0.0f,		 1.0f,	0.0f,
-        //    0.5f,  0.5f, 0.0f, 1.0f,	0.0f, 1.0f,		 1.0f,	1.0f,
-        //   -0.5f,  0.5f, 0.0f, 1.0f,	1.0f, 1.0f,		 0.0f,	1.0f
-        //};
 
 
         GLfloat vertices[] =
@@ -126,10 +160,45 @@ namespace Luna {
         glClearColor(r, g, b, transparent);
     }
 
-    void Renderer::Draw(std::shared_ptr<Texture>& texture, glm::mat4 entityTransform)
+
+    OrthoCam Renderer::GetCamera()
     {
-        glm::mat4 ModelViewMatrix = s_Camera.GetProjection() * s_Camera.GetView() * entityTransform;
-        s_RendererData.Shader->SetMat4(ModelViewMatrix);
+        return s_OrthoCam;
+    }
+
+    void Renderer::SetCameraPosition(const glm::vec3 temppos)
+    {
+        s_OrthoCam.SetPos(temppos);
+    }
+
+    glm::vec3 Renderer::GetCameraPosition()
+    {
+        return GetCamera().GetPos();
+    }
+
+ 
+
+
+
+
+
+   
+  
+
+    void Renderer::Draw(std::shared_ptr<Texture>& texture, const glm::mat4& entityTransform)
+    {
+        //This is for NO camera, maybe better for a framework?
+       //glm::mat4 ModelViewMatrix = s_Camera.GetProjection() * s_Camera.GetView() * entityTransform;      
+       //s_RendererData.Shader->SetMat4(ModelViewMatrix); //THIS WORKS, just needs to be done once?
+        
+
+        //s_OrthoCam.SetPos({ 1.0f, 0.0f, 0.0f });
+        
+
+       //Change to GetViewProj() later on. Move these two to a "SetCamera()" function or something!
+       s_RendererData.Shader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj"); //THIS WORKS, just needs to be done once?
+       s_RendererData.Shader->SetMat4(entityTransform, "scale"); //Every time we submit we need to do THIS
+
 
         s_RendererData.TextureSlots[s_RendererData.TextureIndex] = texture;
         s_RendererData.TextureIndex++;
@@ -146,20 +215,6 @@ namespace Luna {
         s_RendererData.Stats.DrawCalls++;
     }
 
-    void Renderer::Draw(Texture texture, glm::mat4 entityTransform)
-    {
-        glm::mat4 ModelViewMatrix = s_Camera.GetProjection() * s_Camera.GetView() * entityTransform;
-        s_RendererData.Shader->SetMat4(ModelViewMatrix);
-
-        glBindTexture(GL_TEXTURE_2D, texture.id);
-        s_RendererData.Shader->Bind();
-
-        DrawElements(s_RendererData.VertexArray, QUAD_SIZE);
-        s_RendererData.TextureIndex = 0;
-
-        glBindTexture(GL_TEXTURE_2D, 0);
-        s_RendererData.Stats.DrawCalls++;
-    }
 
     void Renderer::DrawElements(std::shared_ptr<VertexArray>& vertexArray, uint32_t size)
     {
@@ -184,10 +239,15 @@ namespace Luna {
     }
      
 
-    void Renderer::DrawParticleTest(glm::vec4 clr, glm::mat4 pos)
+    void Renderer::DrawParticleTest(glm::vec4 clr, const glm::mat4& entityTransform)
     { 
-        glm::mat4 ModelViewMatrix = s_Camera.GetProjection() * s_Camera.GetView() * pos;
-        s_RendererData.ClrShader->SetMat4(ModelViewMatrix);
+        //glm::mat4 ModelViewMatrix = s_Camera.GetProjection() * s_Camera.GetView() * pos;
+        s_RendererData.Shader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj"); //THIS WORKS, just needs to be done once?
+        s_RendererData.Shader->SetMat4(entityTransform, "scale"); //Every time we submit we need to do THIS
+
+       // s_RendererData.ClrShader->SetMat4(ModelViewMatrix, "scale");
+       // s_RendererData.ClrShader->SetMat4(pos, "scale"); //Every time we submit we need to do THIS
+
         s_RendererData.ClrShader->Bind();
         
         s_RendererData.ClrShader->SetShaderColor(clr);
@@ -201,13 +261,6 @@ namespace Luna {
         clrIn[1] = clrOut[1];
         clrIn[2] = clrOut[2];
         clrIn[3] = 1.0f; //Transparency
-    }
-
-
-    glm::vec3 Renderer::GetCamera()
-    {
-        glm::vec3 proj;
-        return proj;
     }
 
     Statistics Renderer::GetDrawCalls()

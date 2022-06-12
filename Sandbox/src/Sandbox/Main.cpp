@@ -1,7 +1,7 @@
 
 //THE LUNA FRAMEWORK ('TLFW') - Author Note (220516)
 /*
-	A major part of this projects API layout has taken inspiration from The Chernos "Game Engine" series. Thank you!
+	Parts of this projects base API layout has taken inspiration from The Chernos "Game Engine" series. Thank you!
 */
 
 #include "Luna.h"		 //Contains everything you need!
@@ -38,7 +38,7 @@ void Luna::Application::BuildUI()
 	//Comment out / remove to not use ImGui
 	ImGui::Begin("My own UI!");
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	ImGui::ColorEdit4("Color", clrEdit4);
+	ImGui::ColorEdit4("Color", clrEdit4); //use glm::value_ptr() instead and point to the actual variable. TODO!
 	ImGui::End();
 }
 
@@ -61,21 +61,25 @@ int main()
 	Luna::Application app("App"); //Recommended to use a smart ptr instead!
 
 	Entity positionOne;
-	positionOne.SetSize(50.0f, 50.0f);
-	positionOne.SetPosition(600.0f, 350.0f);
+	positionOne.SetSize(0.5f, 0.3f); //In meters, not pixels
+	positionOne.SetPosition(0.0f, 0.0f);
 	
 	Entity positionTwo;
-	positionTwo.SetSize(50.0f, 50.0f);
-	positionTwo.SetPosition(300.0f, 150.0f);
+
+	//TODO: Add calc to transform units into pixels
+	//positionTwo.SetSize(50.0f, 50.0f);
+	//positionTwo.SetPosition(300.0f, 150.0f);
+	positionTwo.SetSize(0.5f, 0.3f);
+	positionTwo.SetPosition(0.5f, 0.5f);
 
 	float lastFrameTime = 0.0f;
 
 	//Un-comment to show GUI examples (ImGui).
 	//app.ShowImGuiDemoWindow();
 
-	const char* filePath = "";
+	const char* filePath = "Resources/red.png";
 	std::shared_ptr<Luna::Texture> texture = std::make_shared<Luna::Texture>(filePath);
-
+	float speed = 1.0f;
 	//Main-loop
 	while (app.IsRunning())
 	{
@@ -88,6 +92,27 @@ int main()
 		app.Clear(Luna::Colors::Grey);
 
 		glm::vec4 color = BindColorFromValues(clrEdit4);
+
+		app.CheckInputForCamera();
+
+		//Move rectangles
+		if (Luna::Input::IsKeyPressed(Luna::Key::W))
+		{
+			positionOne.anchor.Translation.y += speed * deltaTime;
+		}
+		else if (Luna::Input::IsKeyPressed(Luna::Key::S))
+		{
+			positionOne.anchor.Translation.y -= speed * deltaTime;
+		}
+		if (Luna::Input::IsKeyPressed(Luna::Key::A))
+		{
+			positionOne.anchor.Translation.x -= speed * deltaTime;
+		}
+		else if (Luna::Input::IsKeyPressed(Luna::Key::D))
+		{
+			positionOne.anchor.Translation.x += speed * deltaTime;
+		}
+
 		app.Render(texture, positionOne.anchor.GetTransform());			  //Texture
 		app.RenderShaderColor(color, positionTwo.anchor.GetTransform());  //Shader color
 

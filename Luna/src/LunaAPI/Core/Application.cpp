@@ -116,6 +116,38 @@ namespace Luna {
 		UpdateGUI();
 	}
 
+	//Add deltatime later
+	void Application::CheckInputForCamera()
+	{
+		float x = Luna::Renderer::GetCameraPosition().x;
+		float y = Luna::Renderer::GetCameraPosition().y;
+		float z = Luna::Renderer::GetCameraPosition().z;
+
+		//Only works with arrows + left shift
+		if (Luna::Input::IsKeyPressed(Luna::Key::Left) && Luna::Input::IsKeyPressed(Luna::Key::LeftShift))
+		{
+			x -= 0.05f;
+			Luna::Renderer::SetCameraPosition( { x, y, z } );
+		}
+		else if (Luna::Input::IsKeyPressed(Luna::Key::Right) && Luna::Input::IsKeyPressed(Luna::Key::LeftShift))
+		{
+			x += 0.05f;
+			Luna::Renderer::SetCameraPosition({ x, y, z });
+		}
+		if (Luna::Input::IsKeyPressed(Luna::Key::Down) && Luna::Input::IsKeyPressed(Luna::Key::LeftShift))
+		{
+			y -= 0.05f;
+			Luna::Renderer::SetCameraPosition({ x, y, z });
+		}
+		else if (Luna::Input::IsKeyPressed(Luna::Key::Up) && Luna::Input::IsKeyPressed(Luna::Key::LeftShift))
+		{
+			y += 0.05f;
+			Luna::Renderer::SetCameraPosition({ x, y, z });
+		}
+	}
+
+
+
 	//RENAME!
 	void Application::RenderShaderColor(glm::vec4 clr, glm::mat4 transform) //by refs (&) ?
 	{

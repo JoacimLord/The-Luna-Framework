@@ -21,7 +21,11 @@ namespace Luna {
 		~Shader();
 		void Bind();
 		void Unbind();
-		void SetMat4(glm::mat4 ModelViewMatrix);
+
+		//NEW
+		void SetMat4(glm::mat4 matrix, const char* name);
+		//OLD
+		void SetMat4(glm::mat4 matrix);
 
 
 		//Added 220605, needs renaming!

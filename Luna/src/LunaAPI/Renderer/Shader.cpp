@@ -11,15 +11,26 @@ namespace Luna {
         "layout (location = 0) in vec3 aPos;\n"
         "layout (location = 1) in vec3 aColor;\n" //vec3?
         "layout (location = 2) in vec2 aTex;\n"
+
         "out vec3 color;\n"
         "out vec2 texCoord;\n"
-        "uniform mat4 scale;\n" //rename into something else
+
+        "uniform mat4 u_ViewProj;\n"
+        "uniform mat4 scale;\n" //Transform, rename?
+
         "void main()\n"
         "{\n"
-        //"gl_Position = vec4(aPos.x + aPos.x * scale, aPos.y + aPos.y * scale, aPos.z + aPos.z * scale, 1.0);\n"
-        //"gl_Position = vec4(aPos, 1.0);\n"
-        "gl_Position = scale * vec4(aPos, 1.0);\n" //MOve down under color & texcoord
-        "color = aColor;\n" //NOT NEEDED
+
+        //with camera
+        "gl_Position = u_ViewProj * scale * vec4(aPos, 1.0);\n" //MOve down under color & texcoord
+
+        //Without camera
+        //"gl_Position = scale * vec4(aPos, 1.0);\n" //MOve down under color & texcoord
+
+        //"gl_Position = u_ViewProj * vec4(aPos, 1.0);\n" //MOve down under color & texcoord
+        //"gl_Position = u_ViewProj * u_Transform * vec4(aPos, 1.0);\n" //MOve down under color & texcoord
+
+        "color = aColor;\n"
         "texCoord = aTex;\n"
         "}\0";
     
@@ -31,9 +42,9 @@ namespace Luna {
         "uniform sampler2D tex0;"
         "void main()\n"
         "{\n"
-        //"FragColor = vec4(color, 1.0f);\n"       //clr!!
         "FragColor = texture(tex0, texCoord);\n" //texture
-        //"FragColor = {0.0f, 1.0f, 0.0f, 1.0f};\n"  //clr!!
+       // "FragColor = texture(tex0, texCoord) * color;\n" //Implement THIS!
+
     
         //"FragColor = texture(tex0, texCoord);\n"
         "}\n\0";
@@ -52,10 +63,15 @@ namespace Luna {
     //FOR PARTICLES
     const char* vertexShaderSourceClr = "#version 410 core\n"
         "layout (location = 0) in vec3 aPos;\n"
+
         "uniform mat4 scale;\n" //rename into something else
+        "uniform mat4 u_ViewProj;\n"
+
         "void main()\n"
         "{\n"
-        "gl_Position = scale * vec4(aPos, 1.0);\n" //MOve down under color & texcoord
+       // "gl_Position = scale * vec4(aPos, 1.0);\n" //MOve down under color & texcoord
+        "gl_Position = u_ViewProj * scale * vec4(aPos, 1.0);\n" //MOve down under color & texcoord
+
         "}\0";
     
     //Fragment Shader source code
@@ -171,10 +187,18 @@ namespace Luna {
         glUseProgram(0);
     }
 
-    void Shader::SetMat4(glm::mat4 ModelViewMatrix)
+    //NEW, add ref?
+    void Shader::SetMat4(glm::mat4 matrix, const char* name) //OR -> const string& name, name.c_str() in functioncall
+    {
+        GLuint uniID = glGetUniformLocation(m_ID, name);
+        glUniformMatrix4fv(uniID, 1, GL_FALSE, glm::value_ptr(matrix));
+    }
+
+    //OLD
+    void Shader::SetMat4(glm::mat4 matrix)
     {
         GLuint uniID = glGetUniformLocation(m_ID, "scale");
-        glUniformMatrix4fv(uniID, 1, GL_FALSE, glm::value_ptr(ModelViewMatrix));
+        glUniformMatrix4fv(uniID, 1, GL_FALSE, glm::value_ptr(matrix));
     }
 
     //TEST! particles
