@@ -1,9 +1,10 @@
-# The Luna Framework - Version 1.02
+# The Luna Framework - Version 1.03
 
 Last update:
-- Added basic support for multiple shaders. Now possible to render textures and simple shader colors at the same time.
+- Added a WIP implementation of a scene camera with some basic behaviours. Example in <Main.cpp> and below in 'API DOC'. (220612)
+- Added basic support for multiple shaders. Now possible to render textures and simple shader colors at the same time.   (220608)
 
-(last edited 220608)
+(last edited 220612)
 
 
 The Luna Framework is a "low level" framework based on the API of the "Luna Engine" (currently in development).
@@ -57,7 +58,7 @@ The framework currently only supports development for Windows.
 #include <imgui/imgui.h>
 
 //This needs to be included. If you don't want to use ImGui this can be left blank but still needs to be here!
-//Im using standard imgui for the interface, check out the repo for documentation!
+//Check out the ImGui repo for API documentation!
 void Luna::Application::BuildUI()
 {
 }
@@ -73,7 +74,7 @@ int main()
 		//These two are for rendering opengl in the viewport (graphics)
 		app.Clear(1.0f, 0.0f, 1.0f, 1.0f); //Initializes the viewport as a rendering texture
 
-		app.Render(); //To render graphics to the viewport, needs to take in a texture and a anchor.GetTransform().
+		app.Render(); //To render graphics to the viewport, needs to take in a texture OR a color (vec4), and a GetTransform() from the Anchor class.
 
 		//If your application only need the ImGui setup, only keep this */
 		app.Display(); 
@@ -211,10 +212,23 @@ if (Luna::Input::IsMouseButtonPressed(Luna::Mouse::ButtonLeft))
 
 ```
 
+# Camera (Controls & 'Follow')
+
+These functions will be changed and moved to a seperate CameraController class (or something like that :)), this is heavy WIP and currently only for demo purposes!
+```cpp
+
+	//Enables controls for the camera. Current control scheme: LeftShift + Arrows
+	app.CheckInputForCamera();
+
+	//Sets the cameras position to be the same as the passed in vec3 (for example the Anchors 'Translation')
+	app.SetCameraToFollowTransform(demoObject.anchor.Translation);
+
+```
+
 
 # Disclaimer
 
-I don't recommend to use other API calls than the ones listed in this doc :)
+I don't recommend to use any other API calls than the ones reachable from the Application class.
 
 # Remember to always
 
