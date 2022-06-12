@@ -10,7 +10,6 @@
 #include "LunaAPI/Core/DeltaTime.h"
 #include "LunaAPI/Renderer/Framebuffer.h"
 
-
 //MOUSE
 #include "LunaAPI/EventHandler/MouseEvents/MouseButtonBaseEvent.h"
 #include "LunaAPI/EventHandler/MouseEvents/MouseButtonPressed.h"
@@ -21,10 +20,7 @@
 //WINDOW
 #include "LunaAPI/EventHandler/WindowEvents/WindowClose.h"
 #include "LunaAPI/EventHandler/WindowEvents/WindowResize.h"
-
-
 #include "LunaAPI/EventHandler/EventDispatcher/EventDispatcher.h"
-
 
 #include "GLFW/glfw3.h"
 
@@ -35,7 +31,7 @@ namespace Luna {
 	{
 	public:
 		Application(const std::string name);
-		virtual ~Application();
+		~Application();
 
 		//API for the main.cpp (app dev)
 		void ShowImGuiDemoWindow();
