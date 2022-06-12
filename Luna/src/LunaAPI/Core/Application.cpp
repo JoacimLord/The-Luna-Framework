@@ -149,8 +149,8 @@ namespace Luna {
 
 
 	//RENAME!
-	void Application::RenderShaderColor(glm::vec4 clr, glm::mat4 transform) //by refs (&) ?
+	void Application::Render(glm::vec4 clr, glm::mat4 transform) //by refs (&) ?
 	{
-		Luna::Renderer::DrawParticleTest(clr, transform);
+		Luna::Renderer::Draw(clr, transform);
 	}
 }

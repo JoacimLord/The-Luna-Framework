@@ -75,8 +75,6 @@ void CheckInputForMovingEntitiesInScene(Entity& entity, float speed, Luna::Delta
 	}
 }
 
-
-//Here we go!
 int main()
 {
 	std::cout << "Opening new window!\n"; //Console log
@@ -122,7 +120,7 @@ int main()
 		//Create a color that takes on the value from the ImGui ColorEdit4. Attaches the color to the shader color
 		glm::vec4 color = BindColorFromValues(clrEdit4);
 		app.Render(texture, demoObject.anchor.GetTransform());		//Renders texture on entities transform
-		app.RenderShaderColor(color, demoPosition.GetTransform());  //Renders flat color on demoPosition
+		app.Render(color, demoPosition.GetTransform());  //Renders flat color on demoPosition
 
 		//Clears the framebuffer. Flush and repeat, updates window and events
 		app.Display();

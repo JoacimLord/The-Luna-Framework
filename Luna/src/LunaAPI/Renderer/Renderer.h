@@ -75,31 +75,23 @@ namespace Luna {
 		//Added 220526
 		static void OnWindowResize(float width, float height);
 
-		//TODO: Rename and implement properly! Just Draw with clr
-		static void DrawParticleTest(glm::vec4 clr, const glm::mat4& entityTransform); //by ref(&)?
+		static void Draw(glm::vec4 clr, const glm::mat4& entityTransform); //by ref(&)?
 
-		//TODO: Fix and chain over to application.cpp/h
 		static void BindColorFromValues(glm::vec4 clrIn, static float clrOut[4]); //by ref(&)?
-
 
 		static Statistics GetDrawCalls();
 		static void ClearFrame(float r, float g, float b, float transparent);		
 
-
-
 		static OrthoCam GetCamera();
 		static void SetCameraPosition(const glm::vec3 temppos);
 		static glm::vec3 GetCameraPosition();
-	
-
+		
 	private:
 		//Move to vec4 aspectRatio_16x9?
 		float l = -1.6f;
 		float r = 1.6f;
 		float b = -0.9f;
 		float t = 0.9f;
-
-		//OrthoCam s_OrthoCam(l, r, b, t);
 	};
 
 	//Transform

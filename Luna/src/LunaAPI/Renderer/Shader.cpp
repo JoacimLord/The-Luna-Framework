@@ -181,14 +181,14 @@ namespace Luna {
     }
 
     //OLD
-    void Shader::SetMat4(glm::mat4 matrix)
-    {
-        GLuint uniID = glGetUniformLocation(m_ID, "scale");
-        glUniformMatrix4fv(uniID, 1, GL_FALSE, glm::value_ptr(matrix));
-    }
+    //void Shader::SetMat4(glm::mat4 matrix)
+    //{
+    //    GLuint uniID = glGetUniformLocation(m_ID, "scale");
+    //    glUniformMatrix4fv(uniID, 1, GL_FALSE, glm::value_ptr(matrix));
+    //}
 
     //TEST! particles
-    void Shader::SetShaderColor(glm::vec4 clr)
+    void Shader::SetFlatShaderColor(glm::vec4 clr)
     {
         //rename, these are NOT members!
         GLuint m_ParticleShader = glGetUniformLocation(m_ID, "u_Color");

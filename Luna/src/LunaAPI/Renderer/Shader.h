@@ -22,14 +22,9 @@ namespace Luna {
 		void Bind();   //Remove?
 		void Unbind(); //Remove?
 
-		//NEW
 		void SetMat4(glm::mat4 matrix, const char* name);
-		//OLD
-		void SetMat4(glm::mat4 matrix);
-
-
-		//Added 220605, needs renaming!
-		void SetShaderColor(glm::vec4 clr);
+		//void SetMat4(glm::mat4 matrix);
+		void SetFlatShaderColor(glm::vec4 clr);
 
 
 	private:

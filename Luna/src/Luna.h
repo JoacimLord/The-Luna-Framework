@@ -28,11 +28,10 @@
 //GUI
 #include "LunaAPI/UI/UI.h"
 
-
 //EVENTS
 #include "LunaAPI/EventHandler/MainEventBaseClass.h"
 
-//NEW!!!!!!!!!!
+//KEYS
 #include "LunaAPI/EventHandler/KeyEvents/KeyButtonBaseEvent.h"
 #include "LunaAPI/EventHandler/KeyEvents/KeyPressed.h"
 #include "LunaAPI/EventHandler/KeyEvents/KeyReleased.h"
@@ -49,5 +48,5 @@
 #include "LunaAPI/EventHandler/WindowEvents/WindowClose.h"
 #include "LunaAPI/EventHandler/WindowEvents/WindowResize.h"
 
-
+//CLOCK
 #include "LunaAPI/Core/Clock.h"

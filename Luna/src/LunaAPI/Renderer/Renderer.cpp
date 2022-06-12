@@ -64,7 +64,6 @@ namespace Luna {
 
     void Renderer::Init()
     {
-        //can const these & move them
         std::string txtMode = "txt";
         std::string clrtMode = "clr";
 
@@ -94,7 +93,6 @@ namespace Luna {
             0, 3, 2
         };
 
-        //Abstract away or is it to confusing otherwise?
         std::shared_ptr<VertexBuffer> VBO = std::make_shared<VertexBuffer>(vertices, sizeof(vertices));
 
         s_RendererData.VertexArray->AddElementBuffer(indices);
@@ -122,7 +120,6 @@ namespace Luna {
         glClearColor(r, g, b, transparent);
     }
 
-
     OrthoCam Renderer::GetCamera()
     {
         return s_OrthoCam;
@@ -138,29 +135,10 @@ namespace Luna {
         return GetCamera().GetPos();
     }
 
- 
-
-
-
-
-
-   
-  
-
     void Renderer::Draw(std::shared_ptr<Texture>& texture, const glm::mat4& entityTransform)
     {
-        //This is for NO camera, maybe better for a framework?
-       //glm::mat4 ModelViewMatrix = s_Camera.GetProjection() * s_Camera.GetView() * entityTransform;      
-       //s_RendererData.Shader->SetMat4(ModelViewMatrix); //THIS WORKS, just needs to be done once?
-        
-
-        //s_OrthoCam.SetPos({ 1.0f, 0.0f, 0.0f });
-        
-
-       //Change to GetViewProj() later on. Move these two to a "SetCamera()" function or something!
-       s_RendererData.Shader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj"); //THIS WORKS, just needs to be done once?
-       s_RendererData.Shader->SetMat4(entityTransform, "scale"); //Every time we submit we need to do THIS
-
+        s_RendererData.Shader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj"); //Just needs to be done once, TODO: Move to seperate function
+        s_RendererData.Shader->SetMat4(entityTransform, "scale"); //Every time we submit we need to do this                  
 
         s_RendererData.TextureSlots[s_RendererData.TextureIndex] = texture;
         s_RendererData.TextureIndex++;
@@ -177,7 +155,6 @@ namespace Luna {
         s_RendererData.Stats.DrawCalls++;
     }
 
-
     void Renderer::DrawElements(std::shared_ptr<VertexArray>& vertexArray, uint32_t size)
     {
         vertexArray->Bind();
@@ -193,15 +170,13 @@ namespace Luna {
 
     }
 
-    //Added 220526
     void Renderer::OnWindowResize(float width, float height)
     {
         std::cout << "glViewport changing\n";
         glViewport(0, 0, width, height);
     }
-     
 
-    void Renderer::DrawParticleTest(glm::vec4 clr, const glm::mat4& entityTransform)
+    void Renderer::Draw(glm::vec4 clr, const glm::mat4& entityTransform)
     { 
         //glm::mat4 ModelViewMatrix = s_Camera.GetProjection() * s_Camera.GetView() * pos;
         s_RendererData.Shader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj"); //THIS WORKS, just needs to be done once?
@@ -212,7 +187,7 @@ namespace Luna {
 
         s_RendererData.ClrShader->Bind();
         
-        s_RendererData.ClrShader->SetShaderColor(clr);
+        s_RendererData.ClrShader->SetFlatShaderColor(clr);
         DrawElements(s_RendererData.ClrVA, QUAD_SIZE);
     }
 

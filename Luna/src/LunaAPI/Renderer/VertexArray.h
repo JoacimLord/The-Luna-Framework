@@ -8,9 +8,6 @@ namespace Luna {
 	class VertexArray
 	{
 	public:
-		uint32_t m_ID;
-
-	public:
 		std::shared_ptr<ElementBuffer> m_ElementBuffer;				
 		std::vector<std::shared_ptr<VertexBuffer>> m_VertexBuffers; 
 
@@ -22,5 +19,8 @@ namespace Luna {
 
 		void AddElementBuffer(uint32_t* indices);
 		void AddVertexBuffer(std::shared_ptr<VertexBuffer>& vertexArray);
+
+	public:
+		uint32_t m_ID;
 	};
 }

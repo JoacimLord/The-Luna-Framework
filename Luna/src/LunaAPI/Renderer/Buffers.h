@@ -28,3 +28,11 @@ namespace Luna {
 		void Unbind();
 	};
 }
+
+//Change the code spec to be the same as in other files, 
+/*
+	- public functions  (1)
+	- private functions (2)
+	- public variables  (3)
+	- private variables (4)
+*/
