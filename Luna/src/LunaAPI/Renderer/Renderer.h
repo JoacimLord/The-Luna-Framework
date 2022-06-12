@@ -79,13 +79,6 @@ namespace Luna {
 		static OrthoCam GetCamera();
 		static void SetCameraPosition(const glm::vec3 temppos);
 		static glm::vec3 GetCameraPosition();
-		
-	private:
-		//Move to vec4 aspectRatio_16x9?
-		float l = -1.6f;
-		float r = 1.6f;
-		float b = -0.9f;
-		float t = 0.9f;
 	};
 
 	//Transform

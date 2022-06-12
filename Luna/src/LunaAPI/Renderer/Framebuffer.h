@@ -19,10 +19,10 @@ namespace Luna {
 
 		void CreateFramebufferSpecification(FramebufferSpecification& fbspec);
 
-		uint32_t& GetRendererID();// { return m_ID; }
-		uint32_t& GetDepthAttachment();// { return m_DepthAttachment; }
-		uint32_t& GetColorAttachment();// { return m_ColorAttachment; }
-		FramebufferSpecification& GetFramebufferSpecification();// { return m_FramebufferSpecification; }
+		uint32_t& GetRendererID();
+		uint32_t& GetDepthAttachment();
+		uint32_t& GetColorAttachment();
+		FramebufferSpecification& GetFramebufferSpecification();
 	
 	private:
 		uint32_t m_ID;

@@ -1,9 +1,5 @@
 #pragma once
 
-/*
-	Thank you Cherno for help with this architecture!
-*/
-
 #include "Lunapch.h"
 #include "LunaAPI/Core/Defines.h"
 

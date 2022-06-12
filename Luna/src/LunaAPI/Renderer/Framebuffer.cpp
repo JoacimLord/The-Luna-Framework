@@ -35,6 +35,7 @@ namespace Luna {
         {
             std::cout << "Framebuffer loaded!\n";
         }
+
        glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 

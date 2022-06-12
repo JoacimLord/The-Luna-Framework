@@ -15,7 +15,6 @@ namespace Luna {
 			: m_MouseButton(mouseButton) {}
 
 	public:
-
 		inline float GetMouseButton() const { return m_MouseButton; }
 
 		CHECK_CATEGORY(EventCategoryMouse | EventCategoryInput | EventCategoryMouseButton)

@@ -19,11 +19,10 @@ namespace Luna {
 	public:
 		Shader(std::string& mode);//const char* vertexFile, const char* fragmentFile);
 		~Shader();
-		void Bind();   //Remove?
-		void Unbind(); //Remove?
+		void Bind();
+		void Unbind();
 
 		void SetMat4(glm::mat4 matrix, const char* name);
-		//void SetMat4(glm::mat4 matrix);
 		void SetFlatShaderColor(glm::vec4 clr);
 
 

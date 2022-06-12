@@ -1,8 +1,6 @@
 #include "Lunapch.h"
 #include "LunaAPI/Core/WindowLogic.h"
 
-//EVENTS  
-
 #include <imgui.h>
 #include <glad/glad.h>
 #include <backends/imgui_impl_glfw.h>
@@ -24,15 +22,12 @@ namespace Luna {
 		Shutdown();
 	}
 
-
 	void WindowLogic::SetWindowData(const Window& data)
 	{
 		m_Data.Title = data.Title;
 		m_Data.Width = data.Width;
 		m_Data.Height = data.Height;
 	}
-
-
 
 	void WindowLogic::Init(const Window& data)
 	{
@@ -47,7 +42,7 @@ namespace Luna {
 		}
 
 		m_Window = glfwCreateWindow((int)data.Width, (int)data.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		glfwFocusWindow(m_Window); //Not needed???
+		glfwFocusWindow(m_Window);
 
 		glfwMakeContextCurrent(m_Window);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
@@ -71,7 +66,6 @@ namespace Luna {
 		glfwTerminate();
 	}
 
-
 	void WindowLogic::OnUpdate()
 	{
 		glfwPollEvents();
@@ -89,12 +83,8 @@ namespace Luna {
 
 	bool WindowLogic::VSyncActive() const { return m_Data.VSync; }
 
-
-
-
 	void WindowLogic::SetCallbackResize()
 	{
-
 		//Callback - Resize
 		glfwSetWindowSizeCallback(m_Window,
 			[](GLFWwindow* window, int width, int height)
@@ -107,9 +97,8 @@ namespace Luna {
 				WindowResizeEvent event(width, height);
 				data.EventCallback(event);
 			});
-
-
 	}
+
 	void WindowLogic::SetCallbackClose()
 	{
 
@@ -122,8 +111,8 @@ namespace Luna {
 				WindowCloseEvent event;
 				data.EventCallback(event);
 			});
-
 	}
+
 	void WindowLogic::SetCallbackKeyboard()
 	{
 		//Callback - Keys
@@ -159,8 +148,8 @@ namespace Luna {
 				}
 				}
 			});
-
 	}
+
 	void WindowLogic::SetCallbackChars()
 	{
 
@@ -173,9 +162,8 @@ namespace Luna {
 				KeyTypedEvent event(keycode);
 				data.EventCallback(event);
 			});
-
-
 	}
+
 	void WindowLogic::SetCallbackMouseBtn()
 	{
 
@@ -204,8 +192,8 @@ namespace Luna {
 				}
 				}
 			});
-
 	}
+
 	void WindowLogic::SetCallbackMouseScroll()
 	{
 
@@ -232,12 +220,8 @@ namespace Luna {
 			});
 	}
 
-
-	//static bool s_GLFWInitialize = false;
-
 	WindowInterface* WindowInterface::Create(const Window& props)
 	{
 		return new WindowLogic(props); //This pushes the heap-memory into a unique_ptr, shouldn't be any problems.
 	}
-
 }

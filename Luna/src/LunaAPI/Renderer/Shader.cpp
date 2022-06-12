@@ -58,8 +58,6 @@ namespace Luna {
         "}\n\0";
     
 
-
-    //TODO - cleanup this constructor for easier usage later on.
     Shader::Shader(std::string& mode)//const char* vertexFile, const char* fragmentFile)
     {
         if (mode == "clr")
@@ -141,7 +139,6 @@ namespace Luna {
         GLuint uniID = glGetUniformLocation(m_ID, name);
         glUniformMatrix4fv(uniID, 1, GL_FALSE, glm::value_ptr(matrix));
     }
-
 
     void Shader::SetFlatShaderColor(glm::vec4 clr)
     {

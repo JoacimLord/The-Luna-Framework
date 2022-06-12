@@ -5,6 +5,7 @@
 #include "LunaAPI/EventHandler/MouseEvents/MouseButtonBaseEvent.h"
 
 namespace Luna {
+
 	class MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
