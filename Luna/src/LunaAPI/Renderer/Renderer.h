@@ -11,8 +11,6 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/quaternion.hpp>
 
-
-
 //test
 #include "LunaAPI/Core/Input.h"
 
@@ -77,10 +75,10 @@ namespace Luna {
 		//Added 220526
 		static void OnWindowResize(float width, float height);
 
-		//Rename and implement properly! Just Draw with clr
+		//TODO: Rename and implement properly! Just Draw with clr
 		static void DrawParticleTest(glm::vec4 clr, const glm::mat4& entityTransform); //by ref(&)?
 
-		//(Fix and chain over to application.cpp/h)
+		//TODO: Fix and chain over to application.cpp/h
 		static void BindColorFromValues(glm::vec4 clrIn, static float clrOut[4]); //by ref(&)?
 
 

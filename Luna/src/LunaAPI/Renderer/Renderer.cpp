@@ -8,6 +8,7 @@ namespace Luna {
     
     const uint32_t QUAD_SIZE = 6;
  
+    //OLD
     //struct Camera 
     //{
     //    glm::mat4 proj = glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f, -1.0f, 1.0f);
@@ -51,51 +52,12 @@ namespace Luna {
     float t = 0.9f;
     static OrthoCam s_OrthoCam(l, r, b, t);
 
-    ////OrthoCam - NEW
-    //class OrthoCam
-    //{
-    //public:
-    //    glm::mat4 projMatrix;
-    //    glm::mat4 viewMatrix;
-    //    glm::mat4 viewProjMatrix;
-    //
-    //    glm::vec3 pos = { 0.0f, 0.0f, 0.0f };
-    //    float rotation = 0.0f;
-    //
-    //    OrthoCam(float l, float r, float b, float t)
-    //        : projMatrix(glm::ortho(l, r, b, t, -1.0f, 1.0f))
-    //    {
-    //        //Do nothing
-    //        RecalcMatrix();
-    //    }
-    //
-    //
-    //    const glm::vec3& GetPos() const { return pos; }
-    //    
-    //    void RecalcMatrix()
-    //    {
-    //        glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * 
-    //            glm::rotate(glm::mat4(1.0f), rotation, glm::vec3(0, 0, 1));
-    //
-    //        viewMatrix = glm::inverse(transform);
-    //        viewProjMatrix = projMatrix * viewMatrix;
-    //    }
-    //
-    //    void SetPos(const glm::vec3& temppos) { pos = temppos; RecalcMatrix(); }
-    //};
-    //
-
-    //16 x 9 aspect ratio - NEW
-    //Add ratio by text?
-    //OrthoCam s_OrthoCam(-1.6f, 1.6f, -0.9f, 0.9f);
-    
-
-    //Do nothing?
+    //Do nothing? Remove and change to default?
     Renderer::Renderer()
     {
     }
 
-    //Do nothing?
+    //Do nothing? Default?
     Renderer::~Renderer()
     {
     }

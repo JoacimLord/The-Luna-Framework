@@ -123,7 +123,7 @@ namespace Luna {
 		float y = Luna::Renderer::GetCameraPosition().y;
 		float z = Luna::Renderer::GetCameraPosition().z;
 
-		//Only works with arrows + left shift
+		//Curr only works with arrows + left shift
 		if (Luna::Input::IsKeyPressed(Luna::Key::Left) && Luna::Input::IsKeyPressed(Luna::Key::LeftShift))
 		{
 			x -= 0.05f;

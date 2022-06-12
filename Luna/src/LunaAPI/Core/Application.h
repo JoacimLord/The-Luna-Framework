@@ -80,8 +80,8 @@ namespace Luna {
 	private:
 		static Application* s_Instance;
 		bool m_IsRunning = true;
-		float m_LastFrameTime = 0.0f;
+		//float m_LastFrameTime = 0.0f;
 		std::unique_ptr<WindowInterface> m_Window; //Window
-		unsigned int m_FrameBuffer;
+		//unsigned int m_FrameBuffer;
 	};
 }

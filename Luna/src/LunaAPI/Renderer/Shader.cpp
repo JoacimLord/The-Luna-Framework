@@ -43,35 +43,21 @@ namespace Luna {
         "void main()\n"
         "{\n"
         "FragColor = texture(tex0, texCoord);\n" //texture
-       // "FragColor = texture(tex0, texCoord) * color;\n" //Implement THIS!
-
-    
-        //"FragColor = texture(tex0, texCoord);\n"
         "}\n\0";
     
     //--------------------------------------------------------------------------------
-
-    /*
-        if:
-            In fragcolor = texture(tex0) -> m_Shader & scale in setdata
-    
-        else if:
-            In fragcolor = texture(scale) -> m_Shader & tex0 in setdata
-    */
 
 
     //FOR PARTICLES
     const char* vertexShaderSourceClr = "#version 410 core\n"
         "layout (location = 0) in vec3 aPos;\n"
 
-        "uniform mat4 scale;\n" //rename into something else
+        "uniform mat4 scale;\n" //rename
         "uniform mat4 u_ViewProj;\n"
 
         "void main()\n"
         "{\n"
-       // "gl_Position = scale * vec4(aPos, 1.0);\n" //MOve down under color & texcoord
         "gl_Position = u_ViewProj * scale * vec4(aPos, 1.0);\n" //MOve down under color & texcoord
-
         "}\0";
     
     //Fragment Shader source code
