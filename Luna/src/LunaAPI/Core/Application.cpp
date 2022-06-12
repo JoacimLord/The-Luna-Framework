@@ -21,11 +21,6 @@ namespace Luna {
 		m_UI.OnAttach(); //Needs to happen here, crashes if it gets called in ImGuiLayers constructor.
 	}
 
-	Application::~Application()
-	{
-		//Do nothing
-	}
-
 	void Application::OnEvent(Event& event)
 	{
 		EventDispatcher dispatcher(event);
@@ -72,7 +67,6 @@ namespace Luna {
 		m_UI.showDemo = true;
 	}
 
-
 	float Application::GetElapsedRuntime()
 	{
 		return (float)glfwGetTime();
@@ -92,7 +86,6 @@ namespace Luna {
 	{
 		m_UI.BindFramebuffer(r, g, b, transparent);
 	}
-
 
 	void Application::Clear(glm::vec4& temp)
 	{
@@ -146,9 +139,6 @@ namespace Luna {
 		}
 	}
 
-
-
-	//RENAME!
 	void Application::Render(glm::vec4 clr, glm::mat4 transform) //by refs (&) ?
 	{
 		Luna::Renderer::Draw(clr, transform);

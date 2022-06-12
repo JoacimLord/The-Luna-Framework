@@ -11,12 +11,10 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/quaternion.hpp>
 
-//test
-#include "LunaAPI/Core/Input.h"
 
 namespace Luna {
 
-	//OrthoCam - NEW
+	//OrthoCam - WIP
 	class OrthoCam
 	{
 	public:
@@ -34,7 +32,6 @@ namespace Luna {
 			RecalcMatrix();
 		}
 
-
 		const glm::vec3& GetPos() const { return pos; }
 
 		void RecalcMatrix()
@@ -45,22 +42,20 @@ namespace Luna {
 			viewMatrix = glm::inverse(transform);
 			viewProjMatrix = projMatrix * viewMatrix;
 		}
-
 		void SetPos(const glm::vec3& temppos) { pos = temppos; RecalcMatrix(); }
 	};
-
 
 	struct Statistics
 	{
 		uint32_t DrawCalls = 0;
 	};
 
-	//Push into a namespace and remove class, is it really needed?
+	//Push into a namespace?
 	class Renderer
 	{
 	public:
-		Renderer();
-		~Renderer();
+		Renderer() = default;
+		~Renderer() = default;
 
 	public:
 		static void Init();
@@ -72,7 +67,6 @@ namespace Luna {
 		static void DrawElements(std::shared_ptr<VertexArray>& vertexArray, uint32_t size);
 		static void OpenGLEnables();
 
-		//Added 220526
 		static void OnWindowResize(float width, float height);
 
 		static void Draw(glm::vec4 clr, const glm::mat4& entityTransform); //by ref(&)?
@@ -101,20 +95,16 @@ namespace Luna {
 		glm::vec3 Rotation = { 0.0f, 0.0f, 0.0f };
 		glm::vec3 Scale = { 1.0f, 1.0f, 1.0f };
 
-		//Constructor!
 		Anchor() = default;
 		Anchor(const Anchor&) = default;
 		Anchor(glm::vec3& translation)
 			: Translation(translation)
 		{
-
 		}
 
-		//Scale in constructor?
 		Anchor(glm::vec3& translation, glm::vec3& scale)
 			: Translation(translation), Scale(scale)
 		{
-
 		}
 
 		glm::mat4 GetTransform()

@@ -8,33 +8,11 @@ namespace Luna {
     
     const uint32_t QUAD_SIZE = 6;
  
-    //OLD
-    //struct Camera 
-    //{
-    //    glm::mat4 proj = glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f, -1.0f, 1.0f);
-    //    glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 0.0f, 0.0f)); //5.0??
-    //
-    //    glm::mat4 GetProjection()
-    //    {
-    //        return proj;
-    //    
-    //    }
-    //
-    //    glm::mat4 GetView()
-    //    {
-    //        return view;
-    //    }
-    //};
-
     struct RendererData
     {
-        //Rename someday :>
-        //Shader & VA for !textures
         std::shared_ptr<VertexArray> ClrVA;
         std::shared_ptr<Shader> ClrShader;
 
-
-        //Shader & VA for textures
         std::shared_ptr<VertexArray> VertexArray;
         std::shared_ptr<Shader> Shader;
         std::array<std::shared_ptr<Texture>, 32> TextureSlots;
@@ -43,24 +21,13 @@ namespace Luna {
         Statistics Stats;
     };
 
-    //static Camera s_Camera;
     static RendererData s_RendererData;
    
-    float l = -1.6f;
-    float r = 1.6f;
-    float b = -0.9f;
-    float t = 0.9f;
+    static float l = -1.6f;
+    static float r = 1.6f;
+    static float b = -0.9f;
+    static float t = 0.9f;
     static OrthoCam s_OrthoCam(l, r, b, t);
-
-    //Do nothing? Remove and change to default?
-    Renderer::Renderer()
-    {
-    }
-
-    //Do nothing? Default?
-    Renderer::~Renderer()
-    {
-    }
 
     void Renderer::Init()
     {
@@ -76,7 +43,6 @@ namespace Luna {
         s_RendererData.ClrVA = std::make_shared<VertexArray>();
         s_RendererData.ClrShader = std::make_shared<Shader>(clrtMode);
 
-
         GLfloat vertices[] =
         {
             //CORDINATES				//COLORS		//TEXCORDS
@@ -85,7 +51,6 @@ namespace Luna {
             0.5f,  0.5f, 0.0f, 1.0f,	0.0f, 1.0f,		 1.0f,	1.0f,
            -0.5f,  0.5f, 0.0f, 1.0f,	1.0f, 1.0f,		 0.0f,	1.0f
         };
-
 
         GLuint indices[] =
         {
@@ -178,12 +143,8 @@ namespace Luna {
 
     void Renderer::Draw(glm::vec4 clr, const glm::mat4& entityTransform)
     { 
-        //glm::mat4 ModelViewMatrix = s_Camera.GetProjection() * s_Camera.GetView() * pos;
-        s_RendererData.Shader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj"); //THIS WORKS, just needs to be done once?
+        s_RendererData.Shader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj"); //Just needs to be done once, move lateer into it's own function
         s_RendererData.Shader->SetMat4(entityTransform, "scale"); //Every time we submit we need to do THIS
-
-       // s_RendererData.ClrShader->SetMat4(ModelViewMatrix, "scale");
-       // s_RendererData.ClrShader->SetMat4(pos, "scale"); //Every time we submit we need to do THIS
 
         s_RendererData.ClrShader->Bind();
         

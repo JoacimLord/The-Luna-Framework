@@ -3,7 +3,6 @@
 #include <memory>
 
 #include "LunaAPI/Core/Defines.h"
-//#include "LunaAPI/Event/Event.h"
 
 //MOUSE
 #include "LunaAPI/EventHandler/MouseEvents/MouseButtonBaseEvent.h"
@@ -16,9 +15,7 @@
 #include "LunaAPI/EventHandler/WindowEvents/WindowClose.h"
 #include "LunaAPI/EventHandler/WindowEvents/WindowResize.h"
 
-
 #include "LunaAPI/EventHandler/EventDispatcher/EventDispatcher.h"
-
 
 namespace Luna {
 

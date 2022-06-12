@@ -5,8 +5,6 @@
 
 namespace Luna {
 
-    //TODO (For another day): move these to a text file and read them externally.
-
     const char* vertexShaderSource = "#version 410 core\n"
         "layout (location = 0) in vec3 aPos;\n"
         "layout (location = 1) in vec3 aColor;\n" //vec3?
@@ -20,29 +18,19 @@ namespace Luna {
 
         "void main()\n"
         "{\n"
-
-        //with camera
-        "gl_Position = u_ViewProj * scale * vec4(aPos, 1.0);\n" //MOve down under color & texcoord
-
-        //Without camera
-        //"gl_Position = scale * vec4(aPos, 1.0);\n" //MOve down under color & texcoord
-
-        //"gl_Position = u_ViewProj * vec4(aPos, 1.0);\n" //MOve down under color & texcoord
-        //"gl_Position = u_ViewProj * u_Transform * vec4(aPos, 1.0);\n" //MOve down under color & texcoord
-
+        "gl_Position = u_ViewProj * scale * vec4(aPos, 1.0);\n" 
         "color = aColor;\n"
         "texCoord = aTex;\n"
         "}\0";
     
-    //Fragment Shader source code
     const char* fragmentShaderSource = "#version 410 core\n"
         "out vec4 FragColor;\n"
-        "in vec3 color;\n" //vec3?
+        "in vec3 color;\n"
         "in vec2 texCoord;\n"
         "uniform sampler2D tex0;"
         "void main()\n"
         "{\n"
-        "FragColor = texture(tex0, texCoord);\n" //texture
+        "FragColor = texture(tex0, texCoord);\n"
         "}\n\0";
     
     //--------------------------------------------------------------------------------
@@ -57,7 +45,7 @@ namespace Luna {
 
         "void main()\n"
         "{\n"
-        "gl_Position = u_ViewProj * scale * vec4(aPos, 1.0);\n" //MOve down under color & texcoord
+        "gl_Position = u_ViewProj * scale * vec4(aPos, 1.0);\n"
         "}\0";
     
     //Fragment Shader source code
@@ -130,32 +118,6 @@ namespace Luna {
             glDeleteShader(vertexShader);
             glDeleteShader(fragmentShader);
         }
-
-        //GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        //glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-        //glCompileShader(vertexShader);
-        //
-        //CompileErrors(vertexShader, "VERTEX");
-        //
-        ////FRAGMENT
-        //GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-        //glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-        //glCompileShader(fragmentShader);
-        //
-        ////new
-        //CompileErrors(fragmentShader, "FRAGMENT");
-        //
-        //m_ID = glCreateProgram();
-        //
-        //glAttachShader(m_ID, vertexShader);
-        //glAttachShader(m_ID, fragmentShader);
-        //glLinkProgram(m_ID);
-        //
-        //CompileErrors(m_ID, "PROGRAM");
-        //
-        ////Cleanup
-        //glDeleteShader(vertexShader);
-        //glDeleteShader(fragmentShader);
     }
 
     Shader::~Shader()
@@ -180,19 +142,12 @@ namespace Luna {
         glUniformMatrix4fv(uniID, 1, GL_FALSE, glm::value_ptr(matrix));
     }
 
-    //OLD
-    //void Shader::SetMat4(glm::mat4 matrix)
-    //{
-    //    GLuint uniID = glGetUniformLocation(m_ID, "scale");
-    //    glUniformMatrix4fv(uniID, 1, GL_FALSE, glm::value_ptr(matrix));
-    //}
 
-    //TEST! particles
     void Shader::SetFlatShaderColor(glm::vec4 clr)
     {
         //rename, these are NOT members!
-        GLuint m_ParticleShader = glGetUniformLocation(m_ID, "u_Color");
-        glUniform4fv(m_ParticleShader, 1, glm::value_ptr(clr));
+        GLuint particleShader = glGetUniformLocation(m_ID, "u_Color");
+        glUniform4fv(particleShader, 1, glm::value_ptr(clr));
     }
 
     void Shader::CompileErrors(unsigned int shader, const char* type)

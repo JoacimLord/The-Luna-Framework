@@ -31,27 +31,27 @@ namespace Luna {
 	{
 	public:
 		Application(const std::string name);
-		~Application();
+		~Application() = default;
 
-		//API for the main.cpp (app dev)
+		//------------
+		//API for the main.cpp (app dev) -> All user interaction happens from here!
+		//------------
+
 		void ShowImGuiDemoWindow();
 		float GetElapsedRuntime();
 		bool IsRunning();
-		void Clear(float r, float g, float b, float transparent); //Step 1
-		void Clear(glm::vec4& temp); //To enable passing in a vec4
+		void Clear(float r, float g, float b, float transparent);
+		void Clear(glm::vec4& temp); 
 
-		void Render(std::shared_ptr<Texture>& texture, glm::mat4 transform); //Step 2
-		void Display(); //Step 3
-		void DrawUI(); //Step 4
-
+		void Render(std::shared_ptr<Texture>& texture, glm::mat4 transform);
+		void Display();
+		void DrawUI();
 
 		//Add deltatime later
 		void CheckInputForCamera();
-		//RenderShaderColor
 		void Render(glm::vec4 clr, glm::mat4 transform);
 
 		static void BuildUI(); //Outside of class in its own namespace?
-
 
 
 	// - DISCLAIMER! -
@@ -76,8 +76,6 @@ namespace Luna {
 	private:
 		static Application* s_Instance;
 		bool m_IsRunning = true;
-		//float m_LastFrameTime = 0.0f;
-		std::unique_ptr<WindowInterface> m_Window; //Window
-		//unsigned int m_FrameBuffer;
+		std::unique_ptr<WindowInterface> m_Window;
 	};
 }

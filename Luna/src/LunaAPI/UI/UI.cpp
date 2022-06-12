@@ -5,6 +5,7 @@
 #include "LunaAPI/Core/Application.h"
 #include "LunaAPI/Core/Input.h"
 
+
 #include <backends/imgui_impl_glfw.h> 
 #include <backends/imgui_impl_opengl3.h>
 #include <imgui.h>
@@ -36,10 +37,8 @@ namespace Luna {
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
-
 		//io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
 		//io.ConfigFlags != ImGuiButtonFlags_MouseButtonRight;
-
 
 		ImGui::StyleColorsDark();
 
@@ -49,9 +48,8 @@ namespace Luna {
 		GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetOriginalWindow());
 
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
-		ImGui_ImplOpenGL3_Init("#version 410"); //???
+		ImGui_ImplOpenGL3_Init("#version 410");
 
-		//Set framebuffer
 		Luna::FramebufferSpecification spec;
 		spec.Width = 1280;
 		spec.Height = 720;
@@ -116,13 +114,6 @@ namespace Luna {
 
 			if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
 				window_flags |= ImGuiWindowFlags_NoBackground;
-
-
-			//if (Luna::Input::IsMouseButtonPressed(Mouse::ButtonRight))
-			//{
-			//	std::cout << "Right msbtn pressed\n";
-			//	return;
-			//}
 
 
 			//----------------------------------------------
@@ -206,7 +197,6 @@ namespace Luna {
 			//---------------------------------------------------
 			//					DEMO WINDOW
 			//---------------------------------------------------
-			// if()
 
 			if (Luna::Input::IsMouseButtonPressed(Mouse::ButtonRight) && !showDemo) showDemo = true;
 
