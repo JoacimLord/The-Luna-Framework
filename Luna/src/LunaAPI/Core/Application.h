@@ -49,6 +49,9 @@ namespace Luna {
 
 		//Add deltatime later
 		void CheckInputForCamera();
+
+		void SetCameraToFollowTransform(glm::vec3 transform);
+
 		void Render(glm::vec4 clr, glm::mat4 transform);
 
 		static void BuildUI(); //Outside of class in its own namespace?

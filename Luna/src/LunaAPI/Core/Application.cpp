@@ -139,6 +139,11 @@ namespace Luna {
 		}
 	}
 
+	void Application::SetCameraToFollowTransform(glm::vec3 transform)
+	{
+		Luna::Renderer::SetCameraPosition(transform);
+	}
+
 	void Application::Render(glm::vec4 clr, glm::mat4 transform) //by refs (&) ?
 	{
 		Luna::Renderer::Draw(clr, transform);
