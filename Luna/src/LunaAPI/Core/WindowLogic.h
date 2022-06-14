@@ -24,15 +24,19 @@ namespace Luna {
 		void SetWindowData(const Window& data);
 		void OnUpdate() override;
 
-		//inline?
-		//inline unsigned int GetWidth() override { return m_Data.Width; }
-		//inline unsigned int GetHeight() override { return m_Data.Width; }
 		uint32_t GetWidth() override { return m_Data.Width; }
 		uint32_t GetHeight() override { return m_Data.Height; }
 
+		//TODO! (220615)
+		//SetTitle()
+		//SetWindowIcon()
+		//SetLockedFramerate()
+		//CheckIfFocused()
+		//GetCursor()
+		//SetCursor()
+		//SetCursorMode()
 
 		void SetEventCallback(const EventCallBackFn& callback) override { m_Data.EventCallback = callback; }
-
 
 		//Setup for callback
 		void SetCallbackResize();
@@ -42,7 +46,6 @@ namespace Luna {
 		void SetCallbackMouseBtn();
 		void SetCallbackMouseScroll();
 		void SetCallbackCursorPos();
-
 
 		void SetVSync(bool enabled) override;
 		bool VSyncActive() const override;

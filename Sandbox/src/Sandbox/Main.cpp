@@ -1,8 +1,5 @@
+//"THE LUNA FRAMEWORK" (LFW)
 
-//THE LUNA FRAMEWORK ('TLFW') - Author Note (220612)
-/*
-	Parts of this projects base API layout has taken inspiration from The Chernos "Game Engine" series. Thank you!
-*/
 
 #include "Luna.h"		 //Contains everything you need!
 #include <imgui/imgui.h> //Needed if you want to build your own UI.
@@ -74,7 +71,7 @@ void CheckInputForMovingEntitiesInScene(Entity& entity, float speed, Luna::Delta
 int main()
 {
 	std::cout << "Opening new window!\n"; //Console log
-	Luna::Application app("App"); //Recommended to use a smart ptr instead!
+	Luna::Application app("App");
 
 	//Object with attached transform
 	Entity demoObject;
