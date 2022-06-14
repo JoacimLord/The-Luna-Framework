@@ -28,7 +28,6 @@ namespace Luna {
 		OrthoCam(float l, float r, float b, float t)
 			: projMatrix(glm::ortho(l, r, b, t, -1.0f, 1.0f))
 		{
-			//Do nothing
 			RecalcMatrix();
 		}
 

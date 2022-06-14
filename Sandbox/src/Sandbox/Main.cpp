@@ -85,6 +85,8 @@ int main()
 	demoPosition.Scale.x = 0.5f;
 	demoPosition.Scale.y = 0.3f;
 
+
+
 	//For calculating frame time
 	float lastFrameTime = 0.0f;
 
