@@ -1,18 +1,13 @@
-# The Luna Framework - Version 1.03
+# The Luna Framework(LFW) - Version 1.03
 
 Last update:
 - Added a WIP implementation of a scene camera with some basic behaviours. Example in <Main.cpp> and below in 'API DOC'. (220612)
 - Added basic support for multiple shaders. Now possible to render textures and simple shader colors at the same time.   (220608)
 
-(last edited 220612)
+(last edited 220615)
 
 
-The Luna Framework is a "low level" framework based on the API of the "Luna Engine" (currently in development).
-
-"The Luna Framework" is a small extracted portion of the API from my other project ("Luna Engine") that I'm currently working on in my spare time.
-Luna Engine currently supports scene management, has it's own ECS that I've written from scratch, a fully functional editor and more. 
-This project uses the engines rendering (written with opengl) and also supports the integration of your own UI with the help of ImGui.
-It's aimed for you that want to have a small framework to get you started with rendering something graphical to your screen.
+"The Luna Framework"(LFW) is a low level framework based on the API of the game engine "Luna" (currently in development).
 
 The intention of this framework is to build any kind of GUI app, but it's probably most suitable for simple 2D games for now.
 It only supports 2D graphics and GUI, audio wil also be added in the near future.
@@ -190,8 +185,8 @@ int main()
 
 //This is how you calculate deltatime with the API
 float elapsedTime = app.GetElapsedRuntime();
-Luna::DeltaTime deltaTime = elapsedTime - m_LastFrameTime;
-m_LastFrameTime = elapsedTime;
+Luna::DeltaTime deltaTime = elapsedTime - lastFrameTime;
+lastFrameTime = elapsedTime;
 
 
 ```
