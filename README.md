@@ -7,6 +7,7 @@ Last update:
 (last edited 220615)
 
 
+
 "The Luna Framework"(LFW) is a low level framework based on the API of the game engine "Luna" (currently in development).
 
 The intention of this framework is to build any kind of GUI app, but it's probably most suitable for simple 2D games for now.
@@ -23,7 +24,7 @@ Support to turn off the viewport will come in a later update.
 Third party libraries in use:
 
 - Glad
-- imgui
+- Dear ImGui
 - GLFW
 - glm
 - stb_image
