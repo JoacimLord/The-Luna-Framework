@@ -84,7 +84,6 @@ int main()
 	demoPosition.Scale.x = 0.5f;
 	demoPosition.Scale.y = 0.3f;
 
-
 	//For calculating frame time
 	float lastFrameTime = 0.0f;
 
@@ -95,7 +94,6 @@ int main()
 	std::shared_ptr<LFW::Texture> texture = std::make_shared<LFW::Texture>(filePath);
 
 	float demoObjectMovementSpeed = 1.0f;
-
 	//Main-loop
 	while (app.IsRunning())
 	{

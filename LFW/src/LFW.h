@@ -50,3 +50,11 @@
 
 //CLOCK
 #include "LunaAPI/Core/Clock.h"
+
+//MATH
+#include "LunaAPI/Maths/Mathf.h"
+
+//VECTORS
+#include "LunaAPI/Maths/Vec2.h"
+#include "LunaAPI/Maths/Vec3.h"
+#include "LunaAPI/Maths/Vec4.h"

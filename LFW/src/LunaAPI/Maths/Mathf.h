@@ -8,20 +8,16 @@
 /*
 	////////////////////////////////// TODO: //////////////////////////////////
 
-	> MATH FUNCTIONS INCLUDED <
-	----------------------------
-	- (IMPLEMENTED) Max   
+	- (IMPLEMENTED) Max 
 	- (IMPLEMENTED) Min    
 	- (IMPLEMENTED) Sqrt
 	- (IMPLEMENTED) PI 9 -11 
 	- (IMPLEMENTED) Floor
-	- (WIP) Clamp
+	- (IMPLEMENTED) Clamp
 	- (WIP) Round
 	- (WIP) Atan
 	- (WIP) Lerp
 */
-
-///////////////////////////
 
 
 namespace LFW {
