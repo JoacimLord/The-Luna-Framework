@@ -1,6 +1,9 @@
 # The Luna Framework(LFW) - Version 1.04.00
 
 Last update:
+
+- Added documentation for usage of the "Debug"-namespace. (220620)
+- Added a "Debug" namespace with functions to print text messages to a ImGui window with specified colors in runtime. (220620)
 - Added a basic math lib and LFW::Vector(Vec2, Vec3, Vec4) implementation with functionality. (220620)
 - Added documentation for LFW::Mathf:: and LFW::Vecs::. (220620)
 
@@ -303,6 +306,45 @@ Current Math Lib Functionality
 	LFW::MathF::Floor(-20.9f); //Prints -21
 	LFW::MathF::Floor(-13.6f); //Prints -14
 	LFW::MathF::Floor(10.7f);	 //Prints 10
+
+
+# "Debug" namespace
+
+Needs to be added to the UI function for usage in your application
+```cpp
+	//Build your own UI here by declairing this function!
+	void LFW::Application::BuildUI()
+	{
+		Debug::BuildLogWindow();
+	}
+
+```
+
+
+Add a Debug::Log(msg, int) in your Main.cpp to choose a specific color.
+0 - Green
+1 - Yellow
+2 - Orange
+3 - Red
+(Or just a default message (white text)).
+
+```cpp
+	//Debug examples
+	Debug::Log("Msg_WhiteColor");
+	Debug::Log("Msg_GreenColor", 0);
+	Debug::Log("Msg_YellowColor", 1);
+	Debug::Log("Msg_OrangeColor", 2);
+	Debug::Log("Msg_RedColor", 3);
+```
+
+This can also be used in runtime like the example below
+
+```cpp
+	//Example of Debug:Log() in runtime
+	if (LFW::Input::IsKeyPressed(LFW::Key::Space)) Debug::Log("Spacebar was pressed!");
+```
+
+
 
 
 
