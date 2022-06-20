@@ -55,14 +55,14 @@ The framework currently only supports development for Windows.
 
 //This needs to be included. If you don't want to use ImGui this can be left blank but still needs to be here!
 //Check out the ImGui repo for API documentation!
-void Luna::Application::BuildUI()
+void LFW::Application::BuildUI()
 {
 }
 
 int main()
 {
 	//How to initalize a window and name it. Recommended to use a smart ptr, this stack allocation is for demo purposes.
-	Luna::Application app("App"); 
+	LFW::Application app("App"); 
 
 	//Move directly into the while-loop, app.IsRunning() needs to be included here
 	while (app.IsRunning())
@@ -87,7 +87,7 @@ Initiate like:
 
 ```cpp
 
-Luna::Anchor anchor;
+LFW::Anchor anchor;
 
 ```
 
@@ -120,7 +120,7 @@ Full example of rendering a texture to an anchor point on the screen:
 //This is to make it more clear and to "bind it" to an object.
 struct ExampleObject
 {
-	Luna::Anchor anchor; //Here we instantiate it
+	LFW::Anchor anchor; //Here we instantiate it
 
 	void SetPosition(float x, float y)
 	{
@@ -136,7 +136,7 @@ struct ExampleObject
 };
 
 //Example UI, shows the framerate of the app!
-void Luna::Application::BuildUI()
+void LFW::Application::BuildUI()
 {
 	ImGui::Begin("My own UI!");
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
@@ -146,10 +146,10 @@ void Luna::Application::BuildUI()
 int main()
 {
 	//How to initalize a window and name it
-	Luna::Application app("App"); 
+	LFW::Application app("App"); 
 
 	//Texture loaded as a shared ptr. filepath represents the filepath to whichever folder you store your assets in.
-	std::shared_ptr<Luna::Texture> texture = std::make_shared<Luna::Texture>(filepath);
+	std::shared_ptr<Luna::Texture> texture = std::make_shared<LFW::Texture>(filepath);
 
 	//Initiate the object and set it's size (width, height) and location (x, y)
 	ExampleObject object;
@@ -162,7 +162,7 @@ int main()
 		//Logic here, before we render
 
 		//Example of using the LunaAPI to take input from a keyboard and translate (move) the object by manipulating it's anchor point.
-		if (Luna::Input::IsKeyPressed(Luna::Key::Z))
+		if (LFW::Input::IsKeyPressed(LFW::Key::Z))
 		{
 			object.anchor.Translation.x += 10.0f;
 		}
@@ -186,7 +186,7 @@ int main()
 
 //This is how you calculate deltatime with the API
 float elapsedTime = app.GetElapsedRuntime();
-Luna::DeltaTime deltaTime = elapsedTime - lastFrameTime;
+LFW::DeltaTime deltaTime = elapsedTime - lastFrameTime;
 lastFrameTime = elapsedTime;
 
 
@@ -196,12 +196,12 @@ lastFrameTime = elapsedTime;
 
 ```cpp
 
-if (Luna::Input::IsKeyPressed(Luna::Key::X))
+if (LFW::Input::IsKeyPressed(LFW::Key::X))
 {
 	//Do something
 }
 
-if (Luna::Input::IsMouseButtonPressed(Luna::Mouse::ButtonLeft))
+if (LFW::Input::IsMouseButtonPressed(LFW::Mouse::ButtonLeft))
 {
 	//Do something 
 }
