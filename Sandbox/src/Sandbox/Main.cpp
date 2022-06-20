@@ -3,6 +3,106 @@
 #include "LFW.h"		 //Contains everything you need!
 #include <imgui/imgui.h> //Needed if you want to build your own UI.
 
+
+namespace Debug {
+
+	std::vector<ImVec4> colors;
+	std::vector<std::string> msgs;
+	std::vector<const char*> c_msgs;
+
+	ImVec4 red = { 1.0f, 0.0f, 0.0f, 1.0f };
+	ImVec4 orange = { 1.0f, .5f, 0.0f, 1.0f };
+	ImVec4 yellow = { 1.0f, 1.0f, 0.0f, 1.0f };
+	ImVec4 green = { 0.0f, 1.0f, 0.0f, 1.0f };
+	ImVec4 white = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+	static void Log(const char* msg)
+	{
+		//ImVec4 white = { 1.0f, 1.0f, 1.0f, 1.0f };
+		c_msgs.push_back(msg);
+		colors.push_back(white);
+	}
+
+	static void Log(const char* msg, ImVec4 clr)
+	{
+		c_msgs.push_back(msg);
+		colors.push_back(clr);
+	}
+
+	static void Log(const char* msg, int clr)
+	{
+		c_msgs.push_back(msg);
+
+		//Switch()
+		if (clr == 0)
+		{
+			colors.push_back(green);
+		}
+
+		if (clr == 1)
+		{
+			colors.push_back(yellow);
+		}
+
+		if (clr == 2)
+		{
+			colors.push_back(orange);
+		}
+
+		if (clr == 3)
+		{
+			colors.push_back(red);
+		}
+	}
+
+	//Adds the functionality inside a exisiting ImGui window
+	void Print()
+	{
+		ImGui::Text("Debug example:");
+
+		if (ImGui::Button("Reset Console Log"))
+		{
+			//Add a reset() function to namespace
+			Debug::colors.clear();
+			Debug::c_msgs.clear();
+		}
+
+		if (Debug::c_msgs.size() > 0)
+		{
+			for (int i = 0; i < Debug::c_msgs.size(); i++)
+			{
+				ImGui::TextColored(Debug::colors[i], Debug::c_msgs[i]);
+			}
+		}
+	}
+
+	//Adds the whole window
+	void BuildLogWindow()
+	{
+		//CONSOLE WINDOW
+		ImGui::Begin("Debug Console");
+			ImGui::Text("Debug Console");
+
+			if (ImGui::Button("Reset Console Log"))
+			{
+				//Add a reset() function to namespace
+				Debug::colors.clear();
+				Debug::c_msgs.clear();
+			}
+			if (Debug::c_msgs.size() > 0)
+			{
+				for (int i = 0; i < Debug::c_msgs.size(); i++)
+				{
+					ImGui::TextColored(Debug::colors[i], Debug::c_msgs[i]);
+				}
+			}
+
+		ImGui::End();
+	}
+
+	//LogTime() -> Adds the current time to the msg callstack
+}
+
 struct Entity
 {
 	LFW::Anchor anchor; // This a matrix with position, scale and rotation.
@@ -31,6 +131,8 @@ void LFW::Application::BuildUI()
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::ColorEdit4("Color", clrEdit4); //This is for the demo. Possible to use glm::value_ptr() instead and point to the actual variable.
 	ImGui::End();
+	Debug::BuildLogWindow();
+
 }
 
 //Demo for setting the color from the ImGui ColorEdit4!
@@ -93,6 +195,16 @@ int main()
 	std::shared_ptr<LFW::Texture> texture = std::make_shared<LFW::Texture>(filePath);
 
 	float demoObjectMovementSpeed = 1.0f;
+
+
+	//Debug examples
+	Debug::Log("Msg_WhiteColor");
+	Debug::Log("Msg_GreenColor", 0);
+	Debug::Log("Msg_YellowColor", 1);
+	Debug::Log("Msg_OrangeColor", 2);
+	Debug::Log("Msg_RedColor", 3);
+
+
 	//Main-loop
 	while (app.IsRunning())
 	{
@@ -103,6 +215,11 @@ int main()
 
 		//Clears screen with pre-defined color from the Colors lib or with a vec4 value (last one is the transparency)
 		app.Clear(LFW::Colors::Grey);
+
+	
+		//Example of Debug:Log() in runtime
+		if (LFW::Input::IsKeyPressed(LFW::Key::Space)) Debug::Log("Spacebar was pressed!");
+
 
 		//--------------------------------------------------------------
 		//Camera behaviours! These can't be used at the same time. WIP
