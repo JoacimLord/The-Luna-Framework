@@ -15,15 +15,15 @@ project "Sandbox"
 
 	includedirs
 	{
-		"%{wks.location}/Luna/src",
-		"%{wks.location}/Luna/Vendor",
-		"%{wks.location}/Luna/Vendor/GLFW/include",
+		"%{wks.location}/LFW/src",
+		"%{wks.location}/LFW/Vendor",
+		"%{wks.location}/LFW/Vendor/GLFW/include",
 		"%{IncludeDir.glm}"
 	}
 
 	links
 	{
-		"Luna"
+		"LFW"
 	}
 
 	filter "system:windows"
