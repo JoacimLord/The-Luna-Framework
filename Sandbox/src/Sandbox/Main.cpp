@@ -1,6 +1,6 @@
 //"THE LUNA FRAMEWORK" (LFW)
 
-#include "Luna.h"		 //Contains everything you need!
+#include "LFW.h"		 //Contains everything you need!
 #include <imgui/imgui.h> //Needed if you want to build your own UI.
 
 struct Entity
