@@ -3,13 +3,11 @@
 #include "LFWpch.h"
 
 //--------------------------------------------------------------------------
-//			WIP - Vectors
+//			WIP - VECTOR3
 //--------------------------------------------------------------------------
 /*
 	////////////////////////////////// TODO: //////////////////////////////////
 
-	> VECTOR3 <
-	----------------------------
 	- (IMPLEMENTED) Add - For all vector types! (vec2, vec3, vec4)
 	- (IMPLEMENTED) Sub
 	- (IMPLEMENTED) Set
@@ -22,10 +20,8 @@
 	- (WIP) Min
 	- (WIP) Scale
 	- (WIP) Normalize
-	- (WIP) ToString
 */
 
-///////////////////////////
 
 namespace LFW {
 

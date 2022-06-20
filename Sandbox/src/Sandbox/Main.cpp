@@ -105,11 +105,9 @@ int main()
 		//Clears screen with pre-defined color from the Colors lib or with a vec4 value (last one is the transparency)
 		app.Clear(LFW::Colors::Grey);
 
-
 		//--------------------------------------------------------------
 		//Camera behaviours! These can't be used at the same time. WIP
 		//--------------------------------------------------------------
-		
 		//app.CheckInputForCamera(); //Moves camera for 'editor operations'
 		app.SetCameraToFollowTransform(demoObject.anchor.Translation); //Sets the camera to follow a specific transform (for example a player)
 
