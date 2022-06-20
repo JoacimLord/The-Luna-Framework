@@ -1,4 +1,4 @@
-//"THE LUNA FRAMEWORK" (LFW)
+//"THE LUNA FRAMEWORK" (LFW) - Last edited 220620
 
 #include "LFW.h"		 //Contains everything you need!
 #include <imgui/imgui.h> //Needed if you want to build your own UI.
@@ -20,7 +20,6 @@ struct Entity
 		anchor.Scale.y = h;
 	}
 };
-
 
 static float clrEdit4[4] = { 0.4f, 0.7f, 0.0f, 0.5f };
 
