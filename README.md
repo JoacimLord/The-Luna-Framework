@@ -48,7 +48,7 @@ The framework currently only supports development for Windows.
 
 ```cpp
 //This includes the whole framework
-#include "Luna.h"
+#include "LFW.h"
 
 //This needs to be included
 #include <imgui/imgui.h>
@@ -115,7 +115,7 @@ etc...
 Full example of rendering a texture to an anchor point on the screen:
 
 ```cpp
-#include "Luna.h"
+#include "LFW.h"
 
 //This is to make it more clear and to "bind it" to an object.
 struct ExampleObject
