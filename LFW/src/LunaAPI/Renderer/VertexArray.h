@@ -4,7 +4,7 @@
 #include "LunaAPI/Renderer/Shader.h"
 #include "LunaAPI/Renderer/Buffers.h"
 
-namespace Luna {
+namespace LFW {
 	class VertexArray
 	{
 	public:

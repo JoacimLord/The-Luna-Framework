@@ -7,7 +7,7 @@
 #include <backends/imgui_impl_opengl3.h>
 
 
-namespace Luna {
+namespace LFW {
 
 	static bool s_GLFWInitialize = false;
 

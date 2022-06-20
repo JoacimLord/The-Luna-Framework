@@ -3,7 +3,7 @@
 #include "LunaAPI/Core/KeyCodes.h"
 #include "LunaAPI/Core/MouseCodes.h"
 
-namespace Luna {
+namespace LFW {
 
 	class Input
 	{

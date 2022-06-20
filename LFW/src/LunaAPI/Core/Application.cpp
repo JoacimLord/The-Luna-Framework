@@ -7,7 +7,7 @@
 #include <GLFW/glfw3.h>
 #include "imgui.h"
 
-namespace Luna {
+namespace LFW {
 
 	Application* Application::s_Instance = nullptr;
 
@@ -94,7 +94,7 @@ namespace Luna {
 
 	void Application::Render(std::shared_ptr<Texture>& texture, glm::mat4 transform)
 	{
-		Luna::Renderer::Draw(texture, transform);
+		LFW::Renderer::Draw(texture, transform);
 	}
 
 	void Application::Display()
@@ -112,40 +112,40 @@ namespace Luna {
 	//Add deltatime later
 	void Application::CheckInputForCamera()
 	{
-		float x = Luna::Renderer::GetCameraPosition().x;
-		float y = Luna::Renderer::GetCameraPosition().y;
-		float z = Luna::Renderer::GetCameraPosition().z;
+		float x = LFW::Renderer::GetCameraPosition().x;
+		float y = LFW::Renderer::GetCameraPosition().y;
+		float z = LFW::Renderer::GetCameraPosition().z;
 
 		//Curr only works with arrows + left shift
-		if (Luna::Input::IsKeyPressed(Luna::Key::Left) && Luna::Input::IsKeyPressed(Luna::Key::LeftShift))
+		if (LFW::Input::IsKeyPressed(LFW::Key::Left) && LFW::Input::IsKeyPressed(LFW::Key::LeftShift))
 		{
 			x -= 0.05f;
-			Luna::Renderer::SetCameraPosition( { x, y, z } );
+			LFW::Renderer::SetCameraPosition( { x, y, z } );
 		}
-		else if (Luna::Input::IsKeyPressed(Luna::Key::Right) && Luna::Input::IsKeyPressed(Luna::Key::LeftShift))
+		else if (LFW::Input::IsKeyPressed(LFW::Key::Right) && LFW::Input::IsKeyPressed(LFW::Key::LeftShift))
 		{
 			x += 0.05f;
-			Luna::Renderer::SetCameraPosition({ x, y, z });
+			LFW::Renderer::SetCameraPosition({ x, y, z });
 		}
-		if (Luna::Input::IsKeyPressed(Luna::Key::Down) && Luna::Input::IsKeyPressed(Luna::Key::LeftShift))
+		if (LFW::Input::IsKeyPressed(LFW::Key::Down) && LFW::Input::IsKeyPressed(LFW::Key::LeftShift))
 		{
 			y -= 0.05f;
-			Luna::Renderer::SetCameraPosition({ x, y, z });
+			LFW::Renderer::SetCameraPosition({ x, y, z });
 		}
-		else if (Luna::Input::IsKeyPressed(Luna::Key::Up) && Luna::Input::IsKeyPressed(Luna::Key::LeftShift))
+		else if (LFW::Input::IsKeyPressed(LFW::Key::Up) && LFW::Input::IsKeyPressed(LFW::Key::LeftShift))
 		{
 			y += 0.05f;
-			Luna::Renderer::SetCameraPosition({ x, y, z });
+			LFW::Renderer::SetCameraPosition({ x, y, z });
 		}
 	}
 
 	void Application::SetCameraToFollowTransform(glm::vec3 transform)
 	{
-		Luna::Renderer::SetCameraPosition(transform);
+		LFW::Renderer::SetCameraPosition(transform);
 	}
 
 	void Application::Render(glm::vec4 clr, glm::mat4 transform) //by refs (&) ?
 	{
-		Luna::Renderer::Draw(clr, transform);
+		LFW::Renderer::Draw(clr, transform);
 	}
 }

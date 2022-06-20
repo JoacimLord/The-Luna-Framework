@@ -2,7 +2,7 @@
 #include "LFWpch.h"
 #include "LunaAPI/EventHandler/MainEventBaseClass.h"
 
-namespace Luna {
+namespace LFW {
 
 	class KeyEvent : public Event
 	{

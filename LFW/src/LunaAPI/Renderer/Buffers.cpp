@@ -3,7 +3,7 @@
 
 #include <glad/glad.h>
 
-namespace Luna {
+namespace LFW {
 
     ElementBuffer::ElementBuffer(uint32_t* indices, uint32_t size)
     {

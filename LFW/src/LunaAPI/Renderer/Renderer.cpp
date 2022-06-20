@@ -4,7 +4,7 @@
 #include <glad/glad.h>
 #include <LunaAPI/Core/Input.h>
 
-namespace Luna {
+namespace LFW {
     
     const uint32_t QUAD_SIZE = 6;
  

@@ -3,7 +3,7 @@
 #include "LunaAPI/Core/Application.h"
 #include <GLFW/glfw3.h>
 
-namespace Luna {
+namespace LFW {
 
 	bool Input::IsKeyPressed(Key::KeyCode key)
 	{

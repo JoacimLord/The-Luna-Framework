@@ -2,7 +2,7 @@
 #include "LFWpch.h"
 #include "LunaAPI/Core/DeltaTime.h"
 
-namespace Luna {
+namespace LFW {
 
 	namespace ClockFormats
 	{

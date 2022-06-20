@@ -3,7 +3,7 @@
 #include "LFWpch.h"
 #include "LunaAPI/Core/Defines.h"
 
-namespace Luna {
+namespace LFW {
 
 	enum class EventType
 	{

@@ -13,7 +13,7 @@
 
 #include "GLFW/glfw3.h"
 
-namespace Luna {
+namespace LFW {
 
 	class WindowLogic : public WindowInterface
 	{

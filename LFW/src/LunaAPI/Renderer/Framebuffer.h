@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Luna {
+namespace LFW {
 
 	struct FramebufferSpecification
 	{

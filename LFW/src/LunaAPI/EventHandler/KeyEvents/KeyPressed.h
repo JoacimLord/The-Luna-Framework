@@ -3,7 +3,7 @@
 #include "LunaAPI/EventHandler/MainEventBaseClass.h"
 #include "LunaAPI/EventHandler/KeyEvents/KeyButtonBaseEvent.h"
 
-namespace Luna {
+namespace LFW {
 
 	class KeyPressedEvent : public KeyEvent
 	{

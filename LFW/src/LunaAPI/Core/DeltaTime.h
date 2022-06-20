@@ -2,7 +2,7 @@
 
 #include "LFWpch.h"
 
-namespace Luna {
+namespace LFW {
 
 	class DeltaTime
 	{

@@ -12,7 +12,7 @@
 #include <glm/gtx/quaternion.hpp>
 
 
-namespace Luna {
+namespace LFW {
 
 	//OrthoCam - WIP
 	class OrthoCam

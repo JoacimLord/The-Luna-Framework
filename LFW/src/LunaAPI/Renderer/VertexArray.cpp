@@ -3,7 +3,7 @@
 
 #include <glad/glad.h>
 
-namespace Luna {
+namespace LFW {
 
     VertexArray::VertexArray()
     {

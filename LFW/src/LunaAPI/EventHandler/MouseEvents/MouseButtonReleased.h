@@ -4,7 +4,7 @@
 #include "LunaAPI/EventHandler/MainEventBaseClass.h"
 #include "LunaAPI/EventHandler/MouseEvents/MouseButtonBaseEvent.h"
 
-namespace Luna {
+namespace LFW {
 
 	class MouseButtonReleasedEvent : public MouseButtonEvent
 	{

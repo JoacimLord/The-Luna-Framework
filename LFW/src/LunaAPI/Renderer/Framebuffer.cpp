@@ -2,7 +2,7 @@
 #include "Framebuffer.h"
 #include <glad/glad.h>
 
-namespace Luna {
+namespace LFW {
 
     Framebuffer::Framebuffer()//const FramebufferSpecification& fbSpec)//const char* vertexFile, const char* fragmentFile)
      //   :m_FramebufferSpecification(fbSpec)

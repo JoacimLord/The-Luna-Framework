@@ -3,7 +3,7 @@
 
 #include<glad/glad.h>
 
-namespace Luna {
+namespace LFW {
 
     const char* vertexShaderSource = "#version 410 core\n"
         "layout (location = 0) in vec3 aPos;\n"

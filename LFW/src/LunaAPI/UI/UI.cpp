@@ -13,7 +13,7 @@
 #include <GLFW/glfw3.h>
 
 
-namespace Luna {
+namespace LFW {
 	//temp
 	ImVec2 m_ViewportSize = { 0.0f, 0.0f };
 	ImVec2 m_ViewportBounds[2];
@@ -50,7 +50,7 @@ namespace Luna {
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
 		ImGui_ImplOpenGL3_Init("#version 410");
 
-		Luna::FramebufferSpecification spec;
+		LFW::FramebufferSpecification spec;
 		spec.Width = 1280;
 		spec.Height = 720;
 		SetFramebufferSpec(spec);
@@ -198,10 +198,10 @@ namespace Luna {
 			//					DEMO WINDOW
 			//---------------------------------------------------
 
-			if (Luna::Input::IsMouseButtonPressed(Mouse::ButtonRight) && !showDemo) showDemo = true;
+			if (LFW::Input::IsMouseButtonPressed(Mouse::ButtonRight) && !showDemo) showDemo = true;
 
 			if (showDemo) { OnUIRender(); }
-			Luna::Application::BuildUI();
+			LFW::Application::BuildUI();
 
 	}
 

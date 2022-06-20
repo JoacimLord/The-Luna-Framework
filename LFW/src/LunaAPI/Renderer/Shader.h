@@ -12,7 +12,7 @@
 
 typedef unsigned int GLuint;
 
-namespace Luna {
+namespace LFW {
 
 	class Shader
 	{

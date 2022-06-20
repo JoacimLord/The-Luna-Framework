@@ -1,7 +1,7 @@
 #pragma once
 #include "LFWpch.h"
 
-namespace Luna {
+namespace LFW {
 
 	class Random
 	{

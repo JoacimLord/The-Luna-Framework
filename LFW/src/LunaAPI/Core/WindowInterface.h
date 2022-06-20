@@ -7,7 +7,7 @@
 #include "LunaAPI/Core/Window.h"
 
 
-namespace Luna {
+namespace LFW {
 
 	class WindowInterface
 	{

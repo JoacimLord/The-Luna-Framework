@@ -5,7 +5,7 @@
 
 struct Entity
 {
-	Luna::Anchor anchor; // This a matrix with position, scale and rotation.
+	LFW::Anchor anchor; // This a matrix with position, scale and rotation.
 	//This is what you use and manipulate if you want to (for example) move a texture around.
 
 	void SetPosition(float x, float y)
@@ -25,7 +25,7 @@ struct Entity
 static float clrEdit4[4] = { 0.4f, 0.7f, 0.0f, 0.5f };
 
 //Build your own UI here by declairing this function!
-void Luna::Application::BuildUI()
+void LFW::Application::BuildUI()
 {
 	//Comment out / remove to not use ImGui
 	ImGui::Begin("My own UI!");
@@ -47,21 +47,21 @@ glm::vec4 BindColorFromValues(static float clrIn[4])
 }
 
 //Basic input
-void CheckInputForMovingEntitiesInScene(Entity& entity, float speed, Luna::DeltaTime deltaTime)
+void CheckInputForMovingEntitiesInScene(Entity& entity, float speed, LFW::DeltaTime deltaTime)
 {
-	if (Luna::Input::IsKeyPressed(Luna::Key::W))
+	if (LFW::Input::IsKeyPressed(LFW::Key::W))
 	{
 		entity.anchor.Translation.y += speed * deltaTime;
 	}
-	else if (Luna::Input::IsKeyPressed(Luna::Key::S))
+	else if (LFW::Input::IsKeyPressed(LFW::Key::S))
 	{
 		entity.anchor.Translation.y -= speed * deltaTime;
 	}
-	if (Luna::Input::IsKeyPressed(Luna::Key::A))
+	if (LFW::Input::IsKeyPressed(LFW::Key::A))
 	{
 		entity.anchor.Translation.x -= speed * deltaTime;
 	}
-	else if (Luna::Input::IsKeyPressed(Luna::Key::D))
+	else if (LFW::Input::IsKeyPressed(LFW::Key::D))
 	{
 		entity.anchor.Translation.x += speed * deltaTime;
 	}
@@ -70,7 +70,7 @@ void CheckInputForMovingEntitiesInScene(Entity& entity, float speed, Luna::Delta
 int main()
 {
 	std::cout << "Opening new window!\n"; //Console log
-	Luna::Application app("App");
+	LFW::Application app("App");
 
 	//Object with attached transform
 	Entity demoObject;
@@ -78,7 +78,7 @@ int main()
 	demoObject.SetPosition(0.0f, 0.0f);
 
 	//"Loose" transform
-	Luna::Anchor demoPosition;
+	LFW::Anchor demoPosition;
 	demoPosition.Translation.x = 0.5f;
 	demoPosition.Translation.y = 0.5f;
 	demoPosition.Scale.x = 0.5f;
@@ -92,7 +92,7 @@ int main()
 	//app.ShowImGuiDemoWindow();
 
 	const char* filePath = "Resources/red.png";
-	std::shared_ptr<Luna::Texture> texture = std::make_shared<Luna::Texture>(filePath);
+	std::shared_ptr<LFW::Texture> texture = std::make_shared<LFW::Texture>(filePath);
 
 	float demoObjectMovementSpeed = 1.0f;
 
@@ -101,11 +101,11 @@ int main()
 	{
 		//Calculate delta
 		float elapsedTime = app.GetElapsedRuntime();
-		Luna::DeltaTime deltaTime = elapsedTime - lastFrameTime;
+		LFW::DeltaTime deltaTime = elapsedTime - lastFrameTime;
 		lastFrameTime = elapsedTime;
 
 		//Clears screen with pre-defined color from the Colors lib or with a vec4 value (last one is the transparency)
-		app.Clear(Luna::Colors::Grey);
+		app.Clear(LFW::Colors::Grey);
 
 
 		//--------------------------------------------------------------

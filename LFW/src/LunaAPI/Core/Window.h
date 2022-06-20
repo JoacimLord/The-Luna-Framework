@@ -17,7 +17,7 @@
 
 #include "LunaAPI/EventHandler/EventDispatcher/EventDispatcher.h"
 
-namespace Luna {
+namespace LFW {
 
 	struct Window
 	{
