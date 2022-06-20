@@ -1,10 +1,13 @@
-# The Luna Framework(LFW) - Version 1.03
+# The Luna Framework(LFW) - Version 1.04.00
 
 Last update:
+- Added a basic math lib and LFW::Vector(Vec2, Vec3, Vec4) implementation with functionality. (220620)
+- Added documentation for LFW::Mathf:: and LFW::Vecs::. (220620)
+
 - Added a WIP implementation of a scene camera with some basic behaviours. Example in <Main.cpp> and below in 'API DOC'. (220612)
 - Added basic support for multiple shaders. Now possible to render textures and simple shader colors at the same time.   (220608)
 
-(last edited 220615)
+(last edited 220620)
 
 
 
@@ -148,7 +151,7 @@ int main()
 	//How to initalize a window and name it
 	LFW::Application app("App"); 
 
-	//Texture loaded as a shared ptr. filepath represents the filepath to whichever folder you store your assets in.
+	//Texture loaded as a shared ptr. 'filepath' represents the filepath to whichever folder you store your assets in.
 	std::shared_ptr<Luna::Texture> texture = std::make_shared<LFW::Texture>(filepath);
 
 	//Initiate the object and set it's size (width, height) and location (x, y)
@@ -159,38 +162,33 @@ int main()
 	//Move directly into the while-loop, app.IsRunning() needs to be included here as it's directly linked with a "close the window via the exit button" event
 	while (app.IsRunning())
 	{
+		//This is how you calculate deltatime with the API (to not have movement etc be depending on the framerate)
+		float elapsedTime = app.GetElapsedRuntime();
+		LFW::DeltaTime deltaTime = elapsedTime - lastFrameTime;
+		lastFrameTime = elapsedTime;
+
 		//Logic here, before we render
 
 		//Example of using the LunaAPI to take input from a keyboard and translate (move) the object by manipulating it's anchor point.
 		if (LFW::Input::IsKeyPressed(LFW::Key::Z))
 		{
-			object.anchor.Translation.x += 10.0f;
+			object.anchor.Translation.x += 10.0f * deltaTime; //Moves the anchor to the right
 		}
 
-		//Clear the screen and set up the framebuffer, needs to happen every frame
+		//Clear the screen and set up the framebuffer, needs to happen every frame. Clear() can use both values and defined colors (LFW::Colors::)
 		app.Clear(1.0f, 0.0f, 1.0f, 1.0f);
 
 		//Then we render textures in the correct order (furthest "back" to the "front" as in the example list above)
-		app.Render(texture, object.anchor.GetTransform()); //Renders the texture at the anchors position and with the anchors scale.
+		//Render() can also take in a color instead of a texture (but it always needs a position, example in Main.cpp)
+		app.Render(texture, object.anchor.GetTransform()); //Renders the texture at the anchors position and with the anchors scale
 		
-		//Display our graphics
+		//Display our graphics, this needs to happen after rendering
 		app.Display();
 	}
 }
 
 ```
 
-# DeltaTime
-
-```cpp
-
-//This is how you calculate deltatime with the API
-float elapsedTime = app.GetElapsedRuntime();
-LFW::DeltaTime deltaTime = elapsedTime - lastFrameTime;
-lastFrameTime = elapsedTime;
-
-
-```
 
 # Input (keyboard & mouse)
 
@@ -221,10 +219,65 @@ These functions will be changed and moved to a seperate CameraController class (
 
 ```
 
+# Vectors
+
+These structs can be initialized with and without constructor arguments to set length.
+```cpp
+
+	//How to use LFW::Vectors
+	LFW::Vec2 vec2;
+	LFW::Vec3 vec3;
+	LFW::Vec3 vec4;
+```
+Current Vector Functionality
+
+	- (IMPLEMENTED) Add() --------------- Adds to the current vector with value or another vector of the same type
+	- (IMPLEMENTED) Sub() --------------- Subtracts from the current vector with value or another vector of the same type
+	- (IMPLEMENTED) Set() --------------- Sets the values of current vector with value or another vector of the same type
+	- (IMPLEMENTED) Constructors -------- Default (all values set to 0), Copy constructor (pass in another vector), Set single values, etc
+	- (IMPLEMENTED) ToString() ---------- Returns the vectors sepererated values, only for debug
+	- (IMPLEMENTED) ToStringTotal() ----- Returns the vectors total sum of values, only for debug
+	- (WIP) Distance() ------------------ WIP
+	- (WIP) Lerp() ---------------------- WIP
+	- (WIP) Max() ----------------------- WIP
+	- (WIP) Min() ----------------------- WIP
+	- (WIP) Scale() --------------------- WIP
+	- (WIP) Normalize() ----------------- WIP
+
+
+
+# Math Lib
+
+```cpp
+
+	//How to use LFW::Mathf
+	LFW::Mathf::Floor(x, y);
+	LFW::Mathf::Clamp(x, y);
+	LFW::Mathf::PI();
+	LFW::Mathf::Sqrt(x);
+	LFW::Mathf::Max(x, y);
+	LFW::Mathf::Min(x, y);	
+```
+
+Current Math Lib Functionality
+
+	- (IMPLEMENTED) Floor() --------------- Adds to the current vector with value or another vector of the same type
+	- (IMPLEMENTED) Clamp() --------------- Returns the given value between those numbers. Example: 1 & 3 return 2.
+	- (IMPLEMENTED) PI() ------------------ Returns the PI number with 7,9 or 11 floating number
+	- (IMPLEMENTED) Sqrt() ---------------- Returns the sqrt of argument value (support for int, float & double)
+	- (IMPLEMENTED) Max() ----------------- Returns largest of two values
+	- (IMPLEMENTED) Min() ----------------- Returns smallest of two values
+	- (WIP) Round ------------------------- WIP
+	- (WIP) Atan -------------------------- WIP
+	- (WIP) Lerp -------------------------- WIP
+
+
 
 # Disclaimer
 
 I don't recommend to use any other API calls than the ones reachable from the Application class.
+This documentation is heavily in progress.
+
 
 # Remember to always
 
