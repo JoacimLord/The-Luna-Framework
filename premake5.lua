@@ -10,6 +10,11 @@ workspace "LunaFramework"
 		"Release",
 		"Dist"
 	}
+	
+	--solution_items
+	--{
+	--	".editorconfig"
+	--}
 
 	flags
 	{
@@ -19,11 +24,12 @@ workspace "LunaFramework"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 group "Dependencies"
-	include "LFW/Vendor/GLFW"
-	include "LFW/Vendor/Glad"
-	include "LFW/Vendor/imgui"
+	--include "Vendor/"
+	include "Luna/Vendor/GLFW"
+	include "Luna/Vendor/Glad"
+	include "Luna/Vendor/imgui"
 	-- Don't include glm here!
 group ""
 
-include "LFW"
+include "Luna"
 include "Sandbox"

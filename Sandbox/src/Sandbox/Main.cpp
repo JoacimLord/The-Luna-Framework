@@ -1,5 +1,6 @@
 //"THE LUNA FRAMEWORK" (LFW)
 
+
 #include "Luna.h"		 //Contains everything you need!
 #include <imgui/imgui.h> //Needed if you want to build your own UI.
 
@@ -83,6 +84,7 @@ int main()
 	demoPosition.Translation.y = 0.5f;
 	demoPosition.Scale.x = 0.5f;
 	demoPosition.Scale.y = 0.3f;
+
 
 
 	//For calculating frame time

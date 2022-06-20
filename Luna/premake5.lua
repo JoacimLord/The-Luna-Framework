@@ -1,4 +1,4 @@
-project "LFW"
+project "Luna"
 	kind "StaticLib"
 	language "C++"
 	cppdialect "C++20"
@@ -15,10 +15,11 @@ project "LFW"
 		"src/**.h",
 		"src/**.cpp",
 		
-		"Vendor/stb_image/**.h",
-		"Vendor/stb_image/**.cpp",
-		"Vendor/glm/glm/**.hpp",
-		"Vendor/glm/glm/**.inl",
+		"vendor/stb_image/**.h",
+		"vendor/stb_image/**.cpp",
+
+		"vendor/glm/glm/**.hpp",
+		"vendor/glm/glm/**.inl",
 	}
 
 	defines
