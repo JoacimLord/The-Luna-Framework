@@ -2,6 +2,7 @@
 
 Last update:
 
+- Added imgui.ini (+ doc ) for easier setup since the viewport window sometimes were missing at startup. (220623)
 - Added documentation for usage of the "Debug"-namespace. (220620)
 - Added a "Debug" namespace with functions to print text messages to a ImGui window with specified colors in runtime. (220620)
 - Added a basic math lib and LFW::Vector(Vec2, Vec3, Vec4) implementation with functionality. (220620)
@@ -45,6 +46,13 @@ Feel free to use the Sandbox project as your starting point.
 
 The framework currently only supports development for Windows.
 
+# Viewport and branching
+
+The project uses the dockspace branch of Dear ImGui. Therefore everything is dockable in the window (including the viewport). The "screen" renders to the viewport window.
+This will probably be made optional in the future but we're rolling with this for know.
+
+Known issues:
+ - Application currently crashes on right mouseclick. Wip.
 
 
 # - API DOC -
