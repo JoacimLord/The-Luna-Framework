@@ -5,7 +5,6 @@
 #include "LunaAPI/Core/Application.h"
 #include "LunaAPI/Core/Input.h"
 
-
 #include <backends/imgui_impl_glfw.h> 
 #include <backends/imgui_impl_opengl3.h>
 #include <imgui.h>
@@ -14,7 +13,7 @@
 
 
 namespace LFW {
-	//temp
+
 	ImVec2 m_ViewportSize = { 0.0f, 0.0f };
 	ImVec2 m_ViewportBounds[2];
 
@@ -117,14 +116,15 @@ namespace LFW {
 
 
 			//----------------------------------------------
-			//					MAIN WINDOW
+			//			MAIN WINDOW (DOCKSPACE)
 			//----------------------------------------------
 
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 
 			//==============================================
-			//New name based on string?
-			ImGui::Begin("Luna Editor", &dockspaceOpen, window_flags);
+			//Dockspace
+			//==============================================
+			ImGui::Begin("LFW Dockspace", &dockspaceOpen, window_flags);
 
 
 			ImGui::PopStyleVar();
@@ -137,8 +137,8 @@ namespace LFW {
 			ImGuiStyle& style = ImGui::GetStyle();
 			float minWinSizeX = style.WindowMinSize.x;
 
-			//This controls all windows.
-			//Thats why the scenepanel cant get smaller than 370.0f!
+			//This sets the minimum width to 370. 
+			//TODO: change to set this with a function from Application::SetMinimumPanelWidth(); Can be annyoing if they're used for UI elements (in game dev).
 			style.WindowMinSize.x = 370.0f;
 			if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 			{
@@ -148,16 +148,16 @@ namespace LFW {
 
 			style.WindowMinSize.x = minWinSizeX;
 
+			//Example of a menu!
 			if (ImGui::BeginMenuBar())
 			{
 				if (ImGui::BeginMenu("File"))
 				{
 					if (ImGui::MenuItem("Close")) { Application::Get().OnGUIClose(); }
 
-					//CHANGE ORDER OF THESE!
-					//if (ImGui::MenuItem("New", "Ctrl+N"))	NewScene();
-					//if (ImGui::MenuItem("Open...", "Ctrl+O"))	OpenScene();
-					//if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S")) SaveSceneAs();
+					if (ImGui::MenuItem("New", "Ctrl+N")) std::cout << "New scene - WIP\n";
+					if (ImGui::MenuItem("Open...", "Ctrl+O")) std::cout << "Open scene - WIP\n";
+					if (ImGui::MenuItem("Save As...", "Ctrl++S")) std::cout << "Save scene - WIP\n";
 
 					ImGui::EndMenu();
 				}
@@ -197,8 +197,6 @@ namespace LFW {
 			//---------------------------------------------------
 			//					DEMO WINDOW
 			//---------------------------------------------------
-
-			if (LFW::Input::IsMouseButtonPressed(Mouse::ButtonRight) && !showDemo) showDemo = true;
 
 			if (showDemo) { OnUIRender(); }
 			LFW::Application::BuildUI();

@@ -3,7 +3,7 @@
 #include "LFW.h"		 //Contains everything you need!
 #include <imgui/imgui.h> //Needed if you want to build your own UI.
 
-
+//Will be moved later on
 namespace Debug {
 
 	std::vector<ImVec4> colors;
