@@ -2,6 +2,7 @@
 
 Last update:
 
+- Added new defines (+ doc ), including new API call for creating and loading textures. (220623)
 - Added imgui.ini (+ doc ) for easier setup since the viewport window sometimes were missing at startup. (220623)
 - Added documentation for usage of the "Debug"-namespace. (220620)
 - Added a "Debug" namespace with functions to print text messages to a ImGui window with specified colors in runtime. (220620)
@@ -121,7 +122,7 @@ For example if you're rendering game objects:
 4. Enemies
 5. Trees that's supposed to cover the characters
 
-etc...
+(Support for layering by using the z-index will be added in a future update)
 
 
 # ANCHOR & TEXTURE EXAMPLE
@@ -162,8 +163,18 @@ int main()
 	//How to initalize a window and name it
 	LFW::Application app("App"); 
 
+	//--------------------------------------------------------------
+	//Old API call for loading textures.
+	//--------------------------------------------------------------
 	//Texture loaded as a shared ptr. 'filepath' represents the filepath to whichever folder you store your assets in.
-	std::shared_ptr<Luna::Texture> texture = std::make_shared<LFW::Texture>(filepath);
+	//std::shared_ptr<Luna::Texture> texture = std::make_shared<LFW::Texture>(filepath); //Old API, still supported
+
+	//--------------------------------------------------------------
+	//New API call for loading textures!
+	//--------------------------------------------------------------
+	LFW::AddTexture texture; //Creates a new texture
+	LFW::LoadTexture(texture, "path/red.png"); //Takes in the object and the filepath.
+
 
 	//Initiate the object and set it's size (width, height) and location (x, y)
 	ExampleObject object;
@@ -352,8 +363,33 @@ This can also be used in runtime like the example below
 	if (LFW::Input::IsKeyPressed(LFW::Key::Space)) Debug::Log("Spacebar was pressed!");
 ```
 
+# Defines
 
+Just to save on typing! :)
 
+```cpp
+	using str = std::string; //std::string
+	using i16 = uint16_t;    //uint16
+	using i32 = uint32_t;    //uint32
+	using i64 = uint64_t;    //uint64
+```
+
+# AddTexture & LoadTexture
+
+This is a new method of creating and loading textures, just to save on typing and make it a little bit cleaner. Both ways currently works!
+
+Old method:
+```cpp
+	const char* filePath = "path/red.png";
+	std::shared_ptr<LFW::Texture> texture = std::make_shared<LFW::Texture>(filePath);
+```
+
+New method:
+
+```cpp
+	LFW::AddTexture redSquare;
+	LFW::LoadTexture(redSquare, "path/red.png"); //Also takes in a const char*
+```
 
 
 # Disclaimer

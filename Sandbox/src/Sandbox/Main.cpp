@@ -191,8 +191,12 @@ int main()
 	//Un-comment to show GUI examples (ImGui).
 	//app.ShowImGuiDemoWindow();
 
-	const char* filePath = "Resources/red.png";
+	const char* filePath = "path/red.png";
 	std::shared_ptr<LFW::Texture> texture = std::make_shared<LFW::Texture>(filePath);
+
+
+	LFW::AddTexture redSquare;
+	LFW::LoadTexture(redSquare, "path/red.png");
 
 	float demoObjectMovementSpeed = 1.0f;
 
