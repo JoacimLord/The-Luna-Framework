@@ -149,10 +149,6 @@ namespace LFW {
 
     void Shader::CompileErrors(unsigned int shader, const char* type)
     {
-        //TODO
-        // - Change these variablenames + add error list.
-        // - Move into a switch
-
         GLint hasCompiled;
         char infoLog[1024];
         if (type != "PROGRAM")
@@ -175,7 +171,6 @@ namespace LFW {
         }
     }
 
-    // Reads a text file and outputs a string with everything in the text file, doesn't work properly
     std::string GetFileContents(const char* filename)
     {
         std::ifstream in(filename, std::ios::binary);
