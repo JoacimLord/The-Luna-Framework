@@ -229,14 +229,15 @@ int main()
 		//Camera behaviours! These can't be used at the same time. WIP
 		//--------------------------------------------------------------
 		//app.CheckInputForCamera(); //Moves camera for 'editor operations'
-		app.SetCameraToFollowTransform(demoObject.anchor.Translation); //Sets the camera to follow a specific transform (for example a player)
+		//app.SetCameraToFollowTransform(demoObject.anchor.Translation); //Sets the camera to follow a specific transform (for example a player)
 
-		CheckInputForMovingEntitiesInScene(demoObject, demoObjectMovementSpeed, deltaTime);
-
+		//CheckInputForMovingEntitiesInScene(demoObject, demoObjectMovementSpeed, deltaTime);
+		demoObject.anchor.Rotation.y -= 1 * deltaTime;
 		//Create a color that takes on the value from the ImGui ColorEdit4. Attaches the color to the shader color
-		glm::vec4 color = BindColorFromValues(clrEdit4);
-		app.Render(texture, demoObject.anchor.GetTransform());		//Renders texture on entities transform
-		app.Render(color, demoPosition.GetTransform());  //Renders flat color on demoPosition
+		//glm::vec4 color = BindColorFromValues(clrEdit4);
+
+		//app.Render(texture, demoObject.anchor.GetTransform());		//Renders texture on entities transform
+		app.Render(LFW::Colors::Orange, demoObject.anchor.GetTransform());  //Renders flat color on demoPosition
 
 		//Clears the framebuffer. Flush and repeat, updates window and events
 		app.Display();

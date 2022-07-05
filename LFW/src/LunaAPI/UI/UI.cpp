@@ -74,6 +74,13 @@ namespace LFW {
 
 	void UI::BindFramebuffer(float r, float g, float b, float transparent)
 	{
+		//Wip
+		if (m_ViewportSize.x != m_Framebuffer->GetFramebufferSpecification().Width || m_ViewportSize.y != m_Framebuffer->GetFramebufferSpecification().Height)
+		{
+			std::cout << "Resetting framebuffer!\n";
+			m_Framebuffer->ResizeFramebuffer((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+		}
+
 		m_Framebuffer->Bind();
 		Renderer::ClearColor(r, g, b, transparent);
 		Renderer::Clear();

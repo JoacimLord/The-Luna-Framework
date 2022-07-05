@@ -19,6 +19,7 @@ namespace LFW {
 
 		void CreateFramebufferSpecification(FramebufferSpecification& fbspec);
 
+		void ResizeFramebuffer(uint32_t width, uint32_t height);
 		uint32_t& GetRendererID();
 		uint32_t& GetDepthAttachment();
 		uint32_t& GetColorAttachment();
