@@ -16,20 +16,20 @@ namespace Debug {
 	ImVec4 green = { 0.0f, 1.0f, 0.0f, 1.0f };
 	ImVec4 white = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-	static void Log(const char* msg)
+	void Log(const char* msg)
 	{
 		//ImVec4 white = { 1.0f, 1.0f, 1.0f, 1.0f };
 		c_msgs.push_back(msg);
 		colors.push_back(white);
 	}
 
-	static void Log(const char* msg, ImVec4 clr)
+	void Log(const char* msg, ImVec4 clr)
 	{
 		c_msgs.push_back(msg);
 		colors.push_back(clr);
 	}
 
-	static void Log(const char* msg, int clr)
+	void Log(const char* msg, int clr)
 	{
 		c_msgs.push_back(msg);
 
