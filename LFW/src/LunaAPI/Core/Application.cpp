@@ -109,6 +109,12 @@ namespace LFW {
 		UpdateGUI();
 	}
 
+	void Application::SetMouseCursorVisibility(bool visible)
+	{
+		GLFWwindow* window = (GLFWwindow*)GetWindow().GetOriginalWindow();
+		if (visible) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		if (!visible) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	}
 	//Add deltatime later
 	void Application::CheckInputForCamera()
 	{

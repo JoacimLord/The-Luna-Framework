@@ -47,6 +47,10 @@ namespace LFW {
 		void Display();
 		void DrawUI();
 
+
+		//WIP, not currently working properly
+		void SetMouseCursorVisibility(bool visible);
+
 		//Add deltatime later
 		void CheckInputForCamera();
 
