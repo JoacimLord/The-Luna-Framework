@@ -102,6 +102,7 @@ namespace LFW {
 
     void Renderer::Draw(std::shared_ptr<Texture>& texture, const glm::mat4& entityTransform)
     {
+        s_RendererData.Shader->Bind();
         s_RendererData.Shader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj"); //Just needs to be done once, TODO: Move to seperate function
         s_RendererData.Shader->SetMat4(entityTransform, "scale"); //Every time we submit we need to do this                  
 
@@ -109,7 +110,6 @@ namespace LFW {
         s_RendererData.TextureIndex++;
 
         glBindTexture(GL_TEXTURE_2D, texture->id);
-        s_RendererData.Shader->Bind();
 
         DrawElements(s_RendererData.VertexArray, QUAD_SIZE);
         
@@ -143,11 +143,10 @@ namespace LFW {
 
     void Renderer::Draw(glm::vec4 clr, const glm::mat4& entityTransform)
     { 
-        s_RendererData.Shader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj"); //Just needs to be done once, move lateer into it's own function
-        s_RendererData.Shader->SetMat4(entityTransform, "scale"); //Every time we submit we need to do THIS
-
         s_RendererData.ClrShader->Bind();
-        
+        s_RendererData.ClrShader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj"); //Just needs to be done once, move lateer into it's own function
+        s_RendererData.ClrShader->SetMat4(entityTransform, "scale"); //Every time we submit we need to do THIS
+
         s_RendererData.ClrShader->SetFlatShaderColor(clr);
         DrawElements(s_RendererData.ClrVA, QUAD_SIZE);
     }
