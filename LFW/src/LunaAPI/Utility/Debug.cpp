@@ -25,7 +25,7 @@ namespace LFW {
 		ImVec4 green = { 0.0f, 1.0f, 0.0f, 1.0f };
 		ImVec4 white = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-		c_msgs.push_back(msg.c_str();
+		c_msgs.push_back(msg.c_str());
 
 		if (clr == 0)
 		{
