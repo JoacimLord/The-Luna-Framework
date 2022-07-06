@@ -8,10 +8,6 @@
 #include "LunaAPI/Renderer/Texture.h"
 #include "LunaAPI/Renderer/Renderer.h"
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include <glm/gtc/type_ptr.hpp>
-
 namespace LFW {
 
 	class UI
