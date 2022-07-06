@@ -4,9 +4,19 @@ namespace LFW {
 
 	namespace Debug
 	{
-		void Log(std::string msg);
-		void Log(std::string msg, int clr);
-		void Print();
+		//Takes in a std::string by reference, logs in white text
+		void Log(std::string& msg);
+
+		//Takes in a const char*, logs in white text
+		void Log(const char* msg);
+
+		//Takes in a std::string by reference & color (0-3)
+		void Log(std::string& msg, int clr);
+
+		//Takes in a const char* & color (0-3)
+		void Log(const char* msg, int clr);
+
+		//Call this only in BuildUI
 		void BuildLogWindow();
 	};
 }
