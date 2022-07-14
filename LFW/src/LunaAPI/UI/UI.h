@@ -1,7 +1,10 @@
 #pragma once
 
 #include "LunaAPI/Core/Defines.h"
+
 #include "LunaAPI/EventHandler/KeyEvents/KeyButtonBaseEvent.h"
+#include "LunaAPI/EventHandler/EventDispatcher/EventDispatcher.h"
+#include "LunaAPI/EventHandler/MouseEvents/MouseButtonPressed.h"
 
 #include "LunaAPI/Renderer/Framebuffer.h"
 #include "LunaAPI/Renderer/VertexArray.h"
@@ -19,6 +22,8 @@ namespace LFW {
 		void OnAttach();
 		void OnDetach();
 		void OnEvent(Event& event);
+		bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& e);
+		void BlockEvent(bool block) { blockevents = block; }
 
 		void StartRenderFrame();
 		void RenderFrame();
@@ -32,7 +37,7 @@ namespace LFW {
 
 	public:
 		std::shared_ptr<Framebuffer> m_Framebuffer;
-
+		bool blockevents = true;
 		bool m_DemoWindow = true;
 		bool showDemo = false;
 

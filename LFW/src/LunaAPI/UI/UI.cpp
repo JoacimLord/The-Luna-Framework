@@ -62,8 +62,27 @@ namespace LFW {
 		ImGui::DestroyContext();
 	}
 
-	//REMOVE?
-	void UI::OnEvent(Event& event) { EventDispatcher dispatcher(event); }
+	bool UI::OnMouseButtonPressedEvent(MouseButtonPressedEvent& e)
+	{
+		//test
+		std::cout << "Mousepress\n";
+		return false;
+	}
+
+	void UI::OnEvent(Event& event) 
+	{ 
+		if (blockevents)
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			event.m_HandledEvent |= event.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
+			event.m_HandledEvent |= event.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
+			std::cout << "Blocked event from app";
+		}
+
+		EventDispatcher dispatcher(event); 
+		dispatcher.Dispatch<MouseButtonPressedEvent>(DEFINE_EVENT_TYPE(UI::OnMouseButtonPressedEvent));
+	}
+
 
 	void UI::StartRenderFrame()
 	{
