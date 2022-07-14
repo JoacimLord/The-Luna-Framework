@@ -115,6 +115,14 @@ namespace LFW {
 		if (visible) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		if (!visible) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
+
+	void Application::SetTitle(std::string title)
+	{
+
+		GLFWwindow* window = (GLFWwindow*)GetWindow().GetOriginalWindow();
+		glfwSetWindowTitle(window, title.c_str());
+	}
+
 	//Add deltatime later
 	void Application::CheckInputForCamera()
 	{

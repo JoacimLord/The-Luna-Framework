@@ -51,6 +51,8 @@ namespace LFW {
 		//WIP, not currently working properly
 		void SetMouseCursorVisibility(bool visible);
 
+		//Sets the title of the LFW application
+		void SetTitle(std::string title);
 		//Add deltatime later
 		void CheckInputForCamera();
 
