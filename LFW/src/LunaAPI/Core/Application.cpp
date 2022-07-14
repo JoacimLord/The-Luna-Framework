@@ -113,7 +113,7 @@ namespace LFW {
 	{
 		GLFWwindow* window = (GLFWwindow*)GetWindow().GetOriginalWindow();
 		if (visible) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		if (!visible) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+		if (!visible) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
 	//Add deltatime later
 	void Application::CheckInputForCamera()
