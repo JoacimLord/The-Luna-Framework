@@ -48,11 +48,15 @@ namespace LFW {
 		void DrawUI();
 
 
-		//WIP, not currently working properly
+		//Sets visiblity of mouse cursor
 		void SetMouseCursorVisibility(bool visible);
 
 		//Sets the title of the LFW application
 		void SetTitle(std::string title);
+
+		//Sets the icon of the LFW application
+		void SetIcon(std::string path);
+
 		//Add deltatime later
 		void CheckInputForCamera();
 

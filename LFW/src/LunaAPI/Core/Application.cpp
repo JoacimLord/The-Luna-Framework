@@ -123,6 +123,16 @@ namespace LFW {
 		glfwSetWindowTitle(window, title.c_str());
 	}
 
+	void Application::SetIcon(std::string path)
+	{
+		GLFWwindow* window = (GLFWwindow*)GetWindow().GetOriginalWindow();
+		GLFWimage image[1];
+		image[0].pixels = stbi_load(path.c_str(), &image[0].width, &image[0].height, 0, 4);
+		glfwSetWindowIcon(window, 1, image);
+		stbi_image_free(image[0].pixels);
+	}
+
+
 	//Add deltatime later
 	void Application::CheckInputForCamera()
 	{
