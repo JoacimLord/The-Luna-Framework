@@ -4536,6 +4536,7 @@ static void AddWindowToDrawData(ImGuiWindow* window, int layer)
 
 static inline int GetWindowDisplayLayer(ImGuiWindow* window)
 {
+    return (!window) ? 1 : 0; //Own addition to not make it crash (Joacim, 220713)
     return (window->Flags & ImGuiWindowFlags_Tooltip) ? 1 : 0;
 }
 
