@@ -1,7 +1,5 @@
 #pragma once
 
-#include "LFWpch.h"
-
 #include "LunaAPI/Core/Defines.h"
 #include "LunaAPI/Core/Window.h" 
 #include "LunaAPI/Core/WindowInterface.h" 
