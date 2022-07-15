@@ -20,6 +20,10 @@
 #include "LunaAPI/Renderer/Framebuffer.h"
 #include "LunaAPI/Renderer/Colors.h"
 
+//GRAPHICS
+#include "LunaAPI/Utility/Debug.h"
+#include "LunaAPI/Graphics/Sprite.h"
+
 //KEYCODES
 #include "LunaAPI/Core/KeyCodes.h"
 #include "LunaAPI/Core/MouseCodes.h"

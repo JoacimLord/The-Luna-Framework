@@ -41,7 +41,7 @@ namespace LFW {
 		void Clear(float r, float g, float b, float transparent);
 		void Clear(glm::vec4& temp); 
 
-		void Render(std::shared_ptr<Texture>& texture, glm::mat4 transform);
+		void Render(Sprite sprite);
 		void Display();
 		void DrawUI();
 
@@ -60,7 +60,6 @@ namespace LFW {
 
 		void SetCameraToFollowTransform(glm::vec3 transform);
 
-		void Render(glm::vec4 clr, glm::mat4 transform);
 
 		static void BuildUI(); //Outside of class in its own namespace?
 

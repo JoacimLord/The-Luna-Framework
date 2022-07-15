@@ -101,24 +101,31 @@ namespace LFW {
         return GetCamera().GetPos();
     }
 
-    void Renderer::Draw(std::shared_ptr<Texture>& texture, const glm::mat4& entityTransform)
+    void Renderer::Draw(Sprite sprite)
     {
-        s_RendererData.Shader->Bind();
-        s_RendererData.Shader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj"); //Just needs to be done once, TODO: Move to seperate function
-        s_RendererData.Shader->SetMat4(entityTransform, "scale"); //Every time we submit we need to do this                  
+        //TODO: Move the camera setup into it's own function
+        if (sprite.texture)
+        {
+            s_RendererData.Shader->Bind();
+            s_RendererData.Shader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj");
+            s_RendererData.Shader->SetMat4(sprite.anchor.GetTransform(), "scale");   
 
-        s_RendererData.TextureSlots[s_RendererData.TextureIndex] = texture;
-        s_RendererData.TextureIndex++;
+            //Bind the texture and draw
+            glBindTexture(GL_TEXTURE_2D, sprite.texture->id);
+            DrawElements(s_RendererData.VertexArray, QUAD_SIZE);
+            glBindTexture(GL_TEXTURE_2D, 0);
+        }
 
-        glBindTexture(GL_TEXTURE_2D, texture->id);
+        else
+        {
+            s_RendererData.ClrShader->Bind();
+            s_RendererData.ClrShader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj");
+            s_RendererData.ClrShader->SetMat4(sprite.anchor.GetTransform(), "scale");
 
-        DrawElements(s_RendererData.VertexArray, QUAD_SIZE);
-        
-        s_RendererData.TextureIndex = 0;
- 
-        glBindTexture(GL_TEXTURE_2D, 0);
-
-        s_RendererData.Stats.DrawCalls++;
+            //Sumbit a color and draw
+            s_RendererData.ClrShader->SetFlatShaderColor(sprite.color);
+            DrawElements(s_RendererData.ClrVA, QUAD_SIZE);
+        }
     }
 
     void Renderer::DrawElements(std::shared_ptr<VertexArray>& vertexArray, uint32_t size)
@@ -140,16 +147,6 @@ namespace LFW {
     {
         std::cout << "glViewport changing\n";
         glViewport(0, 0, width, height);
-    }
-
-    void Renderer::Draw(glm::vec4 clr, const glm::mat4& entityTransform)
-    { 
-        s_RendererData.ClrShader->Bind();
-        s_RendererData.ClrShader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj"); //Just needs to be done once, move lateer into it's own function
-        s_RendererData.ClrShader->SetMat4(entityTransform, "scale"); //Every time we submit we need to do THIS
-
-        s_RendererData.ClrShader->SetFlatShaderColor(clr);
-        DrawElements(s_RendererData.ClrVA, QUAD_SIZE);
     }
 
     //(Fix and chain over to application.cpp/h)

@@ -92,9 +92,9 @@ namespace LFW {
 		m_UI.BindFramebuffer(temp.x, temp.y, temp.z, temp.w);
 	}
 
-	void Application::Render(std::shared_ptr<Texture>& texture, glm::mat4 transform)
+	void Application::Render(Sprite sprite)
 	{
-		LFW::Renderer::Draw(texture, transform);
+		LFW::Renderer::Draw(sprite);
 	}
 
 	void Application::Display()
@@ -166,10 +166,5 @@ namespace LFW {
 	void Application::SetCameraToFollowTransform(glm::vec3 transform)
 	{
 		LFW::Renderer::SetCameraPosition(transform);
-	}
-
-	void Application::Render(glm::vec4 clr, glm::mat4 transform) //by refs (&) ?
-	{
-		LFW::Renderer::Draw(clr, transform);
 	}
 }

@@ -6,6 +6,7 @@
 #include "LunaAPI/Renderer/Buffers.h"
 #include "LunaAPI/Renderer/Texture.h"
 #include "LunaAPI/Graphics/Anchor.h"
+#include "LunaAPI/Graphics/Sprite.h"
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -50,7 +51,6 @@ namespace LFW {
 		uint32_t DrawCalls = 0;
 	};
 
-	//Push into a namespace?
 	class Renderer
 	{
 	public:
@@ -62,14 +62,12 @@ namespace LFW {
 		static void Clear();
 		static void ClearColor(float r, float g, float b, float transparent);
 
-		static void Draw(std::shared_ptr<Texture>& texture, const glm::mat4& entityTransform);
+		static void Draw(Sprite sprite);
 
 		static void DrawElements(std::shared_ptr<VertexArray>& vertexArray, uint32_t size);
 		static void OpenGLEnables();
 
 		static void OnWindowResize(float width, float height);
-
-		static void Draw(glm::vec4 clr, const glm::mat4& entityTransform); //by ref(&)?
 
 		static void BindColorFromValues(glm::vec4 clrIn, static float clrOut[4]); //by ref(&)?
 
