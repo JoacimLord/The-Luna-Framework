@@ -58,14 +58,15 @@ namespace LFW {
             0, 3, 2
         };
 
-        std::shared_ptr<VertexBuffer> VBO = std::make_shared<VertexBuffer>(vertices, sizeof(vertices));
+        std::shared_ptr<VertexBuffer> VBOtexture = std::make_shared<VertexBuffer>(vertices, sizeof(vertices));
+        std::shared_ptr<VertexBuffer> VBOcolor = std::make_shared<VertexBuffer>(vertices, sizeof(vertices));
 
         s_RendererData.VertexArray->AddElementBuffer(indices);
-        s_RendererData.VertexArray->AddVertexBuffer(VBO);
+        s_RendererData.VertexArray->AddVertexBufferTexture(VBOtexture);
 
         //Clr
         s_RendererData.ClrVA->AddElementBuffer(indices);
-        s_RendererData.ClrVA->AddVertexBuffer(VBO);
+        s_RendererData.ClrVA->AddVertexBufferColor(VBOcolor);
     }
 
     void Renderer::Clear()

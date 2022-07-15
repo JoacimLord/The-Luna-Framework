@@ -29,7 +29,7 @@ namespace LFW {
         m_ElementBuffer = std::make_shared<ElementBuffer>(indices, sizeof(indices) * 6);
     }
 
-    void VertexArray::AddVertexBuffer(std::shared_ptr<VertexBuffer>& vertexBuffer)
+    void VertexArray::AddVertexBufferTexture(std::shared_ptr<VertexBuffer>& vertexBuffer)
     {
         Bind();
 
@@ -47,6 +47,23 @@ namespace LFW {
         //THIRD : -----------------------------------------------------------------
         glEnableVertexAttribArray(2); //index
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+
+        Unbind();
+        m_ElementBuffer->Unbind();
+        vertexBuffer->Unbind();
+    }
+
+
+    void VertexArray::AddVertexBufferColor(std::shared_ptr<VertexBuffer>& vertexBuffer)
+    {
+        Bind();
+
+        m_ElementBuffer->Bind();
+        vertexBuffer->Bind();
+
+        //FIRST : -----------------------------------------------------------------
+        glEnableVertexAttribArray(0); //index
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 
         Unbind();
         m_ElementBuffer->Unbind();

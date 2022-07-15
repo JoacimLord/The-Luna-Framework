@@ -18,7 +18,8 @@ namespace LFW {
 		void Unbind();
 
 		void AddElementBuffer(uint32_t* indices);
-		void AddVertexBuffer(std::shared_ptr<VertexBuffer>& vertexArray);
+		void AddVertexBufferTexture(std::shared_ptr<VertexBuffer>& vertexBuffer);
+		void AddVertexBufferColor(std::shared_ptr<VertexBuffer>& vertexBuffer);
 
 	public:
 		uint32_t m_ID;
