@@ -145,22 +145,22 @@ namespace LFW {
 		//Curr only works with arrows + left shift
 		if (LFW::Input::IsKeyPressed(LFW::Key::Left) && LFW::Input::IsKeyPressed(LFW::Key::LeftShift))
 		{
-			x -= 0.05f;
+			x -= 0.05f * dt;
 			LFW::Renderer::SetCameraPosition( { x, y, z } );
 		}
 		else if (LFW::Input::IsKeyPressed(LFW::Key::Right) && LFW::Input::IsKeyPressed(LFW::Key::LeftShift))
 		{
-			x += 0.05f;
+			x += 0.05f * dt;
 			LFW::Renderer::SetCameraPosition({ x, y, z });
 		}
 		if (LFW::Input::IsKeyPressed(LFW::Key::Down) && LFW::Input::IsKeyPressed(LFW::Key::LeftShift))
 		{
-			y -= 0.05f;
+			y -= 0.05f * dt;
 			LFW::Renderer::SetCameraPosition({ x, y, z });
 		}
 		else if (LFW::Input::IsKeyPressed(LFW::Key::Up) && LFW::Input::IsKeyPressed(LFW::Key::LeftShift))
 		{
-			y += 0.05f;
+			y += 0.05f * dt;
 			LFW::Renderer::SetCameraPosition({ x, y, z });
 		}
 	}

@@ -35,16 +35,29 @@ namespace LFW {
 		//API for the main.cpp (app dev) -> All user interaction happens from here!
 		//------------
 
+		//Initiates ImGui's own demo window
 		void ShowImGuiDemoWindow();
+
+		//Returns elapsed time since start of application
 		float GetElapsedRuntime();
+
+		//Checks if application is runnning (use in main while loop as condition)
 		bool IsRunning();
+
+		//Clears the screens background with a specified color values
 		void Clear(float r, float g, float b, float transparent);
+
+		//Clears the screens background with a pre defined color from LFW::Colorsa
 		void Clear(glm::vec4& temp); 
 
+		//Renders target sprite to screen
 		void Render(Sprite sprite);
-		void Display();
-		void DrawUI();
 
+		//Needs to be called at the end of each frame (furthest down in while loop). Clears frame buffers and displays graphics
+		void Display();
+
+		//DISCLAIMER -> This is only called internally, don't use this function.
+		void DrawUI();
 
 		//Sets visiblity of mouse cursor
 		void SetMouseCursorVisibility(bool visible);
@@ -55,16 +68,14 @@ namespace LFW {
 		//Sets the icon of the LFW application
 		void SetIcon(std::string path);
 
-		//Add deltatime later
-		void CheckInputForCamera();
 		//Function for moving the camera
 		void CheckInputForCamera(DeltaTime dt);
 
+		//Sets the camera to follow a specific transform (attached by default to sprites)
 		void SetCameraToFollowTransform(glm::vec3 transform);
 
-
-		static void BuildUI(); //Outside of class in its own namespace?
-
+		//Needed to define and build your own UI with ImGui (documentation can be found it it's own repo)
+		static void BuildUI();
 
 	// - DISCLAIMER! -
 	//Used internally, use on own risk. Change to private later.
