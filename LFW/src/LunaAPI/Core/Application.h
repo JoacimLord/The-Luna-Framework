@@ -57,6 +57,8 @@ namespace LFW {
 
 		//Add deltatime later
 		void CheckInputForCamera();
+		//Function for moving the camera
+		void CheckInputForCamera(DeltaTime dt);
 
 		void SetCameraToFollowTransform(glm::vec3 transform);
 

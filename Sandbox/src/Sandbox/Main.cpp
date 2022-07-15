@@ -50,16 +50,7 @@ int main()
 		LFW::DeltaTime deltaTime = elapsedTime - lastFrameTime;
 		lastFrameTime = elapsedTime;
 
-		//Clears screen with pre-defined color from the Colors lib or with a vec4 value (last one is the transparency)
 		app.Clear(LFW::Colors::Grey);
-
-		//-----------------------------------------------------------------------
-		//Example of Camera behaviours! These can't be used at the same time.
-		//-----------------------------------------------------------------------
-		{
-			//app.CheckInputForCamera(); //Moves camera for 'editor operations'
-			//app.SetCameraToFollowTransform(demoObject.anchor.Translation); //Sets the camera to follow a specific transform (for example a player)
-		}
 
 		//Debug examples
 		if (LFW::Input::IsKeyPressed(LFW::Key::Space))

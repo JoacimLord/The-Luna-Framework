@@ -136,7 +136,7 @@ namespace LFW {
 
 
 	//Add deltatime later
-	void Application::CheckInputForCamera()
+	void Application::CheckInputForCamera(DeltaTime dt)
 	{
 		float x = LFW::Renderer::GetCameraPosition().x;
 		float y = LFW::Renderer::GetCameraPosition().y;
