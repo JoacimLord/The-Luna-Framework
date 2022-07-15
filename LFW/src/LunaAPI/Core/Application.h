@@ -80,12 +80,10 @@ namespace LFW {
 		void EndRendering();
 		void UpdateWindow();
 
-	public:
-		UI m_UI;
-
 	private:
 		static Application* s_Instance;
 		bool m_IsRunning = true;
 		std::unique_ptr<WindowInterface> m_Window;
+		std::unique_ptr<UI> m_UI;
 	};
 }

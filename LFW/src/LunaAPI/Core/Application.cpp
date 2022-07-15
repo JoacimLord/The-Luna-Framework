@@ -18,7 +18,9 @@ namespace LFW {
 		m_Window->SetEventCallback(DEFINE_EVENT_TYPE(OnEvent));
 	
 		Renderer::Init();
-		m_UI.OnAttach(); //Needs to happen here, crashes if it gets called in ImGuiLayers constructor.
+
+		m_UI = std::make_unique<UI>();
+		m_UI->OnAttach(); //Needs to happen here, crashes if it gets called in ImGuiLayers constructor.
 	}
 
 	void Application::OnEvent(Event& event)
@@ -57,14 +59,14 @@ namespace LFW {
 
 	void Application::UpdateGUI()
 	{
-		m_UI.StartRenderFrame();
-		m_UI.RenderFrame();
-		m_UI.EndRenderFrame();
+		m_UI->StartRenderFrame();
+		m_UI->RenderFrame();
+		m_UI->EndRenderFrame();
 	}
 
 	void  Application::ShowImGuiDemoWindow()
 	{
-		m_UI.showDemo = true;
+		m_UI->showDemo = true;
 	}
 
 	float Application::GetElapsedRuntime()
@@ -74,7 +76,7 @@ namespace LFW {
 
 	void Application::EndRendering()
 	{
-		m_UI.UnbindFramebuffer();
+		m_UI->UnbindFramebuffer();
 	}
 
 	void Application::UpdateWindow()
@@ -84,12 +86,12 @@ namespace LFW {
 
 	void Application::Clear(float r, float g, float b, float transparent)
 	{
-		m_UI.BindFramebuffer(r, g, b, transparent);
+		m_UI->BindFramebuffer(r, g, b, transparent);
 	}
 
 	void Application::Clear(glm::vec4& temp)
 	{
-		m_UI.BindFramebuffer(temp.x, temp.y, temp.z, temp.w);
+		m_UI->BindFramebuffer(temp.x, temp.y, temp.z, temp.w);
 	}
 
 	void Application::Render(Sprite sprite)
