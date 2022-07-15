@@ -5,6 +5,7 @@
 #include "LunaAPI/Renderer/VertexArray.h"
 #include "LunaAPI/Renderer/Buffers.h"
 #include "LunaAPI/Renderer/Texture.h"
+#include "LunaAPI/Graphics/Anchor.h"
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -78,35 +79,5 @@ namespace LFW {
 		static OrthoCam GetCamera();
 		static void SetCameraPosition(const glm::vec3 temppos);
 		static glm::vec3 GetCameraPosition();
-	};
-
-	//Transform
-	struct Anchor
-	{
-		glm::vec3 Translation = { 0.0f, 0.0f, 0.0f };
-		glm::vec3 Rotation = { 0.0f, 0.0f, 0.0f };
-		glm::vec3 Scale = { 1.0f, 1.0f, 1.0f };
-
-		Anchor() = default;
-		Anchor(const Anchor&) = default;
-		Anchor(glm::vec3& translation)
-			: Translation(translation)
-		{
-		}
-
-		Anchor(glm::vec3& translation, glm::vec3& scale)
-			: Translation(translation), Scale(scale)
-		{
-		}
-
-		glm::mat4 GetTransform()
-		{
-			glm::mat4 rotation = glm::toMat4(glm::quat(Rotation));
-
-			return glm::translate(glm::mat4(1.0f), Translation)
-				* rotation
-				* glm::scale(glm::mat4(1.0f), Scale);
-			//* glm::rotate(glm::mat4(1.0f), { 0.0f, 0.0f, 1.0f })); //TRANSLATES THE TEXTURE
-		}
 	};
 }
