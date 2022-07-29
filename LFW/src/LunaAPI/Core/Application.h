@@ -26,15 +26,11 @@
 namespace LFW {
 
 	//TODO: Thinking about moving this to be initialized in the application constructor instead
-	// 
 	//Sets a bool for the Dear ImGui Viewport
 	namespace Viewport
 	{
-		//RENAME!
-		//Init()
-		//IsEnabled()
-
 		static bool m_EnableViewport;
+
 		//If true this enables Dear ImGui in the application.
 		//If false, the application renders to the GLFW window instead.
 		void Init(bool state);
@@ -72,23 +68,42 @@ namespace LFW {
 		//Clears the screen with the default color (black)
 		void Clear();
 
-		//Renders target sprite to screen
-		void Render(Sprite& sprite);
-
 		//Needs to be called at the end of each frame (furthest down in while loop). Clears frame buffers and displays graphics
 		void Display();
 
-		//DISCLAIMER -> This is only called internally, don't use this function.
-		void DrawUI();
-
-		//Sets visiblity of mouse cursor
-		void SetMouseCursorVisibility(bool visible);
+		/////////////////////////////////////////////
+		/* Window (GLFW) functionality */
+		/////////////////////////////////////////////
 
 		//Sets the title of the LFW application
 		void SetTitle(std::string title);
 
 		//Sets the icon of the LFW application
 		void SetIcon(std::string path);
+		//Sets the default icon to the application window title bar.
+		void SetDefaultIcon();
+
+		//Sets a custom image as the cursor. Wip, not done for usage.
+		void SetCustomCursor();
+
+		//Sets the default cursor. Wip, not done for usage.
+		void SetDefaultCursor();
+
+		//Sets the application window minimum and maximum size (minimum Width, minimum Height, maximum Width, maximum Height)
+		void SetWindowConstraint(float minWidth, float minHeight, float maxWidth, float maxHeight);
+
+		//Sets the application window minimum size. Can't be used together with SetWindowMaxSize(), instead use SetWindowConstraint to set both constraints
+		void SetWindowMinSize(float minWidth, float minHeight);
+
+		//Sets the application window maximum size. Can't be used together with SetWindowMaxSize(), instead use SetWindowConstraint to set both constraints
+		void SetWindowMaxSize(float maxWidth, float maxHeight);
+
+		//Sets visiblity of mouse cursor
+		void SetMouseCursorVisibility(bool visible);
+
+
+		//Renders target sprite to screen
+		void Render(Sprite& sprite);
 
 		//TODO: Remove dt?
 		//Function for moving the camera. Currently controlled with the Arrow-keys
@@ -97,7 +112,8 @@ namespace LFW {
 		//Sets the camera to follow a specific transform (attached by default to sprites)
 		void SetCameraToFollowTransform(glm::vec3 transform);
 
-		//Needed to define and build your own UI with ImGui (documentation can be found it it's own repo)
+		//Needed to define and build your own UI with ImGui (documentation can be found it Dear ImGuis repo).
+		//This can only be used if the viewport is initialized and set to true.
 		static void BuildUI();
 
 	// - DISCLAIMER! -
@@ -115,6 +131,7 @@ namespace LFW {
 		void UpdateGUI();
 		void EndRendering();
 		void UpdateWindow();
+		void DrawUI();
 
 	private:
 		static Application* s_Instance;

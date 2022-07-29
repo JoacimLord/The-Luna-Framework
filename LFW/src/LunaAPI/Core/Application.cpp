@@ -149,12 +149,6 @@ namespace LFW {
 		}
 	}
 
-	void Application::Render(Sprite& sprite)
-	{
-		LFW::Renderer::Draw(sprite);
-	}
-
-
 	void Application::Display()
 	{
 		//If enabled
@@ -176,21 +170,8 @@ namespace LFW {
 	}
 
 
-	void Application::DrawUI()
-	{
-		UpdateGUI();
-	}
-
-	void Application::SetMouseCursorVisibility(bool visible)
-	{
-		GLFWwindow* window = (GLFWwindow*)GetWindow().GetOriginalWindow();
-		if (visible) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		if (!visible) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	}
-
 	void Application::SetTitle(std::string title)
 	{
-
 		GLFWwindow* window = (GLFWwindow*)GetWindow().GetOriginalWindow();
 		glfwSetWindowTitle(window, title.c_str());
 	}
@@ -207,6 +188,57 @@ namespace LFW {
 	}
 
 
+
+	void Application::SetDefaultIcon()
+	{
+		GLFWwindow* window = (GLFWwindow*)GetWindow().GetOriginalWindow();
+		glfwSetWindowIcon(window, 0, NULL);
+	}
+
+	void Application::SetCustomCursor()
+	{
+		//TODO: add support for a custom cursor
+	}
+
+	void Application::SetDefaultCursor()
+	{
+		//glfwDestroyCursor();
+		GLFWwindow* window = (GLFWwindow*)GetWindow().GetOriginalWindow();
+		glfwSetCursor(window, NULL);
+	}
+
+	void Application::SetWindowConstraint(float minWidth, float minHeight, float maxWidth, float maxHeight)
+	{
+		GLFWwindow* window = (GLFWwindow*)GetWindow().GetOriginalWindow();
+		glfwSetWindowSizeLimits(window, minWidth, minHeight, maxWidth, maxHeight);
+	}
+
+	void Application::SetWindowMinSize(float minWidth, float minHeight)
+	{
+		GLFWwindow* window = (GLFWwindow*)GetWindow().GetOriginalWindow();
+		glfwSetWindowSizeLimits(window, minWidth, minHeight, GLFW_DONT_CARE, GLFW_DONT_CARE);
+	}
+
+	void Application::SetWindowMaxSize(float maxWidth, float maxHeight)
+	{
+		GLFWwindow* window = (GLFWwindow*)GetWindow().GetOriginalWindow();
+		glfwSetWindowSizeLimits(window, GLFW_DONT_CARE, GLFW_DONT_CARE, maxWidth, maxHeight);
+
+	}
+	void Application::SetMouseCursorVisibility(bool visible)
+	{
+		GLFWwindow* window = (GLFWwindow*)GetWindow().GetOriginalWindow();
+		if (visible) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		if (!visible) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}
+
+
+	void Application::Render(Sprite& sprite)
+	{
+		LFW::Renderer::Draw(sprite);
+	}
+
+	
 	void Application::CheckInputForCamera(DeltaTime dt)
 	{
 		float x = LFW::Renderer::GetCameraPosition().x;
@@ -239,5 +271,11 @@ namespace LFW {
 	void Application::SetCameraToFollowTransform(glm::vec3 transform)
 	{
 		LFW::Renderer::SetCameraPosition(transform);
+	}
+
+
+	void Application::DrawUI()
+	{
+		UpdateGUI();
 	}
 }
