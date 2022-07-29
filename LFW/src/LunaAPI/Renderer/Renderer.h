@@ -57,7 +57,7 @@ namespace LFW {
 		static void Clear();
 		static void ClearColor(float r, float g, float b, float transparent);
 
-		static void Draw(Sprite sprite);
+		static void Draw(Sprite& sprite);
 
 		static void DrawElements(std::shared_ptr<VertexArray>& vertexArray, uint32_t size);
 		static void OpenGLEnables();

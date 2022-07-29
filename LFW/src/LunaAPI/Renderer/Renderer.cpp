@@ -97,7 +97,7 @@ namespace LFW {
         return GetCamera().GetPos();
     }
 
-    void Renderer::Draw(Sprite sprite)
+    void Renderer::Draw(Sprite& sprite)
     {
         //TODO: Move the camera setup into it's own function
         if (sprite.texture)
