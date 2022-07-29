@@ -19,27 +19,31 @@ Third party libraries in use:
 - stb_image
 
 
+
 # How to get started
 
 Simply clone, fork or download the project. Run the Setup.bat file to generate your solution.
-The only file that you need to include is the "Luna.h" header file and the <imgui/imgui.h> file.
+The only file that you need to include is the "LFW.h" header file and the <imgui/imgui.h> file.
 Feel free to to rename and use the Sandbox project as your starting point.
 
 
-# - API DOCUMENTATION -
+
+
+# - API DOCUMENTATION
 
 ## Modules
 
- ### Simple LFW Example
- ### Viewport
- ### Application functionality
- ### DeltaTime
- ### Sprites
- ### Input
- ### Camera
- ### MathF
- ### Debug Panel
- ### Application window functionality
+ ### - Simple LFW Example
+ ### - Viewport
+ ### - Application functionality
+ ### - DeltaTime
+ ### - Sprites
+ ### - Input
+ ### - Camera
+ ### - Math Library
+ ### - Debug Panel
+ ### - Application window functionality
+
 
 
 
@@ -62,8 +66,19 @@ int main()
 
 	while (app.IsRunning())
 	{
-		app.Clear(1.0f, 0.0f, 1.0f, 1.0f);
+		/* Disclaimer */
+		//This functionality has to happen in this specific order:
+		// 1. Clear()
+		// 2. Render(single_sprite)
+		// 3. Display()
+		// Logic should happen before the Render() function (for example Input, collision etc)
+
+		//The clear function can be called empty (Clear()) to get a black color as default.
+		//It can also be called with values (Clear(1.0f, 1.0f, 1.0f, 1.0f)) or as in this example, with LFW::Colors!
+		app.Clear(LFW::Colors::Grey);
+
 		app.Render();
+
 		app.Display(); 
 	}
 }
@@ -230,7 +245,6 @@ if (LFW::Input::IsMouseButtonPressed(LFW::Mouse::TheMouseButtonYouWant))
 
 Example of moving around a sprite using LFW::DeltaTime and the sprites LFW::Anchor:
 ```cpp
-
 int main()
 {
 	//How to initalize a window and name it.
@@ -287,6 +301,7 @@ int main()
 }
 ```
 
+
 # Camera (Controls & 'Follow')
 
 The application always renderers the sprites using a basic orthographic camera (flat for 2D).
@@ -305,7 +320,8 @@ It's also possible to set the camera to follow a specific Transform (Anchor). A 
 
 ```
 
-# Vectors
+
+# Math Library
 
 LFWs own implementation of vectors. This is heavily WIP and I recommend to just use the glm library for vectors.
 These structs can be initialized with and without constructor arguments to set length.
@@ -317,9 +333,7 @@ These structs can be initialized with and without constructor arguments to set l
 	LFW::Vec3 vec4;
 ```
 
-# Math Lib
-
-Small Math lib inmplemented in LFW for mathematical operations.
+Small Math library inmplemented in LFW for mathematical operations.
 ```cpp
 
 	//How to use LFW::Mathf
@@ -341,7 +355,7 @@ Current Math Lib Functionality
 	Min() ---- Returns the smallest of two values
 
 
-# Mathf Testcases
+Mathf Testcases
 
 	//SQRT()
 	std::cout << "Sqrt of 9: " << LFW::MathF::Sqrt(9) << "\n";
@@ -372,6 +386,8 @@ Current Math Lib Functionality
 	LFW::MathF::Floor(-20.9f); //Prints -21
 	LFW::MathF::Floor(-13.6f); //Prints -14
 	LFW::MathF::Floor(10.7f);	 //Prints 10
+
+
 
 
 # "Debug" namespace
@@ -413,17 +429,14 @@ This can also be used in runtime like the example below
 
 
 
-
-
-
-
-
-
 # Disclaimer
 
 I don't recommend to use any other API calls than the ones reachable from the Application class.
-This documentation is heavily in progress.
+This repo and documentation is heavily in progress and will be frequently changed!
 
+Features soon to come:
+- Audio
+- Font rendering
 
 
 Thanks for using my framework in your own project <3
