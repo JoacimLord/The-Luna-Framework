@@ -97,7 +97,7 @@ namespace LFW {
 	private:
 		static Application* s_Instance;
 		bool m_IsRunning = true;
-		std::unique_ptr<WindowInterface> m_Window;
-		std::unique_ptr<UI> m_UI;
+		std::unique_ptr<WindowInterface> m_Window = nullptr;
+		std::unique_ptr<UI> m_UI = nullptr;
 	};
 }
