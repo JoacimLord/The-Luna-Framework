@@ -101,11 +101,6 @@ namespace LFW {
 		m_Window->OnUpdate();
 	}
 
-
-
-	// COPY THESE!!!!
-
-	//This function also needs the branching of enabled viewport if the user chooses to use color values and not predefined. Remove???
 	void Application::Clear(float r, float g, float b, float transparent)
 	{
 		if (Viewport::IsEnabled())
@@ -122,12 +117,10 @@ namespace LFW {
 
 	void Application::Clear(glm::vec4& temp)
 	{
-		//Original function
 		if (Viewport::IsEnabled())
 		{
 			m_UI->BindFramebuffer(temp.x, temp.y, temp.z, temp.w);
 		}
-		//Added from the BindFB func if m_UI is nullptr
 		else if (!Viewport::IsEnabled())
 		{
 			Renderer::ClearColor(temp.x, temp.y, temp.z, temp.w);
@@ -135,7 +128,6 @@ namespace LFW {
 		}
 	}
 
-	//This works, copy over this also!
 	void Application::Clear()
 	{
 		if (Viewport::IsEnabled())
@@ -151,24 +143,17 @@ namespace LFW {
 
 	void Application::Display()
 	{
-		//If enabled
 		if (Viewport::IsEnabled())
 		{
 			EndRendering();
 			DrawUI();
 			UpdateWindow();
 		}
-		//If not enabled
 		else if (!Viewport::IsEnabled())
 		{
 			UpdateWindow();
 		}
-
-		//EndRendering();
-		//DrawUI();
-		//UpdateWindow();
 	}
-
 
 	void Application::SetTitle(std::string title)
 	{
@@ -178,16 +163,13 @@ namespace LFW {
 
 	void Application::SetIcon(std::string path)
 	{
-		//TODO: Destroy previous icon
-
+		//TODO: Destroy previous icon before initalizing a new one
 		GLFWwindow* window = (GLFWwindow*)GetWindow().GetOriginalWindow();
 		GLFWimage image[1];
 		image[0].pixels = stbi_load(path.c_str(), &image[0].width, &image[0].height, 0, 4);
 		glfwSetWindowIcon(window, 1, image);
 		stbi_image_free(image[0].pixels);
 	}
-
-
 
 	void Application::SetDefaultIcon()
 	{
@@ -232,12 +214,10 @@ namespace LFW {
 		if (!visible) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
 
-
 	void Application::Render(Sprite& sprite)
 	{
 		LFW::Renderer::Draw(sprite);
 	}
-
 	
 	void Application::CheckInputForCamera(DeltaTime dt)
 	{
@@ -245,7 +225,6 @@ namespace LFW {
 		float y = LFW::Renderer::GetCameraPosition().y;
 		float z = LFW::Renderer::GetCameraPosition().z;
 
-		//Curr only works with arrows + left shift
 		if (LFW::Input::IsKeyPressed(LFW::Key::Left))
 		{
 			x -= 0.05f * dt;
@@ -272,7 +251,6 @@ namespace LFW {
 	{
 		LFW::Renderer::SetCameraPosition(transform);
 	}
-
 
 	void Application::DrawUI()
 	{

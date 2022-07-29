@@ -50,7 +50,8 @@ namespace LFW {
 		//API for the main.cpp (app dev) -> All user interaction happens from here!
 		//------------
 
-		//Initiates ImGui's own demo window
+		//Initiates Dear ImGui's own demo window.
+		//This needs the viewport to be set to true.
 		void ShowImGuiDemoWindow();
 
 		//Returns elapsed time since start of application
@@ -101,7 +102,6 @@ namespace LFW {
 		//Sets visiblity of mouse cursor
 		void SetMouseCursorVisibility(bool visible);
 
-
 		//Renders target sprite to screen
 		void Render(Sprite& sprite);
 
@@ -116,12 +116,9 @@ namespace LFW {
 		//This can only be used if the viewport is initialized and set to true.
 		static void BuildUI();
 
-	// - DISCLAIMER! -
-	//Used internally, don't use these.
 	public:
 		inline static Application& Get() { return *s_Instance; }
 		WindowInterface& GetWindow() const { return *m_Window; }
-		void OnGUIClose();
 
 	private:
 		void OnEvent(Event& event);
@@ -132,6 +129,7 @@ namespace LFW {
 		void EndRendering();
 		void UpdateWindow();
 		void DrawUI();
+		void OnGUIClose();
 
 	private:
 		static Application* s_Instance;
