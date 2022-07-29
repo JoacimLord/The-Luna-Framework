@@ -14,8 +14,7 @@
 
 namespace LFW {
 
-	ImVec2 m_ViewportSize = { 0.0f, 0.0f };
-	ImVec2 m_ViewportBounds[2];
+	glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
 
 	UI::UI()
 	{
@@ -36,12 +35,7 @@ namespace LFW {
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
-		//io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
-		//io.ConfigFlags != ImGuiButtonFlags_MouseButtonRight;
 
-		ImGui::StyleColorsDark();
-
-		ImGuiStyle& style = ImGui::GetStyle();
 
 		Application& app = Application::Get();
 		GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetOriginalWindow());
@@ -160,35 +154,19 @@ namespace LFW {
 			// DockSpace
 			ImGuiIO& io = ImGui::GetIO();
 			ImGuiStyle& style = ImGui::GetStyle();
-			float minWinSizeX = style.WindowMinSize.x;
+			//float minWinSizeX = style.WindowMinSize.x;
 
 			//This sets the minimum width to 370. 
 			//TODO: change to set this with a function from Application::SetMinimumPanelWidth(); Can be annyoing if they're used for UI elements (in game dev).
-			style.WindowMinSize.x = 370.0f;
+			//style.WindowMinSize.x = 370.0f;
 			if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 			{
 				ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 				ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 			}
 
-			style.WindowMinSize.x = minWinSizeX;
+			//style.WindowMinSize.x = minWinSizeX;
 
-			//Example of a menu!
-			if (ImGui::BeginMenuBar())
-			{
-				if (ImGui::BeginMenu("File"))
-				{
-					if (ImGui::MenuItem("Close")) { Application::Get().OnGUIClose(); }
-
-					if (ImGui::MenuItem("New", "Ctrl+N")) std::cout << "New scene - WIP\n";
-					if (ImGui::MenuItem("Open...", "Ctrl+O")) std::cout << "Open scene - WIP\n";
-					if (ImGui::MenuItem("Save As...", "Ctrl++S")) std::cout << "Save scene - WIP\n";
-
-					ImGui::EndMenu();
-				}
-
-				ImGui::EndMenuBar();
-			}
 
 			//----------------------------------------------
 			//					VIEWPORT
@@ -198,13 +176,6 @@ namespace LFW {
 			auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
 			auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
 			auto viewportOffset = ImGui::GetWindowPos();
-
-			m_ViewportBounds[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
-			m_ViewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
-
-			//Needed?
-			m_ViewportFocused = ImGui::IsWindowFocused();
-			m_ViewportHovered = ImGui::IsWindowHovered();
 
 			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 			m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
@@ -229,7 +200,7 @@ namespace LFW {
 	}
 
 
-	//USER-DEFINED
+	//Dear ImGui Demo Window
 	void UI::OnUIRender()
 	{
 		ImGui::Begin("Demo");

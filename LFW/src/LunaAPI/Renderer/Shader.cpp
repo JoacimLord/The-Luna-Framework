@@ -68,12 +68,11 @@ namespace LFW {
 
             CompileErrors(vertexShader, "VERTEX");
 
-            //FRAGMENT
+            //Fragment
             GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
             glShaderSource(fragmentShader, 1, &fragmentShaderSourceClr, NULL);
             glCompileShader(fragmentShader);
 
-            //new
             CompileErrors(fragmentShader, "FRAGMENT");
 
             m_ID = glCreateProgram();
@@ -96,12 +95,11 @@ namespace LFW {
 
             CompileErrors(vertexShader, "VERTEX");
 
-            //FRAGMENT
+            //Fragment
             GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
             glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
             glCompileShader(fragmentShader);
 
-            //new
             CompileErrors(fragmentShader, "FRAGMENT");
 
             m_ID = glCreateProgram();
@@ -133,8 +131,7 @@ namespace LFW {
         glUseProgram(0);
     }
 
-    //NEW, add ref?
-    void Shader::SetMat4(glm::mat4 matrix, const char* name) //OR -> const string& name, name.c_str() in functioncall
+    void Shader::SetMat4(glm::mat4 matrix, const char* name)
     {
         GLuint uniID = glGetUniformLocation(m_ID, name);
         glUniformMatrix4fv(uniID, 1, GL_FALSE, glm::value_ptr(matrix));
@@ -142,7 +139,6 @@ namespace LFW {
 
     void Shader::SetFlatShaderColor(glm::vec4 clr)
     {
-        //rename, these are NOT members!
         GLuint particleShader = glGetUniformLocation(m_ID, "u_Color");
         glUniform4fv(particleShader, 1, glm::value_ptr(clr));
     }

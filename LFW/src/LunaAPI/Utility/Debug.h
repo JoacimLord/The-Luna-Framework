@@ -16,7 +16,7 @@ namespace LFW {
 		//Takes in a const char* & color (0-3)
 		void Log(const char* msg, int clr);
 
-		//Call this only in BuildUI
+		//Only call this in BuildUI
 		void BuildLogWindow();
 	};
 }

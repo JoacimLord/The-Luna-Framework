@@ -46,11 +46,6 @@ namespace LFW {
 		void SetPos(const glm::vec3& temppos) { pos = temppos; RecalcMatrix(); }
 	};
 
-	struct Statistics
-	{
-		uint32_t DrawCalls = 0;
-	};
-
 	class Renderer
 	{
 	public:
@@ -69,9 +64,6 @@ namespace LFW {
 
 		static void OnWindowResize(float width, float height);
 
-		static void BindColorFromValues(glm::vec4 clrIn, static float clrOut[4]); //by ref(&)?
-
-		static Statistics GetDrawCalls();
 		static void ClearFrame(float r, float g, float b, float transparent);		
 
 		static OrthoCam GetCamera();

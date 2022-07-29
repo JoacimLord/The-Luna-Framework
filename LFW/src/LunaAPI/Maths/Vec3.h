@@ -2,25 +2,6 @@
 
 #include "LFWpch.h"
 
-//--------------------------------------------------------------------------
-//			WIP - VECTOR3
-//--------------------------------------------------------------------------
-/*
-	////////////////////////////////// TODO: //////////////////////////////////
-
-	- (IMPLEMENTED) Add - For all vector types! (vec2, vec3, vec4)
-	- (IMPLEMENTED) Sub
-	- (IMPLEMENTED) Set
-	- (IMPLEMENTED) Constructors!
-	- (IMPLEMENTED) ToString
-	- (IMPLEMENTED) ToStringTotal
-	- (WIP) Distance
-	- (WIP) Lerp
-	- (WIP) Max
-	- (WIP) Min
-	- (WIP) Scale
-	- (WIP) Normalize
-*/
 
 
 namespace LFW {

@@ -47,7 +47,7 @@ namespace LFW {
 		//Clears the screens background with a specified color values
 		void Clear(float r, float g, float b, float transparent);
 
-		//Clears the screens background with a pre defined color from LFW::Colorsa
+		//Clears the screens background with a pre defined color from LFW::Colors
 		void Clear(glm::vec4& temp); 
 
 		//Renders target sprite to screen
@@ -68,7 +68,8 @@ namespace LFW {
 		//Sets the icon of the LFW application
 		void SetIcon(std::string path);
 
-		//Function for moving the camera
+		//TODO: Remove dt?
+		//Function for moving the camera. Currently controlled with the Arrow-keys
 		void CheckInputForCamera(DeltaTime dt);
 
 		//Sets the camera to follow a specific transform (attached by default to sprites)
@@ -78,7 +79,7 @@ namespace LFW {
 		static void BuildUI();
 
 	// - DISCLAIMER! -
-	//Used internally, use on own risk. Change to private later.
+	//Used internally, don't use these.
 	public:
 		inline static Application& Get() { return *s_Instance; }
 		WindowInterface& GetWindow() const { return *m_Window; }

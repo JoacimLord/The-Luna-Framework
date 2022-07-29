@@ -15,10 +15,6 @@ namespace LFW {
 
         std::shared_ptr<VertexArray> VertexArray;
         std::shared_ptr<Shader> Shader;
-        std::array<std::shared_ptr<Texture>, 32> TextureSlots;
-
-        uint32_t TextureIndex = 0;
-        Statistics Stats;
     };
 
     static RendererData s_RendererData;
@@ -147,19 +143,5 @@ namespace LFW {
     {
         std::cout << "glViewport changing\n";
         glViewport(0, 0, width, height);
-    }
-
-    //(Fix and chain over to application.cpp/h)
-    void Renderer::BindColorFromValues(glm::vec4 clrIn, static float clrOut[4])
-    {
-        clrIn[0] = clrOut[0];
-        clrIn[1] = clrOut[1];
-        clrIn[2] = clrOut[2];
-        clrIn[3] = 1.0f; //Transparency
-    }
-
-    Statistics Renderer::GetDrawCalls()
-    {
-        return s_RendererData.Stats;
     }
 }

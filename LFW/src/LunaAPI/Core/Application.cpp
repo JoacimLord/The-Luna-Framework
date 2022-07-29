@@ -127,6 +127,8 @@ namespace LFW {
 
 	void Application::SetIcon(std::string path)
 	{
+		//TODO: Destroy previous icon
+
 		GLFWwindow* window = (GLFWwindow*)GetWindow().GetOriginalWindow();
 		GLFWimage image[1];
 		image[0].pixels = stbi_load(path.c_str(), &image[0].width, &image[0].height, 0, 4);
@@ -135,7 +137,6 @@ namespace LFW {
 	}
 
 
-	//Add deltatime later
 	void Application::CheckInputForCamera(DeltaTime dt)
 	{
 		float x = LFW::Renderer::GetCameraPosition().x;
@@ -143,22 +144,22 @@ namespace LFW {
 		float z = LFW::Renderer::GetCameraPosition().z;
 
 		//Curr only works with arrows + left shift
-		if (LFW::Input::IsKeyPressed(LFW::Key::Left) && LFW::Input::IsKeyPressed(LFW::Key::LeftShift))
+		if (LFW::Input::IsKeyPressed(LFW::Key::Left))
 		{
 			x -= 0.05f * dt;
 			LFW::Renderer::SetCameraPosition( { x, y, z } );
 		}
-		else if (LFW::Input::IsKeyPressed(LFW::Key::Right) && LFW::Input::IsKeyPressed(LFW::Key::LeftShift))
+		else if (LFW::Input::IsKeyPressed(LFW::Key::Right))
 		{
 			x += 0.05f * dt;
 			LFW::Renderer::SetCameraPosition({ x, y, z });
 		}
-		if (LFW::Input::IsKeyPressed(LFW::Key::Down) && LFW::Input::IsKeyPressed(LFW::Key::LeftShift))
+		if (LFW::Input::IsKeyPressed(LFW::Key::Down))
 		{
 			y -= 0.05f * dt;
 			LFW::Renderer::SetCameraPosition({ x, y, z });
 		}
-		else if (LFW::Input::IsKeyPressed(LFW::Key::Up) && LFW::Input::IsKeyPressed(LFW::Key::LeftShift))
+		else if (LFW::Input::IsKeyPressed(LFW::Key::Up))
 		{
 			y += 0.05f * dt;
 			LFW::Renderer::SetCameraPosition({ x, y, z });
