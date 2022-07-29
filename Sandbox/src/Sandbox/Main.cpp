@@ -20,6 +20,7 @@ void LFW::Application::BuildUI()
 int main()
 {
 	std::cout << "Opening new window!\n"; //Console log
+	//LFW::Viewport::Init(false);
 	LFW::Application app("App");
 
 	//Example of how to load and set up a sprite with a texture and color! (Documentation will come later on)

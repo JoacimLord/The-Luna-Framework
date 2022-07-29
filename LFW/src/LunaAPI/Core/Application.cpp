@@ -9,18 +9,35 @@
 
 namespace LFW {
 
+	void Viewport::Init(bool state)
+	{
+		m_EnableViewport = state;
+	}
+	bool Viewport::IsEnabled()
+	{
+		return m_EnableViewport;
+	}
+
 	Application* Application::s_Instance = nullptr;
 
 	Application::Application(const std::string name) //by ref?
 	{
+		if (Viewport::IsEnabled()) std::cout << "Viewport enabled\n";
+		if (!Viewport::IsEnabled()) std::cout << "Viewport not enabled\n";
+
 		s_Instance = this;
 		m_Window = std::unique_ptr<WindowInterface>(WindowInterface::Create(name));
 		m_Window->SetEventCallback(DEFINE_EVENT_TYPE(OnEvent));
 	
 		Renderer::Init();
 
-		m_UI = std::make_unique<UI>();
-		m_UI->OnAttach(); //Needs to happen here, crashes if it gets called in ImGuiLayers constructor.
+		if (Viewport::IsEnabled())
+		{
+			m_UI = std::make_unique<UI>();
+			m_UI->OnAttach(); //Needs to happen here, crashes if it gets called in ImGuiLayers constructor.
+		}
+		//m_UI = std::make_unique<UI>();
+		//m_UI->OnAttach(); //Needs to happen here, crashes if it gets called in ImGuiLayers constructor.
 	}
 
 	void Application::OnEvent(Event& event)
@@ -84,14 +101,52 @@ namespace LFW {
 		m_Window->OnUpdate();
 	}
 
+
+
+	// COPY THESE!!!!
+
+	//This function also needs the branching of enabled viewport if the user chooses to use color values and not predefined. Remove???
 	void Application::Clear(float r, float g, float b, float transparent)
 	{
-		m_UI->BindFramebuffer(r, g, b, transparent);
+		if (Viewport::IsEnabled())
+		{
+			m_UI->BindFramebuffer(r, g, b, transparent);
+		}
+		//Added from the BindFB func if m_UI is nullptr
+		else if (!Viewport::IsEnabled())
+		{
+			Renderer::ClearColor(r, g, b, transparent);
+			Renderer::Clear();
+		}
 	}
 
 	void Application::Clear(glm::vec4& temp)
 	{
-		m_UI->BindFramebuffer(temp.x, temp.y, temp.z, temp.w);
+		//Original function
+		if (Viewport::IsEnabled())
+		{
+			m_UI->BindFramebuffer(temp.x, temp.y, temp.z, temp.w);
+		}
+		//Added from the BindFB func if m_UI is nullptr
+		else if (!Viewport::IsEnabled())
+		{
+			Renderer::ClearColor(temp.x, temp.y, temp.z, temp.w);
+			Renderer::Clear();
+		}
+	}
+
+	//This works, copy over this also!
+	void Application::Clear()
+	{
+		if (Viewport::IsEnabled())
+		{
+			m_UI->BindFramebuffer(0, 0, 0, 1);
+		}
+		else if (!Viewport::IsEnabled())
+		{
+			Renderer::ClearColor(0, 0, 0, 1);
+			Renderer::Clear();
+		}
 	}
 
 	void Application::Render(Sprite& sprite)
@@ -99,12 +154,27 @@ namespace LFW {
 		LFW::Renderer::Draw(sprite);
 	}
 
+
 	void Application::Display()
 	{
-		EndRendering();
-		DrawUI();
-		UpdateWindow();
+		//If enabled
+		if (Viewport::IsEnabled())
+		{
+			EndRendering();
+			DrawUI();
+			UpdateWindow();
+		}
+		//If not enabled
+		else if (!Viewport::IsEnabled())
+		{
+			UpdateWindow();
+		}
+
+		//EndRendering();
+		//DrawUI();
+		//UpdateWindow();
 	}
+
 
 	void Application::DrawUI()
 	{

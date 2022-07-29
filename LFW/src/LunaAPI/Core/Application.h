@@ -25,6 +25,25 @@
 
 namespace LFW {
 
+	//TODO: Thinking about moving this to be initialized in the application constructor instead
+	// 
+	//Sets a bool for the Dear ImGui Viewport
+	namespace Viewport
+	{
+		//RENAME!
+		//Init()
+		//IsEnabled()
+
+		static bool m_EnableViewport;
+		//If true this enables Dear ImGui in the application.
+		//If false, the application renders to the GLFW window instead.
+		void Init(bool state);
+
+		//Checks if the viewport is enabled, used in Application.cpp at initialization and Clear()-checks.
+		bool IsEnabled();
+	}
+
+
 	class Application
 	{
 	public:
@@ -49,6 +68,9 @@ namespace LFW {
 
 		//Clears the screens background with a pre defined color from LFW::Colors
 		void Clear(glm::vec4& temp); 
+
+		//Clears the screen with the default color (black)
+		void Clear();
 
 		//Renders target sprite to screen
 		void Render(Sprite& sprite);
