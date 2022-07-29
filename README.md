@@ -1,32 +1,13 @@
-# The Luna Framework(LFW) - Version 1.04.00
+# LFW (The Luna Framework) - Version 1.05.00
 
-Last update:
+LFW is a low level framework based on the API of my 3D game engine "Luna" (currently in development).
 
-- Added new defines (+ doc ), including new API call for creating and loading textures. (220623)
-- Added imgui.ini (+ doc ) for easier setup since the viewport window sometimes were missing at startup. (220623)
-- Added documentation for usage of the "Debug"-namespace. (220620)
-- Added a "Debug" namespace with functions to print text messages to a ImGui window with specified colors in runtime. (220620)
-- Added a basic math lib and LFW::Vector(Vec2, Vec3, Vec4) implementation with functionality. (220620)
-- Added documentation for LFW::Mathf:: and LFW::Vecs::. (220620)
-
-- Added a WIP implementation of a scene camera with some basic behaviours. Example in <Main.cpp> and below in 'API DOC'. (220612)
-- Added basic support for multiple shaders. Now possible to render textures and simple shader colors at the same time.   (220608)
-
-(last edited 220620)
+The intention of this framework is to build any kind of GUI app, but it's probably most suitable for simple 2D games at this stage.
+It currently only support development on Windows with Visual Studio Community 2019.
 
 
-
-"The Luna Framework"(LFW) is a low level framework based on the API of the game engine "Luna" (currently in development).
-
-The intention of this framework is to build any kind of GUI app, but it's probably most suitable for simple 2D games for now.
-It only supports 2D graphics and GUI, audio wil also be added in the near future.
-
+The framework has full 2D support but misses audio and font rendering, this is currently being worked on and will be added in the near future.
 The API is heavily based on the syntax of the library SFML with a similar setup for your main loop and rendering (examples of how you get started is in the Main.cpp file in the Sandbox project).
-The framework always renders graphics to a framebuffer that displays it in a ImGui window called "Viewport". Therefore, we need to #include <imgui/imgui.h> in our main file.
-
-
-If you don't want to use opengl for graphics and only intends to create a "ImGui-only" app, feel free to just use the ImGui-Viewport as your main window. 
-Support to turn off the viewport will come in a later update.
 
 
 Third party libraries in use:
@@ -38,211 +19,295 @@ Third party libraries in use:
 - stb_image
 
 
-
 # How to get started
 
 Simply clone, fork or download the project. Run the Setup.bat file to generate your solution.
 The only file that you need to include is the "Luna.h" header file and the <imgui/imgui.h> file.
-Feel free to use the Sandbox project as your starting point.
-
-The framework currently only supports development for Windows.
-
-# Viewport and branching
-
-The project uses the dockspace branch of Dear ImGui. Therefore everything is dockable in the window (including the viewport). The "screen" renders to the viewport window.
-This will probably be made optional in the future but we're rolling with this for know.
-
-Known issues:
- - Application currently crashes on right mouseclick. Wip.
+Feel free to to rename and use the Sandbox project as your starting point.
 
 
-# - API DOC -
+# - API DOCUMENTATION -
+
+## Modules
+
+ ### Simple LFW Example
+ ### Viewport
+ ### Application functionality
+ ### DeltaTime
+ ### Sprites
+ ### Input
+ ### Camera
+ ### MathF
+ ### Debug Panel
+ ### Application window functionality
 
 
- A simple example of a bare bones application
+
+# Simple LFW Example
+ A simple example of a bare bones application. This is included in the Sandbox/src/Main.cpp file.
 
 ```cpp
-//This includes the whole framework
 #include "LFW.h"
-
-//This needs to be included
 #include <imgui/imgui.h>
 
 //This needs to be included. If you don't want to use ImGui this can be left blank but still needs to be here!
-//Check out the ImGui repo for API documentation!
 void LFW::Application::BuildUI()
 {
 }
 
 int main()
 {
-	//How to initalize a window and name it. Recommended to use a smart ptr, this stack allocation is for demo purposes.
+	//How to initalize a window and name it.
 	LFW::Application app("App"); 
 
-	//Move directly into the while-loop, app.IsRunning() needs to be included here
 	while (app.IsRunning())
 	{
-		//These two are for rendering opengl in the viewport (graphics)
-		app.Clear(1.0f, 0.0f, 1.0f, 1.0f); //Initializes the viewport as a rendering texture
-
-		app.Render(); //To render graphics to the viewport, needs to take in a texture OR a color (vec4), and a GetTransform() from the Anchor class.
-
-		//If your application only need the ImGui setup, only keep this */
+		app.Clear(1.0f, 0.0f, 1.0f, 1.0f);
+		app.Render();
 		app.Display(); 
 	}
 }
-
 ```
 
-As you can see in the example we render to the window with a texture and an 'anchor'.
-The texture needs to be a pointer.
 
-An anchor is just a transform with a scale, translation and rotation combined.
-Initiate like:
+# Viewport
 
-```cpp
+The LFW framework renders to a Dear ImGui panel by default called "Viewport". This is done by rendering a texture of the screenspace into an image and displaying it in the panel.
+The Viewport also brings the ability to freely move and dock your own panels anywhere inside the application.
 
-LFW::Anchor anchor;
+This is a feature commonly used by standard applications but maybe not so much for games. Therefore it's possible to disable the feature and just render a "normal" GLFW window.
+To disable the ImGui viewport, simply call "LFW::Viewport::Init(false);" before you initialize the application.
 
-```
-
-From here you can control 3 attributes of the anchor:
-- Translation (position)
-- Size
-- Rotation (currently not working, will be fixed later)
-
-Anchors is needed for textures to know the location for their placement. Use it to place objects in your 2d scene.
-Remember to render the objects in the correct order as you want to display them.
-
-For example if you're rendering game objects:
-
-1. Background
-2. Props that is walkable
-3. Player
-4. Enemies
-5. Trees that's supposed to cover the characters
-
-(Support for layering by using the z-index will be added in a future update)
+Initializing the viewport to true if you want to use any Dear ImGui feature (build your own panels, the Debug Console Panel, etc).
 
 
-# ANCHOR & TEXTURE EXAMPLE
-
-Full example of rendering a texture to an anchor point on the screen:
-
+Example:
 ```cpp
 #include "LFW.h"
+#include <imgui/imgui.h>
 
-//This is to make it more clear and to "bind it" to an object.
-struct ExampleObject
-{
-	LFW::Anchor anchor; //Here we instantiate it
-
-	void SetPosition(float x, float y)
-	{
-		anchor.Translation.x = x;
-		anchor.Translation.y = y;
-	}
-	
-	void SetSize(float w, float h)
-	{
-		anchor.Scale.x = w;
-		anchor.Scale.y = h;
-	}
-};
-
-//Example UI, shows the framerate of the app!
+//This needs to be included. If you don't want to use ImGui this can be left blank but still needs to be here!
 void LFW::Application::BuildUI()
 {
-	ImGui::Begin("My own UI!");
-	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	ImGui::End();
 }
 
 int main()
 {
-	//How to initalize a window and name it
+	//This sets the viewport to not be initialized. Use true to init the viewport (and Dear ImGui).
+	LFW::Viewport::Init(false);
 	LFW::Application app("App"); 
 
-	//--------------------------------------------------------------
-	//Old API call for loading textures.
-	//--------------------------------------------------------------
-	//Texture loaded as a shared ptr. 'filepath' represents the filepath to whichever folder you store your assets in.
-	//std::shared_ptr<Luna::Texture> texture = std::make_shared<LFW::Texture>(filepath); //Old API, still supported
-
-	//--------------------------------------------------------------
-	//New API call for loading textures!
-	//--------------------------------------------------------------
-	LFW::AddTexture texture; //Creates a new texture
-	LFW::LoadTexture(texture, "path/red.png"); //Takes in the object and the filepath.
-
-
-	//Initiate the object and set it's size (width, height) and location (x, y)
-	ExampleObject object;
-	object.SetSize(50.0f, 50.0f);
-	object.SetPosition(600.0f, 350.0f);
-
-	//Move directly into the while-loop, app.IsRunning() needs to be included here as it's directly linked with a "close the window via the exit button" event
 	while (app.IsRunning())
 	{
-		//This is how you calculate deltatime with the API (to not have movement etc be depending on the framerate)
+		app.Clear(1.0f, 0.0f, 1.0f, 1.0f);
+		app.Render();
+		app.Display(); 
+	}
+}
+```
+
+
+# Application Functionality
+
+The application comes with some basic GLFW features that you come to expect.
+This includes:
+
+- SetTitle(std::string new_app_title)
+- SetIcon(std::string path_to_icon)
+
+- WIP! (Not ready for usage) SetDefaultIcon()
+- WIP! (Not ready for usage) SetCustomCursor()
+- WIP! (Not ready for usage) SetDefaultCursor()
+
+- SetWindowConstraint(float minWidth, float minHeight, float maxWidth, float maxHeight)
+- SetWindowMinSize(float minWidth, float minHeight)
+- SetWindowMaxSize(float maxWidth, float maxHeight)
+
+- SetMouseCursorVisibility(bool true/false)
+
+Use this funcionality after initializing the application.
+
+```cpp
+int main()
+{
+	//This sets the viewport to not be initialized. Use true to init the viewport (and Dear ImGui).
+	LFW::Application app("App"); 
+	app.SetTitle("Hello World");
+
+	std::string icon_file_path = "path.png";
+	app.SetIcon(icon_file_path);
+}
+```
+
+
+
+# DeltaTime
+DeltaTime is calculated to make your sprites and logic happen with frametime in consideration.
+```cpp
+int main()
+{
+	//How to initalize a window and name it.
+	LFW::Application app("App"); 
+
+	//For calculating frame time
+	float lastFrameTime = 0.0f;
+	while (app.IsRunning())
+	{
+		//Calculate delta
 		float elapsedTime = app.GetElapsedRuntime();
 		LFW::DeltaTime deltaTime = elapsedTime - lastFrameTime;
 		lastFrameTime = elapsedTime;
 
-		//Logic here, before we render
-
-		//Example of using the LunaAPI to take input from a keyboard and translate (move) the object by manipulating it's anchor point.
-		if (LFW::Input::IsKeyPressed(LFW::Key::Z))
-		{
-			object.anchor.Translation.x += 10.0f * deltaTime; //Moves the anchor to the right
-		}
-
-		//Clear the screen and set up the framebuffer, needs to happen every frame. Clear() can use both values and defined colors (LFW::Colors::)
 		app.Clear(1.0f, 0.0f, 1.0f, 1.0f);
-
-		//Then we render textures in the correct order (furthest "back" to the "front" as in the example list above)
-		//Render() can also take in a color instead of a texture (but it always needs a position, example in Main.cpp)
-		app.Render(texture, object.anchor.GetTransform()); //Renders the texture at the anchors position and with the anchors scale
-		
-		//Display our graphics, this needs to happen after rendering
-		app.Display();
+		app.Render();
+		app.Display(); 
 	}
 }
-
 ```
+
+
+
+# Sprites
+
+Initialize your sprites from the LFW namespace before the main loop of your application.
+```cpp
+
+LFW::Sprite texturedSprite;
+texturedSprite.filePath = "your_filepath_here_with_image_extension(.jpg, .png)";
+texturedSprite.SetTexture(texturedSprite.filePath);
+texturedSprite.SetSize(0.5f, 0.3f);
+texturedSprite.SetPosition(-0.5f, 0.0f);
+
+LFW::Sprite orangeSprite;
+orangeSprite.color = LFW::Colors::Orange;
+orangeSprite.SetSize(0.5f, 0.3f);
+orangeSprite.SetPosition(0.5f, 0.0f);
+```
+
+The sprite size is in 1:1 units from the cameras perspective and not in pixels.
+
+Sprite functionality:
+- SetTexture()
+- color (takes in a glm::vec4 value)
+- SetPosition(x, y)
+- SetSize(x, y)
+- .filePath (to load the texture)
+- SetRotation(X, Y, Z)
+
+Sprites use "anchors" to manipulate it's orientation in the 2D world. Anchors are just transforms that control position, size and rotation.
+
+This is needed for textures to know the location for their placement. Use it to place objects in your 2d scene.
+Remember to render the objects in the correct order as you want to display them.
+
+## Textures or color
+Sprites can load in a texture or a color defined by "spriteName.color = value;"
+If a texture filepath is defined, the sprite will always load the texture.
+If no filepath is defined the sprite uses the colorvalue (0 by default).
+Pre-defined colors can be found in the "LFW::Colors" namespace but you can also define your own with glm::vec4s.
+
+Make sure to have either the texture or color defined before rendering your sprite!
+
 
 
 # Input (keyboard & mouse)
 
-```cpp
+Use "LFW::Input" in runtime to trigger keypressed or mousepressed events. Mainly used to move around your sprites in realtime!
 
-if (LFW::Input::IsKeyPressed(LFW::Key::X))
+Example:
+```cpp
+if (LFW::Input::IsKeyPressed(LFW::Key::TheKeyYouWant))
 {
 	//Do something
 }
 
-if (LFW::Input::IsMouseButtonPressed(LFW::Mouse::ButtonLeft))
+if (LFW::Input::IsMouseButtonPressed(LFW::Mouse::TheMouseButtonYouWant))
 {
 	//Do something 
 }
+```
 
+
+
+Example of moving around a sprite using LFW::DeltaTime and the sprites LFW::Anchor:
+```cpp
+
+int main()
+{
+	//How to initalize a window and name it.
+	LFW::Application app("App"); 
+	//Init a sprite before the while loop of your application and set it's color, size and position
+	LFW::Sprite orangeSprite;
+	orangeSprite.color = LFW::Colors::Orange;
+	orangeSprite.SetSize(0.5f, 0.3f);
+	orangeSprite.SetPosition(0.5f, 0.0f);
+
+	//For calculating frame time
+	float lastFrameTime = 0.0f;
+
+	//Variable to store the speed of which the sprite should move
+	float playerSpeed = 1.0f;
+
+	while (app.IsRunning())
+	{
+		//Calculate delta
+		float elapsedTime = app.GetElapsedRuntime();
+		LFW::DeltaTime deltaTime = elapsedTime - lastFrameTime;
+		lastFrameTime = elapsedTime;
+
+		app.Clear(1.0f, 0.0f, 1.0f, 1.0f);
+		
+		///W key for moving up
+		if (LFW::Input::IsKeyPressed(LFW::Key::W))
+		{
+			orangeSprite.anchor.Translation.y += playerSpeed * deltaTime;
+		}
+
+		//S key for moving down
+		else if (LFW::Input::IsKeyPressed(LFW::Key::S))
+		{
+			orangeSprite.anchor.Translation.y -= playerSpeed * deltaTime;
+		}
+
+		//A key for moving left
+		if (LFW::Input::IsKeyPressed(LFW::Key::A))
+		{
+			orangeSprite.anchor.Translation.x -= playerSpeed * deltaTime;
+		}
+
+		//D key for moving right
+		else if (LFW::Input::IsKeyPressed(LFW::Key::D))
+		{
+			orangeSprite.anchor.Translation.x += playerSpeed * deltaTime;
+		}
+
+
+		app.Render(orangeSprite);
+		app.Display(); 
+	}
+}
 ```
 
 # Camera (Controls & 'Follow')
 
-These functions will be changed and moved to a seperate CameraController class (or something like that :)), this is heavy WIP and currently only for demo purposes!
+The application always renderers the sprites using a basic orthographic camera (flat for 2D).
+The camera can be controlled with the Arrow-keys (customizable keys will come later on).
+It's also possible to set the camera to follow a specific Transform (Anchor). A little confusing but it's the same thing!
+
 ```cpp
 
-	//Enables controls for the camera. Current control scheme: LeftShift + Arrows
-	app.CheckInputForCamera();
+	//Enables controls for the camera. Current control scheme: Arrow-keys.
+	//This function needs to have the DeltaTime variable passed in.
+	//The option of a camera that can be controlled without DeltaTime is in progress.
+	app.CheckInputForCamera(deltaTime);
 
-	//Sets the cameras position to be the same as the passed in vec3 (for example the Anchors 'Translation')
-	app.SetCameraToFollowTransform(demoObject.anchor.Translation);
+	//Sets the cameras position follow a specific anchor point.
+	app.SetCameraToFollowTransform(orangeSprite.anchor);
 
 ```
 
 # Vectors
 
+LFWs own implementation of vectors. This is heavily WIP and I recommend to just use the glm library for vectors.
 These structs can be initialized with and without constructor arguments to set length.
 ```cpp
 
@@ -251,25 +316,10 @@ These structs can be initialized with and without constructor arguments to set l
 	LFW::Vec3 vec3;
 	LFW::Vec3 vec4;
 ```
-Current Vector Functionality
-
-	- (IMPLEMENTED) Add() --------------- Adds to the current vector with value or another vector of the same type
-	- (IMPLEMENTED) Sub() --------------- Subtracts from the current vector with value or another vector of the same type
-	- (IMPLEMENTED) Set() --------------- Sets the values of current vector with value or another vector of the same type
-	- (IMPLEMENTED) Constructors -------- Default (all values set to 0), Copy constructor (pass in another vector), Set single values, etc
-	- (IMPLEMENTED) ToString() ---------- Returns the vectors sepererated values, only for debug
-	- (IMPLEMENTED) ToStringTotal() ----- Returns the vectors total sum of values, only for debug
-	- (WIP) Distance() ------------------ WIP
-	- (WIP) Lerp() ---------------------- WIP
-	- (WIP) Max() ----------------------- WIP
-	- (WIP) Min() ----------------------- WIP
-	- (WIP) Scale() --------------------- WIP
-	- (WIP) Normalize() ----------------- WIP
-
-
 
 # Math Lib
 
+Small Math lib inmplemented in LFW for mathematical operations.
 ```cpp
 
 	//How to use LFW::Mathf
@@ -283,12 +333,12 @@ Current Vector Functionality
 
 Current Math Lib Functionality
 
-	Floor() -- Adds to the current vector with value or another vector of the same type
+	Floor() -- Returns the largest integer smaller than or equal to (f)
 	Clamp() -- Returns the given value between those numbers. Example: 1 & 3 return 2.
-	PI() ----- Returns the PI number with 7,9 or 11 floating number
-	Sqrt() --- Returns the sqrt of argument value (support for int, float & double)
-	Max() ---- Returns largest of two values
-	Min() ---- Returns smallest of two values
+	PI() ----- Returns the PI number with 7,9 or 11 floating number.
+	Sqrt() --- Returns the sqrt of argument value (support for int, float & double).  Wrapper around std::sqrt().
+	Max() ---- Returns the largest of two values
+	Min() ---- Returns the smallest of two values
 
 
 # Mathf Testcases
@@ -301,20 +351,17 @@ Current Math Lib Functionality
 	std::cout << "Biggest value of 30 and 1: " << LFW::MathF::Max(30.0f, 1.0f) << "\n";
 	std::cout << "Biggest value of 14 and 14: " << LFW::MathF::Max(14.0f, 14.0f) << "\n";
 	
-
 	//MIN()
 	std::cout << "Smallest value of 10 and 5: " << LFW::MathF::Min(5.0f, 10.0f) << "\n";
 	std::cout << "Smallest value of 30 and 1: " << LFW::MathF::Min(30.0f, 1.0f) << "\n";
 	std::cout << "Smallest value of 14 and 14: " << LFW::MathF::Min(14.0f, 14.0f) << "\n";
 	
-
 	// CLAMP()
 	LFW::MathF::Clamp(0,5);    //Prints 5
 	LFW::MathF::Clamp(3, 5);   //Prints 2
 	LFW::MathF::Clamp(-2, 12); //Prints 14
 	LFW::MathF::Clamp(-5,5);   //Prints 10
 	
-
 	//FLOOR()
 	LFW::MathF::Floor(10.0f);  //Prints 10
 	LFW::MathF::Floor(10.2f);  //Prints 10
@@ -329,7 +376,9 @@ Current Math Lib Functionality
 
 # "Debug" namespace
 
-Needs to be added to the UI function for usage in your application
+The Debug namespace contains my own version of a Dear ImGui panel that functions as a Console Log Window.
+To build the Debug Log Panel the Viewport needs to be initialized, <imgui> included in your Main file and the LFW::Application::BuildUI() added to your file.
+
 ```cpp
 	//Build your own UI here by declairing this function!
 	void LFW::Application::BuildUI()
@@ -338,7 +387,6 @@ Needs to be added to the UI function for usage in your application
 	}
 
 ```
-
 
 Add a Debug::Log(msg, int) in your Main.cpp to choose a specific color.
 0 - Green
@@ -363,50 +411,18 @@ This can also be used in runtime like the example below
 	if (LFW::Input::IsKeyPressed(LFW::Key::Space)) Debug::Log("Spacebar was pressed!");
 ```
 
-# Defines
 
-Just to save on typing! :)
 
-```cpp
-	using str = std::string; //std::string
-	using i16 = uint16_t;    //uint16
-	using i32 = uint32_t;    //uint32
-	using i64 = uint64_t;    //uint64
-```
 
-# AddTexture & LoadTexture
 
-This is a new method of creating and loading textures, just to save on typing and make it a little bit cleaner. Both ways currently works!
 
-Old method:
-```cpp
-	const char* filePath = "path/red.png";
-	std::shared_ptr<LFW::Texture> texture = std::make_shared<LFW::Texture>(filePath);
-```
 
-New method:
-
-```cpp
-	LFW::AddTexture redSquare;
-	LFW::LoadTexture(redSquare, "path/red.png"); //Also takes in a const char*
-```
 
 
 # Disclaimer
 
 I don't recommend to use any other API calls than the ones reachable from the Application class.
 This documentation is heavily in progress.
-
-
-# Remember to always
-
-0. Don't forget to include the correct files and the imgui-function (and leave it blank if you don't want it)!
-1. Instantiate the window with a title
-2. Instantiate other objects and then use a while-loop that checks IsRunning()
-3. Game logic goes here (for example input and such that needs to be checked every fram)!
-4. Clear the window and prepare the framebuffer
-5. Render your graphics
-6. Display
 
 
 
