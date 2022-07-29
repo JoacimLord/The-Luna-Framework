@@ -1,26 +1,30 @@
-//"THE LUNA FRAMEWORK" (LFW) - Last edited 220715
+//Welcome to LFW(THE LUNA FRAMEWORK)!
+/*
+	@author Joacim Lord.
+	<This project was last edited 220729>
+*/
 
-#include "LFW.h"		 //Contains everything you need!
-#include <imgui/imgui.h> //Needed if you want to build your own UI.
 
+//Contains everything you need!
+#include "LFW.h"
 
-//Build your own UI here by declairing this function!
+//Needed if you want to build your own UI.
+#include <imgui/imgui.h>
+
 void LFW::Application::BuildUI()
 {
-	static float clrEdit4[4] = { 0.4f, 0.7f, 0.0f, 0.5f };
-	//Comment out / remove to not use ImGui
+	//Basic example to show the framerate of your application
 	ImGui::Begin("My own UI!");
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	ImGui::ColorEdit4("Color", clrEdit4); //This is for the demo. Possible to use glm::value_ptr() instead and point to the actual variable.
 	ImGui::End();
+
+	//Builds the debug panel
 	LFW::Debug::BuildLogWindow();
 }
 
-
 int main()
 {
-	std::cout << "Opening new window!\n"; //Console log
-	//LFW::Viewport::Init(false);
+	LFW::Viewport::Init(true);
 	LFW::Application app("App");
 
 	//Example of how to load and set up a sprite with a texture and color! (Documentation will come later on)
@@ -29,16 +33,13 @@ int main()
 	texturedSprite.filePath = "your_filepath_here_with_image_extension(.jpg, .png)";
 	texturedSprite.SetTexture(texturedSprite.filePath);
 	texturedSprite.SetSize(0.5f, 0.3f);
-	texturedSprite.SetPosition(0.0f, 0.0f);
+	texturedSprite.SetPosition(-0.5f, 0.0f);
 
 	LFW::Sprite orangeSprite;
 	orangeSprite.color = LFW::Colors::Orange;
 	orangeSprite.SetSize(0.5f, 0.3f);
-	orangeSprite.SetPosition(0.5f, 0.5f);
+	orangeSprite.SetPosition(0.5f, 0.0f);
 
-
-	//Un-comment to show GUI examples (ImGui).
-	//app.ShowImGuiDemoWindow();
 
 	//For calculating frame time
 	float lastFrameTime = 0.0f;
@@ -53,20 +54,9 @@ int main()
 
 		app.Clear(LFW::Colors::Grey);
 
-		//Debug examples
-		if (LFW::Input::IsKeyPressed(LFW::Key::Space))
-		{
-			LFW::Debug::Log("Msg_WhiteColor");
-			LFW::Debug::Log("Msg_GreenColor", 0);
-			LFW::Debug::Log("Msg_YellowColor", 1);
-			LFW::Debug::Log("Msg_OrangeColor", 2);
-			LFW::Debug::Log("Msg_RedColor", 3);
-		}
-
 		app.Render(texturedSprite);
 		app.Render(orangeSprite);
 
 		app.Display();
 	}
-	std::cout << "Closing window...\n";
 }
