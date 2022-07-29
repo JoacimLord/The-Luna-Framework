@@ -25,7 +25,7 @@ namespace LFW {
 		uint32_t Width;
 		uint32_t Height;
 
-		Window(const std::string& title = "Luna Engine",
+		Window(const std::string& title = "LFW App",
 			uint32_t width = 1280,
 			uint32_t height = 720)
 			: Title(title), Width(width), Height(height)
