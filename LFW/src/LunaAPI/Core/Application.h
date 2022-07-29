@@ -51,7 +51,7 @@ namespace LFW {
 		void Clear(glm::vec4& temp); 
 
 		//Renders target sprite to screen
-		void Render(Sprite sprite);
+		void Render(Sprite& sprite);
 
 		//Needs to be called at the end of each frame (furthest down in while loop). Clears frame buffers and displays graphics
 		void Display();

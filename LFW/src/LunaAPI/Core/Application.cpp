@@ -94,7 +94,7 @@ namespace LFW {
 		m_UI->BindFramebuffer(temp.x, temp.y, temp.z, temp.w);
 	}
 
-	void Application::Render(Sprite sprite)
+	void Application::Render(Sprite& sprite)
 	{
 		LFW::Renderer::Draw(sprite);
 	}
