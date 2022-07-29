@@ -22,7 +22,6 @@ namespace LFW {
 		void OnAttach();
 		void OnDetach();
 		void OnEvent(Event& event);
-		bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& e);
 		void BlockEvent(bool block) { blockevents = block; }
 
 		void StartRenderFrame();

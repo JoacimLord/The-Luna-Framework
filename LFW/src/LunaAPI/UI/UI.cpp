@@ -56,13 +56,6 @@ namespace LFW {
 		ImGui::DestroyContext();
 	}
 
-	bool UI::OnMouseButtonPressedEvent(MouseButtonPressedEvent& e)
-	{
-		//test
-		std::cout << "Mousepress\n";
-		return false;
-	}
-
 	void UI::OnEvent(Event& event) 
 	{ 
 		if (blockevents)
@@ -73,8 +66,8 @@ namespace LFW {
 			std::cout << "Blocked event from app";
 		}
 
-		EventDispatcher dispatcher(event); 
-		dispatcher.Dispatch<MouseButtonPressedEvent>(DEFINE_EVENT_TYPE(UI::OnMouseButtonPressedEvent));
+		//EventDispatcher dispatcher(event); 
+		//dispatcher.Dispatch<MouseButtonPressedEvent>(DEFINE_EVENT_TYPE(UI::OnMouseButtonPressedEvent));
 	}
 
 
