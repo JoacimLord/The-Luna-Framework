@@ -4,11 +4,22 @@
 
 namespace LFW {
 
+	Sprite::Sprite(glm::vec2 position, glm::vec2 size)
+	{
+		anchor.Translation.x = position.x;
+		anchor.Translation.y = position.y;
+
+		anchor.Scale.x = size.x;
+		anchor.Scale.y = size.y;
+	}
 
 	void Sprite::SetTexture(std::string path)
 	{
-		//debug msg here, if path is empty
-		if (path == "") return;
+		if (path == "")
+		{
+			std::cout << "Texture path for sprite was invalid\n";
+			return;
+		}
 
 		if(filePath != "") LoadTexture(texture, filePath.c_str());
 		else LoadTexture(texture, path.c_str());

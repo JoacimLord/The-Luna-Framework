@@ -7,6 +7,7 @@
 
 namespace LFW {
 
+	//TODO: Rename to Transform?
 	struct Anchor
 	{
 		glm::vec3 Translation = { 0.0f, 0.0f, 0.0f };
