@@ -1,7 +1,7 @@
 //Welcome to LFW(THE LUNA FRAMEWORK)!
 /*
 	@author Joacim Lord.
-	<This project was last edited 220729>
+	<This project was last edited 220816>
 */
 
 //Contains everything you need!
@@ -30,6 +30,7 @@ int main()
 	//Add your own filepath, the example is placeholder!
 	LFW::Sprite texturedSprite;
 	texturedSprite.filePath = "your_filepath_here_with_image_extension(.jpg, .png)";
+	texturedSprite.pixelated = false;
 	texturedSprite.SetTexture(texturedSprite.filePath);
 	texturedSprite.SetSize(0.5f, 0.3f);
 	texturedSprite.SetPosition(-0.5f, 0.0f);

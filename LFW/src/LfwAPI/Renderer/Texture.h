@@ -13,7 +13,7 @@ namespace LFW {
 		uint32_t m_Type;
 
 		//Texture() = default;
-		Texture(const char* image);
+		Texture(const char* image, bool pixelation);
 		~Texture();
 
 		void Bind();

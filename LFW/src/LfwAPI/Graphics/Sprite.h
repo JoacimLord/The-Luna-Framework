@@ -24,13 +24,14 @@ namespace LFW {
 
 		//The filepath to the sprites texture
 		std::string filePath = "";
+		bool pixelated = false;
 
 		//The color of the sprite. 
 		//Default value is 0.
 		glm::vec4 color = glm::vec4(0.0f);
 
 		//Sets and loads a texture for the sprite. Use the filePath variable or write the filepath in the function argument
-		void SetTexture(std::string path);
+		void SetTexture(std::string path = "");
 
 		//Sets the position of the sprite in 2D space (x, y)
 		void SetPosition(float x, float y);

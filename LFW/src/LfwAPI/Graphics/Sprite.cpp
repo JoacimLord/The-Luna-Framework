@@ -17,12 +17,11 @@ namespace LFW {
 	{
 		if (path == "")
 		{
-			std::cout << "Texture path for sprite was invalid\n";
+			std::cout << "Texture path for sprite was invalid, checking sprites filepath\n";
+			if(filePath != "") LoadTexture(texture, filePath.c_str(), pixelated);
 			return;
 		}
-
-		if(filePath != "") LoadTexture(texture, filePath.c_str());
-		else LoadTexture(texture, path.c_str());
+		else LoadTexture(texture, path.c_str(), pixelated);
 	}
 
 	void Sprite::SetPosition(float x, float y)

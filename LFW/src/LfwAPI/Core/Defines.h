@@ -20,9 +20,9 @@ namespace LFW {
 	using AddTexture = std::shared_ptr<LFW::Texture>;
 
 	template <typename T>
-	void LoadTexture(std::shared_ptr<T>& t, const char* argument)
+	void LoadTexture(std::shared_ptr<T>& t, const char* argument, bool pixelation)
 	{
-		t = std::make_shared<T>(argument);
+		t = std::make_shared<T>(argument, pixelation);
 	}
 
 
