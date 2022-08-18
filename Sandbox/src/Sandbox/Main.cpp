@@ -40,6 +40,11 @@ int main()
 	orangeSprite.SetSize(0.5f, 0.3f);
 	orangeSprite.SetPosition(0.5f, 0.0f);
 
+	//Example of the Audio Engine
+	const char* soundFilePath = "";
+	LFW::AudioEngine audioEngine;
+	audioEngine.PlayAudioFromFile(soundFilePath);
+
 
 	//For calculating frame time
 	float lastFrameTime = 0.0f;

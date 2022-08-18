@@ -1,4 +1,4 @@
-# LFW (The Luna Framework) - Version 1.05.00
+# LFW (The Luna Framework) - Version 1.10.00
 
 LFW is a low level framework based on the API of my 3D game engine "Luna" (currently in development).
 
@@ -17,6 +17,7 @@ Third party libraries in use:
 - GLFW
 - glm
 - stb_image
+- miniaudio
 
 
 
@@ -43,6 +44,7 @@ Feel free to to rename and use the Sandbox project as your starting point.
  ### - Math Library
  ### - Debug Panel
  ### - Application window functionality
+ ### - AudioEngine
 
 
 
@@ -202,12 +204,13 @@ orangeSprite.SetPosition(0.5f, 0.0f);
 The sprite size is in 1:1 units from the cameras perspective and not in pixels.
 
 Sprite functionality:
-- SetTexture()
+- SetTexture(takes in a filepath or uses the filepath variable as default if no argument is passed)
 - color (takes in a glm::vec4 value)
 - SetPosition(x, y)
 - SetSize(x, y)
 - .filePath (to load the texture)
 - SetRotation(X, Y, Z)
+- pixelated (needs to be set to true if the texture in use is pixelart, else it's set to false as default)
 
 Sprites use "anchors" to manipulate it's orientation in the 2D world. Anchors are just transforms that control position, size and rotation.
 
@@ -429,14 +432,43 @@ This can also be used in runtime like the example below
 
 
 
+# AudioEngine
+
+This part of the framework is currently heavily in development to get the API right and to have the functionality required.
+Currently it supports playing audio from files in .wav format (the only format tested and confirmed that it's working properly), looping, setting the volume and saving the filepath in my own basic resource manager.
+
+Basic example:
+```cpp
+
+	//Instantiate the engine
+	LFW::AudioEngine engine;
+
+	//Sets the master volume with an integer. 0 is silent, 1 is "max"
+	engine.SetMasterVolume(value);
+
+	//Play a .wav file from source, plays once
+	engine.PlayAudioFromFile("filepath");
+
+	//Play a .wav file from source, loops
+	engine.PlayAudioWithLooping("filepath");
+
+	//Add a single const char* filePath to a sound file to an unordered map with a specified key
+	engine.AddSoundToMap(key, value);
+
+	//Retrieves a const char* value with a specified key
+	engine.GetSoundFromMap(key);
+```
+
+
+
 # Disclaimer
 
-I don't recommend to use any other API calls than the ones reachable from the Application class.
 This repo and documentation is heavily in progress and will be frequently changed!
 
 Features soon to come:
-- Audio
-- Font rendering
+- [X] Audio
+- [ ] Font rendering
+- [ ] Mouse Position from screen to world coordinates
 
 
 Thanks for using my framework in your own project <3
