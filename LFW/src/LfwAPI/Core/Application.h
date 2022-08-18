@@ -46,10 +46,6 @@ namespace LFW {
 		Application(const std::string name);
 		~Application() = default;
 
-		//------------
-		//API for the main.cpp (app dev) -> All user interaction happens from here!
-		//------------
-
 		//Initiates Dear ImGui's own demo window.
 		//This needs the viewport to be set to true.
 		void ShowImGuiDemoWindow();

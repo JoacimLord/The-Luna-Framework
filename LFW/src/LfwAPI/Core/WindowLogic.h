@@ -27,15 +27,6 @@ namespace LFW {
 		uint32_t GetWidth() override { return m_Data.Width; }
 		uint32_t GetHeight() override { return m_Data.Height; }
 
-		//TODO! (220615)
-		//SetTitle()
-		//SetWindowIcon()
-		//SetLockedFramerate()
-		//CheckIfFocused()
-		//GetCursor()
-		//SetCursor()
-		//SetCursorMode()
-
 		void SetEventCallback(const EventCallBackFn& callback) override { m_Data.EventCallback = callback; }
 
 		//Setup for callback
