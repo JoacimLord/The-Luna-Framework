@@ -16,21 +16,34 @@
 
 namespace LFW {
 
+
+	struct OrthoCamBounds
+	{
+		float Left, Right, Bottom, Top;
+		float GetWidth() { return Right - Left; }
+		float GetHeigt() { return Top - Bottom; }
+	};
+
 	//OrthoCam - WIP
 	class OrthoCam
 	{
 	public:
+		OrthoCamBounds bounds;
 		glm::mat4 projMatrix;
 		glm::mat4 viewMatrix;
 		glm::mat4 viewProjMatrix;
 
 		glm::vec3 pos = { 0.0f, 0.0f, 0.0f };
 		float rotation = 0.0f;
+		float aspectRatio;
+		float zoomLevel = 1.0f;
 
 		OrthoCam(float l, float r, float b, float t)
 			: projMatrix(glm::ortho(l, r, b, t, -1.0f, 1.0f))
 		{
+			aspectRatio = 16.0f / 9.0f;
 			RecalcMatrix();
+			SetProjection(l, r, b, t);
 		}
 
 		const glm::vec3& GetPos() const { return pos; }
@@ -44,6 +57,18 @@ namespace LFW {
 			viewProjMatrix = projMatrix * viewMatrix;
 		}
 		void SetPos(const glm::vec3& temppos) { pos = temppos; RecalcMatrix(); }
+
+		void SetProjection(float left, float right, float bottom, float top)
+		{
+			projMatrix = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
+			viewProjMatrix = projMatrix * viewMatrix;
+		}
+		void OnResize(float width, float height)
+		{
+			aspectRatio = width / height;
+			bounds = {-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel};
+			SetProjection(bounds.Left, bounds.Right, bounds.Bottom, bounds.Top);
+		}
 	};
 
 	class Renderer
@@ -64,7 +89,6 @@ namespace LFW {
 
 		static void OnWindowResize(float width, float height);
 
-		static void ClearFrame(float r, float g, float b, float transparent);		
 
 		static OrthoCam GetCamera();
 		static void SetCameraPosition(const glm::vec3 temppos);
