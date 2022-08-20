@@ -6,10 +6,6 @@ The intention of this framework is to build any kind of GUI app, but it's probab
 It currently only support development on Windows with Visual Studio Community 2019.
 
 
-The framework has full 2D support but misses audio and font rendering, this is currently being worked on and will be added in the near future.
-The API is heavily based on the syntax of the library SFML with a similar setup for your main loop and rendering (examples of how you get started is in the Main.cpp file in the Sandbox project).
-
-
 Third party libraries in use:
 
 - Glad
@@ -23,11 +19,9 @@ Third party libraries in use:
 
 # How to get started
 
-Simply clone, fork or download the project. Run the Setup.bat file to generate your solution.
+Clone, fork or download the project, and run the Setup/Setup.bat file to generate your solution.
 The only file that you need to include is the "LFW.h" header file and the <imgui/imgui.h> file.
-Feel free to to rename and use the Sandbox project as your starting point.
-
-
+I suggest to rename the Sandbox project and use that as your starting point!
 
 
 # - API DOCUMENTATION
@@ -48,9 +42,8 @@ Feel free to to rename and use the Sandbox project as your starting point.
 
 
 
-
 # Simple LFW Example
- A simple example of a bare bones application. This is included in the Sandbox/src/Main.cpp file.
+ A simple example of a "bare bones" application. This is included in the Sandbox/src/Main.cpp file.
 
 ```cpp
 #include "LFW.h"
@@ -159,7 +152,7 @@ int main()
 
 
 # DeltaTime
-DeltaTime is calculated to make your sprites and logic happen with frametime in consideration.
+DeltaTime is calculated to make your sprites and logic update with frametime in consideration.
 ```cpp
 int main()
 {
@@ -217,6 +210,24 @@ Sprites use "anchors" to manipulate it's orientation in the 2D world. Anchors ar
 This is needed for textures to know the location for their placement. Use it to place objects in your 2d scene.
 Remember to render the objects in the correct order as you want to display them.
 
+Examples of how to load the texture of sprites
+```cpp
+
+//Using the sprites filepath variable
+LFW::Sprite sprite_1;
+sprite_1.filePath = "your_filepath_here_with_image_extension";
+sprite_1.SetTexture(texturedSprite.filePath);
+
+//Passing it in the function
+LFW::Sprite sprite_2;
+sprite_2.SetTexture("your_filepath_here_with_image_extension");
+
+//Setting the filepath and then calling the function with no arguments
+LFW::Sprite sprite_3;
+sprite_3.filePath = "your_filepath_here_with_image_extension";
+sprite_3.SetTexture();
+```
+
 ## Textures or color
 Sprites can load in a texture or a color defined by "spriteName.color = value;"
 If a texture filepath is defined, the sprite will always load the texture.
@@ -229,7 +240,7 @@ Make sure to have either the texture or color defined before rendering your spri
 
 # Input (keyboard & mouse)
 
-Use "LFW::Input" in runtime to trigger keypressed or mousepressed events. Mainly used to move around your sprites in realtime!
+Use "LFW::Input" to access keypressed or mousepressed events.
 
 Example:
 ```cpp
@@ -243,7 +254,6 @@ if (LFW::Input::IsMouseButtonPressed(LFW::Mouse::TheMouseButtonYouWant))
 	//Do something 
 }
 ```
-
 
 
 Example of moving around a sprite using LFW::DeltaTime and the sprites LFW::Anchor:
@@ -307,9 +317,10 @@ int main()
 
 # Camera (Controls & 'Follow')
 
-The application always renderers the sprites using a basic orthographic camera (flat for 2D).
+The application always renderers the sprites using a basic orthographic camera.
 The camera can be controlled with the Arrow-keys (customizable keys will come later on).
 It's also possible to set the camera to follow a specific Transform (Anchor). A little confusing but it's the same thing!
+Reach it from the Application object.
 
 ```cpp
 
@@ -388,8 +399,7 @@ Mathf Testcases
 	LFW::MathF::Floor(-10.7f); //Prints -11
 	LFW::MathF::Floor(-20.9f); //Prints -21
 	LFW::MathF::Floor(-13.6f); //Prints -14
-	LFW::MathF::Floor(10.7f);	 //Prints 10
-
+	LFW::MathF::Floor(10.7f);  //Prints 10
 
 
 
@@ -435,7 +445,7 @@ This can also be used in runtime like the example below
 # AudioEngine
 
 This part of the framework is currently heavily in development to get the API right and to have the functionality required.
-Currently it supports playing audio from files in .wav format (the only format tested and confirmed that it's working properly), looping, setting the volume and saving the filepath in my own basic resource manager.
+Currently it supports playing audio from files, looping, setting the volume and saving the filepath in my own basic resource manager.
 
 Basic example:
 ```cpp
@@ -446,16 +456,16 @@ Basic example:
 	//Sets the master volume with an integer. 0 is silent, 1 is "max"
 	engine.SetMasterVolume(value);
 
-	//Play a .wav file from source, plays once
+	//Play a .wav file from source, plays once (uses miniaudios ma_engine)
 	engine.PlayAudioFromFile("filepath");
 
-	//Play a .wav file from source, loops
+	//Play a .wav file from source, loops (uses miniaudios ma_device)
 	engine.PlayAudioWithLooping("filepath");
 
-	//Add a single const char* filePath to a sound file to an unordered map with a specified key
+	//Add a single const char* filePath to a sound file to an unordered map with a specified key. WIP.
 	engine.AddSoundToMap(key, value);
 
-	//Retrieves a const char* value with a specified key
+	//Retrieves a const char* value with a specified key. WIP.
 	engine.GetSoundFromMap(key);
 ```
 
@@ -466,9 +476,10 @@ Basic example:
 This repo and documentation is heavily in progress and will be frequently changed!
 
 Features soon to come:
-- [X] Audio
-- [ ] Font rendering
+- [ ] Fonts
 - [ ] Mouse Position from screen to world coordinates
+- [ ] Support for spritesheets (currently has to have each sprite in their seperate files)
+- [ ] Sprite batching
 
 
 Thanks for using my framework in your own project <3
