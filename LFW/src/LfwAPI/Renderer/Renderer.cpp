@@ -6,8 +6,6 @@
 
 namespace LFW {
     
-    //const uint32_t QUAD_SIZE = 6;
- 
     struct RendererData
     {
         const uint32_t QUAD_SIZE = 6;
@@ -25,21 +23,22 @@ namespace LFW {
     static float r = 1.6f;
     static float b = -0.9f;
     static float t = 0.9f;
-    static OrthoCam s_OrthoCam(l, r, b, t);
+    static OrthographicCamera s_OrthoCam(l, r, b, t);
 
     void Renderer::Init()
     {
-        const std::string textureShaderFile = "txt";
-        const std::string colorShaderFile = "clr";
+        std::string TextureShaderFile = "txt";
+        std::string ColorShaderFile = "clr";
 
         OpenGLEnables();
 
+        //Texture
         s_RendererData.TextureVertexArray = std::make_shared<VertexArray>();
-        s_RendererData.TextureShader = std::make_shared<Shader>(textureShaderFile);
+        s_RendererData.TextureShader = std::make_shared<Shader>(TextureShaderFile);
 
-        //Clr
+        //Color
         s_RendererData.ColorVertexArray = std::make_shared<VertexArray>();
-        s_RendererData.ColorShader = std::make_shared<Shader>(colorShaderFile);
+        s_RendererData.ColorShader = std::make_shared<Shader>(ColorShaderFile);
 
         GLfloat vertices[] =
         {
@@ -78,19 +77,19 @@ namespace LFW {
         glClearColor(r, g, b, transparent);
     }
 
-    OrthoCam Renderer::GetCamera()
+    OrthographicCamera Renderer::GetCamera()
     {
         return s_OrthoCam;
     }
 
     void Renderer::SetCameraPosition(const glm::vec3 temppos)
     {
-        s_OrthoCam.SetPos(temppos);
+        s_OrthoCam.SetPosition(temppos);
     }
 
     glm::vec3 Renderer::GetCameraPosition()
     {
-        return GetCamera().GetPos();
+        return GetCamera().GetPosition();
     }
 
     void Renderer::Draw(Sprite& sprite)
