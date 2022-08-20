@@ -117,10 +117,12 @@ namespace LFW {
 		WindowInterface& GetWindow() const { return *m_Window; }
 
 	private:
+		//Handles application events
 		void OnEvent(Event& event);
 		bool OnWindowCloseEvent(WindowCloseEvent& e);
 		bool OnWindowResizeEvent(WindowResizeEvent& e);
 
+		//Private functions for handling rendering
 		void UpdateGUI();
 		void EndRendering();
 		void UpdateWindow();

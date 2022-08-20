@@ -16,9 +16,10 @@ namespace LFW {
 	template <typename T>
 	using Vec = std::vector<T>;
 
-	//Add
+	//Adds unitialized texture
 	using AddTexture = std::shared_ptr<LFW::Texture>;
 
+	//Loads texture
 	template <typename T>
 	void LoadTexture(std::shared_ptr<T>& t, const char* argument, bool pixelation)
 	{

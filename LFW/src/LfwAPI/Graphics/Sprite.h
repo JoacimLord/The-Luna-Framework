@@ -24,6 +24,8 @@ namespace LFW {
 
 		//The filepath to the sprites texture
 		std::string filePath = "";
+
+		//Sets pixelation in texture (GL_NEAREST)
 		bool pixelated = false;
 
 		//The color of the sprite. 

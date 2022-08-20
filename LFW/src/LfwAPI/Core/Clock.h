@@ -4,6 +4,7 @@
 
 namespace LFW {
 
+	//Formats for easier usage when printing elapsed tiume
 	namespace ClockFormats
 	{
 		const char* ZERO_DECIMAL = "%.0f";
@@ -18,10 +19,20 @@ namespace LFW {
 	{
 	public:
 		Clock();
+
+		//Resets timer, called at construction
 		void Reset();
+
+		//Returns elapsed time since object instatiation
 		float Elapsed();
+
+		//Returns elapsed time since object instatiation
 		float ElapsedMilliSeconds();
+
+		//Prints elapsed time with specified format
 		void PrintElapsedTime(const char* format);
+
+		//Resets timer after a certain time har passed
 		void ResetAfterSeconds(const int seconds);
 
 	private:

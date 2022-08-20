@@ -12,7 +12,10 @@ namespace LFW {
 
 		operator float() const { return m_Time; }
 
+		//Return time
 		float GetSeconds() const { return m_Time; }
+
+		//Return time in ms
 		float GetMilliSeconds() const { return m_Time * 1000.0f; } //seconds * 1000 (milli)
 
 	private:
