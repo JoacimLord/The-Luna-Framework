@@ -9,8 +9,6 @@ namespace LFW {
 	{
 	public:
 		unsigned int id;
-		uint32_t m_ID;
-		uint32_t m_Type;
 
 		//Texture() = default;
 		Texture(const char* image, bool pixelation);
@@ -18,5 +16,9 @@ namespace LFW {
 
 		void Bind();
 		void Unbind();
+
+	private:
+		uint32_t m_ID;
+		uint32_t m_Type;
 	};
 }

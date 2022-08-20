@@ -8,9 +8,6 @@ namespace LFW {
 	class VertexArray
 	{
 	public:
-		std::shared_ptr<ElementBuffer> m_ElementBuffer;				
-		std::vector<std::shared_ptr<VertexBuffer>> m_VertexBuffers; 
-
 		VertexArray();
 		~VertexArray();
 
@@ -21,7 +18,9 @@ namespace LFW {
 		void AddVertexBufferTexture(std::shared_ptr<VertexBuffer>& vertexBuffer);
 		void AddVertexBufferColor(std::shared_ptr<VertexBuffer>& vertexBuffer);
 
-	public:
+	private:
+		std::shared_ptr<ElementBuffer> m_ElementBuffer;
+		std::vector<std::shared_ptr<VertexBuffer>> m_VertexBuffers;
 		uint32_t m_ID;
 	};
 }

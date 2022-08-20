@@ -35,14 +35,14 @@ namespace LFW {
 		void SetFramebufferSpec(FramebufferSpecification spec);
 
 	public:
+		bool showDemo = false;
+	private:
 		std::shared_ptr<Framebuffer> m_Framebuffer;
 		bool blockevents = true;
 		bool m_DemoWindow = true;
-		bool showDemo = false;
 
 		bool m_DemoGuiWindow = false;
 		bool m_ViewportFocused = false;
 		bool m_ViewportHovered = false;
-
 	};
 }

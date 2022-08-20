@@ -29,7 +29,7 @@ namespace LFW {
 	private:
 		void CompileErrors(unsigned int shader, const char* type);
 
-	public:
+	private:
 		GLuint m_ID;
 	};
 
