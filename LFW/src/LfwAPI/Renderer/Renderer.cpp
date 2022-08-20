@@ -119,7 +119,7 @@ namespace LFW {
             s_RendererData.ClrShader->SetMat4(sprite.anchor.GetTransform(), "scale");
 
             //Sumbit a color and draw
-            s_RendererData.ClrShader->SetFlatShaderColor(sprite.color);
+            s_RendererData.ClrShader->SetVec4(sprite.color);
             DrawElements(s_RendererData.ClrVA, QUAD_SIZE);
         }
     }

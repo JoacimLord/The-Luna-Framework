@@ -23,7 +23,9 @@ namespace LFW {
 		void Unbind();
 
 		void SetMat4(glm::mat4 matrix, const char* name);
-		void SetFlatShaderColor(glm::vec4 clr);
+
+		//TODO: Rename -> SetVec4
+		void SetVec4(glm::vec4 clr);
 
 
 	private:

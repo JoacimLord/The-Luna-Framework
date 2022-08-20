@@ -137,7 +137,7 @@ namespace LFW {
         glUniformMatrix4fv(uniID, 1, GL_FALSE, glm::value_ptr(matrix));
     }
 
-    void Shader::SetFlatShaderColor(glm::vec4 clr)
+    void Shader::SetVec4(glm::vec4 clr)
     {
         GLuint particleShader = glGetUniformLocation(m_ID, "u_Color");
         glUniform4fv(particleShader, 1, glm::value_ptr(clr));
