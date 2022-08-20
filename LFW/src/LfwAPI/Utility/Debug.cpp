@@ -86,7 +86,6 @@ namespace LFW {
 
 		if (ImGui::Button("Reset Console Log"))
 		{
-			//Add a reset() function to namespace
 			colors.clear();
 			c_msgs.clear();
 		}

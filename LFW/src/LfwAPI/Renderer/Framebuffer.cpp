@@ -4,8 +4,7 @@
 
 namespace LFW {
 
-    Framebuffer::Framebuffer()//const FramebufferSpecification& fbSpec)//const char* vertexFile, const char* fragmentFile)
-     //   :m_FramebufferSpecification(fbSpec)
+    Framebuffer::Framebuffer()
     {
     }
 
@@ -53,7 +52,7 @@ namespace LFW {
     void Framebuffer::Bind()
     {
         glBindFramebuffer(GL_FRAMEBUFFER, m_ID);
-        glBindTexture(GL_TEXTURE_2D, m_ColorAttachment); //Why again?
+        glBindTexture(GL_TEXTURE_2D, m_ColorAttachment); //TODO: Remove?
  
         glViewport(0, 0, m_FramebufferSpecification.Width, m_FramebufferSpecification.Height);
 

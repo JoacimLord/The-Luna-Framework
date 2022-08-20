@@ -147,19 +147,12 @@ namespace LFW {
 			// DockSpace
 			ImGuiIO& io = ImGui::GetIO();
 			ImGuiStyle& style = ImGui::GetStyle();
-			//float minWinSizeX = style.WindowMinSize.x;
 
-			//This sets the minimum width to 370. 
-			//TODO: change to set this with a function from Application::SetMinimumPanelWidth(); Can be annyoing if they're used for UI elements (in game dev).
-			//style.WindowMinSize.x = 370.0f;
 			if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 			{
 				ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 				ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 			}
-
-			//style.WindowMinSize.x = minWinSizeX;
-
 
 			//----------------------------------------------
 			//					VIEWPORT

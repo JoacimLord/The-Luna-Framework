@@ -17,14 +17,13 @@ namespace LFW {
 	class Shader
 	{
 	public:
-		Shader(std::string& mode);//const char* vertexFile, const char* fragmentFile);
+		Shader(std::string& mode);
 		~Shader();
 		void Bind();
 		void Unbind();
 
 		void SetMat4(glm::mat4 matrix, const char* name);
 
-		//TODO: Rename -> SetVec4
 		void SetVec4(glm::vec4 clr);
 
 

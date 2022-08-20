@@ -7,7 +7,7 @@ namespace LFW {
 
     const char* vertexShaderSource = "#version 410 core\n"
         "layout (location = 0) in vec3 aPos;\n"
-        "layout (location = 1) in vec3 aColor;\n" //vec3?
+        "layout (location = 1) in vec3 aColor;\n"
         "layout (location = 2) in vec2 aTex;\n"
 
         "out vec3 color;\n"
@@ -36,7 +36,6 @@ namespace LFW {
     //--------------------------------------------------------------------------------
 
 
-    //FOR PARTICLES
     const char* vertexShaderSourceClr = "#version 410 core\n"
         "layout (location = 0) in vec3 aPos;\n"
 
@@ -58,7 +57,7 @@ namespace LFW {
         "}\n\0";
     
 
-    Shader::Shader(std::string& mode)//const char* vertexFile, const char* fragmentFile)
+    Shader::Shader(std::string& mode)
     {
         if (mode == "clr")
         {

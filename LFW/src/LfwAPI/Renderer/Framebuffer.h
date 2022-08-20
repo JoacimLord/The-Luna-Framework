@@ -10,7 +10,7 @@ namespace LFW {
 	class Framebuffer
 	{
 	public:
-		Framebuffer();//const FramebufferSpecification& fbSpec);//const char* vertexFile, const char* fragmentFile);
+		Framebuffer();
 		~Framebuffer();
 
 		void Invalidate();
