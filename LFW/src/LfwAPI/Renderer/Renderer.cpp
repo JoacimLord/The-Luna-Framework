@@ -6,19 +6,21 @@
 
 namespace LFW {
     
-    const uint32_t QUAD_SIZE = 6;
+    //const uint32_t QUAD_SIZE = 6;
  
     struct RendererData
     {
-        std::shared_ptr<VertexArray> ClrVA;
-        std::shared_ptr<Shader> ClrShader;
+        const uint32_t QUAD_SIZE = 6;
+        std::shared_ptr<VertexArray> ColorVertexArray;
+        std::shared_ptr<Shader> ColorShader;
 
-        std::shared_ptr<VertexArray> VertexArray;
-        std::shared_ptr<Shader> Shader;
+        std::shared_ptr<VertexArray> TextureVertexArray;
+        std::shared_ptr<Shader> TextureShader;
     };
 
     static RendererData s_RendererData;
    
+    //TODO: Fix this
     static float l = -1.6f;
     static float r = 1.6f;
     static float b = -0.9f;
@@ -27,17 +29,17 @@ namespace LFW {
 
     void Renderer::Init()
     {
-        std::string txtMode = "txt";
-        std::string clrtMode = "clr";
+        const std::string textureShaderFile = "txt";
+        const std::string colorShaderFile = "clr";
 
         OpenGLEnables();
 
-        s_RendererData.VertexArray = std::make_shared<VertexArray>();
-        s_RendererData.Shader = std::make_shared<Shader>(txtMode);
+        s_RendererData.TextureVertexArray = std::make_shared<VertexArray>();
+        s_RendererData.TextureShader = std::make_shared<Shader>(textureShaderFile);
 
         //Clr
-        s_RendererData.ClrVA = std::make_shared<VertexArray>();
-        s_RendererData.ClrShader = std::make_shared<Shader>(clrtMode);
+        s_RendererData.ColorVertexArray = std::make_shared<VertexArray>();
+        s_RendererData.ColorShader = std::make_shared<Shader>(colorShaderFile);
 
         GLfloat vertices[] =
         {
@@ -57,12 +59,12 @@ namespace LFW {
         std::shared_ptr<VertexBuffer> VBOtexture = std::make_shared<VertexBuffer>(vertices, sizeof(vertices));
         std::shared_ptr<VertexBuffer> VBOcolor = std::make_shared<VertexBuffer>(vertices, sizeof(vertices));
 
-        s_RendererData.VertexArray->AddElementBuffer(indices);
-        s_RendererData.VertexArray->AddVertexBufferTexture(VBOtexture);
+        s_RendererData.TextureVertexArray->AddElementBuffer(indices);
+        s_RendererData.TextureVertexArray->AddVertexBufferTexture(VBOtexture);
 
         //Clr
-        s_RendererData.ClrVA->AddElementBuffer(indices);
-        s_RendererData.ClrVA->AddVertexBufferColor(VBOcolor);
+        s_RendererData.ColorVertexArray->AddElementBuffer(indices);
+        s_RendererData.ColorVertexArray->AddVertexBufferColor(VBOcolor);
     }
 
     void Renderer::Clear()
@@ -73,12 +75,6 @@ namespace LFW {
     void Renderer::ClearColor(float r, float g, float b, float transparent)
     {
         
-        glClearColor(r, g, b, transparent);
-    }
-
-    void Renderer::ClearFrame(float r, float g, float b, float transparent)
-    {
-        glClear(GL_COLOR_BUFFER_BIT);
         glClearColor(r, g, b, transparent);
     }
 
@@ -102,25 +98,25 @@ namespace LFW {
         //TODO: Move the camera setup into it's own function
         if (sprite.texture)
         {
-            s_RendererData.Shader->Bind();
-            s_RendererData.Shader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj");
-            s_RendererData.Shader->SetMat4(sprite.anchor.GetTransform(), "scale");   
+            s_RendererData.TextureShader->Bind();
+            s_RendererData.TextureShader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj");
+            s_RendererData.TextureShader->SetMat4(sprite.anchor.GetTransform(), "scale");   
 
             //Bind the texture and draw
             glBindTexture(GL_TEXTURE_2D, sprite.texture->id);
-            DrawElements(s_RendererData.VertexArray, QUAD_SIZE);
+            DrawElements(s_RendererData.TextureVertexArray, s_RendererData.QUAD_SIZE);
             glBindTexture(GL_TEXTURE_2D, 0);
         }
 
         else
         {
-            s_RendererData.ClrShader->Bind();
-            s_RendererData.ClrShader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj");
-            s_RendererData.ClrShader->SetMat4(sprite.anchor.GetTransform(), "scale");
+            s_RendererData.ColorShader->Bind();
+            s_RendererData.ColorShader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj");
+            s_RendererData.ColorShader->SetMat4(sprite.anchor.GetTransform(), "scale");
 
             //Sumbit a color and draw
-            s_RendererData.ClrShader->SetVec4(sprite.color);
-            DrawElements(s_RendererData.ClrVA, QUAD_SIZE);
+            s_RendererData.ColorShader->SetVec4(sprite.color);
+            DrawElements(s_RendererData.ColorVertexArray, s_RendererData.QUAD_SIZE);
         }
     }
 
@@ -143,5 +139,7 @@ namespace LFW {
     {
         std::cout << "glViewport changing\n";
         glViewport(0, 0, width, height);
+
+        s_OrthoCam.OnResize(width, height);
     }
 }

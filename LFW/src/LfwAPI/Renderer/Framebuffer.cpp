@@ -18,7 +18,7 @@ namespace LFW {
     {
         if (m_ID)
         {
-            std::cout << "Found old framebuffer\n";
+            std::cout << "Resizing framebuffer\n";
             glDeleteFramebuffers(1, &m_ID);
             glDeleteTextures(1, &m_ColorAttachment);
             glDeleteTextures(1, &m_DepthAttachment);
@@ -72,8 +72,6 @@ namespace LFW {
 
     void Framebuffer::ResizeFramebuffer(uint32_t width, uint32_t height)
     {
-        //In Invalidate!!
-
         m_FramebufferSpecification.Width = width;
         m_FramebufferSpecification.Height = height;
 
