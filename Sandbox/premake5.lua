@@ -18,7 +18,8 @@ project "Sandbox"
 		"%{wks.location}/LFW/src",
 		"%{wks.location}/LFW/Vendor",
 		"%{wks.location}/LFW/Vendor/GLFW/include",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.miniaudio}"
 	}
 
 	links

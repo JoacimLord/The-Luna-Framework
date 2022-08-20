@@ -19,6 +19,8 @@ project "LFW"
 		"Vendor/stb_image/**.cpp",
 		"Vendor/glm/glm/**.hpp",
 		"Vendor/glm/glm/**.inl",
+		"Vendor/miniaudio/**.h",
+		"Vendor/miniaudio/**.cpp"
 	}
 
 	defines
@@ -34,7 +36,8 @@ project "LFW"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.stb_image}"
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.miniaudio}"
 	}
 
 	links
