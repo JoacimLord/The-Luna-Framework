@@ -1,6 +1,6 @@
 #pragma once
-#include "LfwAPI/Audio/MiniAudio/miniaudio.h"
-
+//#include "LfwAPI/Audio/MiniAudio/miniaudio.h"
+#include "../../miniaudio/miniaudio.h"
 
 // AudioEngine
 /*
@@ -71,5 +71,7 @@ namespace LFW {
 		ma_decoder m_Decoder;
 		ma_device_config m_DeviceConfig;
 		ma_device m_Device;
+		bool m_DeviceActive = false;
+		bool m_DecoderActive = false;
 	};
 }

@@ -27,14 +27,21 @@ namespace LFW {
 			//Debug msg
 			return;
 		}
+
+
 	}
 
 	void AudioEngine::Deactivate()
 	{
 		//Shut down everything (even if looping wasn't enabled)
 		ma_engine_uninit(&m_MiniAudioEngine);
-		ma_device_uninit(&m_Device);
-		ma_decoder_uninit(&m_Decoder);
+			
+		//Check if device and decoder is initalized (to prevent crashes)
+		if (m_DeviceActive) ma_device_uninit(&m_Device);
+		if (m_DecoderActive) ma_decoder_uninit(&m_Decoder);
+
+		m_DeviceActive = false;
+		m_DecoderActive = false;
 	}
 
 	void AudioEngine::PlayAudioFromFile(const char* filePath)
@@ -67,6 +74,9 @@ namespace LFW {
 		m_LoaderResult = ma_decoder_init_file(filePath, NULL, &m_Decoder);
 		if (m_LoaderResult != MA_SUCCESS) return; //& debug msg?
 
+		m_DecoderActive = true;
+		m_DeviceActive = true;
+
 		ma_data_source_set_looping(&m_Decoder, MA_TRUE);
 
 
@@ -81,12 +91,15 @@ namespace LFW {
 		if (ma_device_init(NULL, &m_DeviceConfig, &m_Device) != MA_SUCCESS)
 		{
 			ma_decoder_uninit(&m_Decoder);
+			m_DecoderActive = false;
 		}
 
 		if (ma_device_start(&m_Device) != MA_SUCCESS)
 		{
 			ma_device_uninit(&m_Device);
 			ma_decoder_uninit(&m_Decoder);
+			m_DeviceActive = false;
+			m_DecoderActive = false;
 		}
 
 	}
