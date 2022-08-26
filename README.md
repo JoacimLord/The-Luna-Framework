@@ -1,9 +1,9 @@
-# LFW (The Luna Framework) - Version 1.10.00
+# LFW (The Luna Framework) - Version 1.10.01
 
 LFW is a low level framework based on the API of my 3D game engine "Luna" (currently in development).
 
 The intention of this framework is to build any kind of GUI app, but it's probably most suitable for simple 2D games at this stage.
-It currently only support development on Windows with Visual Studio Community 2019.
+It currently only support development on Windows with Visual Studio Community 2019 (this can be fixed by editing the Setup file).
 
 
 Third party libraries in use:
@@ -29,11 +29,12 @@ I suggest to rename the Sandbox project and use that as your starting point!
 ## Modules
 
  ### - Simple LFW Example
- ### - Viewport
+ ### - Debug GUI & Docking
  ### - Application functionality
  ### - DeltaTime
  ### - Sprites
- ### - Input
+ ### - Input (keyboard & mouse)
+ ### - Mouse Position
  ### - Camera
  ### - Math Library
  ### - Debug Panel
@@ -80,18 +81,30 @@ int main()
 ```
 
 
-# Viewport
+# Debug GUI & Docking
 
-The LFW framework renders to a Dear ImGui panel by default called "Viewport". This is done by rendering a texture of the screenspace into an image and displaying it in the panel.
-The Viewport also brings the ability to freely move and dock your own panels anywhere inside the application.
+LFW uses Dear ImGui to make it easy to integrate debugging/GUI panels inside your application.
 
-This is a feature commonly used by standard applications but maybe not so much for games. Therefore it's possible to disable the feature and just render a "normal" GLFW window.
-To disable the ImGui viewport, simply call "LFW::Viewport::Init(false);" before you initialize the application.
+There is 3 different options on how to use Dear ImGui in LFW.
+1. Docking (used for multimedia apps).
+2. DebugGUI (used mostly to debug games).
+3. Disable Dear ImGui in general.
 
-Initializing the viewport to true if you want to use any Dear ImGui feature (build your own panels, the Debug Console Panel, etc).
+Docking makes it possible to freely move around your panels and dock them where you feel like to. This also moves the rendering to be displayed in a ImGui Panel called "Viewport" that can be docked anywhere.
+DebugGUI enables "floating" panels that can't be docked, but can be moved around. This can be useful for debugging games. This renders to the GLFW window and not into a Dear ImGui panel.
+If none of these options is enabled, LFW renders directly to the GLFW window.
+
+To create custom Dear ImGui panels, initialize them in the BuilUI function that LFW provides with the Dear ImGui API (documentation can be found in their repo on GitHub).
 
 
-Example:
+DISCLAIMERS
+1. Docking and DebugGUI CAN NOT be used together! Use ONE of these or none.
+2. This needs to happen BEFORE initalizing the application (as in the example).
+3. If you decide to use the Docking-feature, the function for converting ScreenToWorldPoint is not working properly since it gets calculated depending on the GLFW window, and screen resizing does not consider the framebuffer rendering to the Dear ImGui window (which can lead to strange "streches" in sprites if not set to the correct aspectratio). This issue is currently being worked on.
+4. Both of these are initalized as false by default. If you don't want to use any of it, just initalize the application as normal.
+5. Even if this isn't used in your application, both the #include <imgui/imgui.h> and void LFW::Application::BuildUI() has to be defined inside the Main.cpp file (but can of course be left empty).
+
+Example - Docking:
 ```cpp
 #include "LFW.h"
 #include <imgui/imgui.h>
@@ -103,8 +116,58 @@ void LFW::Application::BuildUI()
 
 int main()
 {
-	//This sets the viewport to not be initialized. Use true to init the viewport (and Dear ImGui).
-	LFW::Viewport::Init(false);
+	//This sets the viewport (Dear ImGui panel) to be initialized and enables docking.
+	LFW::Docking::Init(true);
+
+	LFW::Application app("App"); 
+
+	while (app.IsRunning())
+	{
+		app.Clear(1.0f, 0.0f, 1.0f, 1.0f);
+		app.Render();
+		app.Display(); 
+	}
+}
+```
+
+Example - Debug GUI:
+```cpp
+#include "LFW.h"
+#include <imgui/imgui.h>
+
+//This needs to be included. If you don't want to use ImGui this can be left blank but still needs to be here!
+void LFW::Application::BuildUI()
+{
+}
+
+int main()
+{
+	//This enables Dear ImGui panels but keeps rendering to the GLFW window (which has correct resizing and ScreenToWorld convertion).
+	LFW::DebugGUI::Init(true);
+
+	LFW::Application app("App"); 
+
+	while (app.IsRunning())
+	{
+		app.Clear(1.0f, 0.0f, 1.0f, 1.0f);
+		app.Render();
+		app.Display(); 
+	}
+}
+```
+
+Example - Disabled Dear ImGui:
+```cpp
+#include "LFW.h"
+#include <imgui/imgui.h>
+
+//This needs to be included. If you don't want to use ImGui this can be left blank but still needs to be here!
+void LFW::Application::BuildUI()
+{
+}
+
+int main()
+{
 	LFW::Application app("App"); 
 
 	while (app.IsRunning())
@@ -117,6 +180,7 @@ int main()
 ```
 
 
+
 # Application Functionality
 
 The application comes with some basic GLFW features that you come to expect.
@@ -124,10 +188,6 @@ This includes:
 
 - SetTitle(std::string new_app_title)
 - SetIcon(std::string path_to_icon)
-
-- WIP! (Not ready for usage) SetDefaultIcon()
-- WIP! (Not ready for usage) SetCustomCursor()
-- WIP! (Not ready for usage) SetDefaultCursor()
 
 - SetWindowConstraint(float minWidth, float minHeight, float maxWidth, float maxHeight)
 - SetWindowMinSize(float minWidth, float minHeight)
@@ -184,6 +244,7 @@ Initialize your sprites from the LFW namespace before the main loop of your appl
 
 LFW::Sprite texturedSprite;
 texturedSprite.filePath = "your_filepath_here_with_image_extension(.jpg, .png)";
+texturedSprite.pixelation = false;
 texturedSprite.SetTexture(texturedSprite.filePath);
 texturedSprite.SetSize(0.5f, 0.3f);
 texturedSprite.SetPosition(-0.5f, 0.0f);
@@ -315,19 +376,51 @@ int main()
 ```
 
 
+
+ ### - Mouse Position
+
+The application can return the mouse position with ScreenToWorld() or WorldToScreen().
+
+
+## Screen To World
+
+Returns the mouse position (as a glm::vec2 for now, will be replaced with LFW's own vectors later) and converts it from pixels to world units.
+Example of usage can be to position a sprite and the mouse location on click or rotating the sprite according to the mouse position.
+```cpp
+if (LFW::Input::IsMouseButtonPressed(LFW::Mouse::Button0))
+{
+	glm::vec2 mousePos = app.ScreenToWorldPoint();
+	orangeSprite.SetPosition(mousePos.x, mousePos.y);
+}
+
+```
+
+## World To Screen
+
+Returns the mouse position (as a glm::vec2 for now, will be replaced with LFW's own vectors later) and converts it from world to pixels with the 0,0 origin in the center instead of in the corner of the screen.
+
+
+
 # Camera (Controls & 'Follow')
 
 The application always renderers the sprites using a basic orthographic camera.
-The camera can be controlled with the Arrow-keys (customizable keys will come later on).
-It's also possible to set the camera to follow a specific Transform (Anchor). A little confusing but it's the same thing!
-Reach it from the Application object.
+It's also possible to set the camera to follow a specific Transform (Anchor).
+LFW provides 2 standard cameras, one for the game/application runtime (takes in DeltaTime), and one for debug (not depending on DeltaTime).
+
+Remember that the version for debugging is faster even if the float values is the same for both functions since DeltaTime "normalizes" the speed depending on the "game-ticks".
+
+Reach it from the Application instance. Remember to not use both functions at the same time!
+The "Debug" version of the camera controlls is currently using the arrow keys as default while the "Game" version needs custom keys as arguments in the function.
 
 ```cpp
 
 	//Enables controls for the camera. Current control scheme: Arrow-keys.
-	//This function needs to have the DeltaTime variable passed in.
-	//The option of a camera that can be controlled without DeltaTime is in progress.
-	app.CheckInputForCamera(deltaTime);
+	//This function needs to have the DeltaTime variable, speed (float) and specified keys passed in (Up, Down, Left, Right).
+	app.CheckInputForGameCamera(LFW::Key::W, LFW::Key::S, LFW::Key::A, LFW::Key::D, deltaTime, 5.0f);
+
+	
+	//Enables controls for the camera while debugging (not depending on DeltaTime). Current control scheme: Arrow-keys.
+	app.CheckInputForDebugCamera(speed);
 
 	//Sets the cameras position follow a specific anchor point.
 	app.SetCameraToFollowTransform(orangeSprite.anchor);
@@ -476,10 +569,11 @@ Basic example:
 This repo and documentation is heavily in progress and will be frequently changed!
 
 Features soon to come:
+- [x] Screen to world Point
+- [x] World to screen Point (in pixels)
 - [ ] Fonts
-- [ ] Mouse Position from screen to world coordinates
 - [ ] Support for spritesheets (currently has to have each sprite in their seperate files)
 - [ ] Sprite batching
 
 
-Thanks for using my framework in your own project <3
+Thank you for checking it out!

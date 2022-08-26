@@ -1,7 +1,7 @@
 //Welcome to LFW(THE LUNA FRAMEWORK)!
 /*
 	@author Joacim Lord (c) 2020-2022.
-	<This project was last edited 220816>
+	<This project was last edited 220826>
 */
 
 //Contains everything you need!
@@ -21,9 +21,11 @@ void LFW::Application::BuildUI()
 	LFW::Debug::BuildLogWindow();
 }
 
+
 int main()
 {
-	LFW::Viewport::Init(true);
+	//LFW::DebugGUI::Init(true);
+	//LFW::Docking::Init(true);
 	LFW::Application app("App");
 
 	//Example of how to load and set up a sprite with a texture and color! (Documentation will come later on)
@@ -58,6 +60,13 @@ int main()
 		lastFrameTime = elapsedTime;
 
 		app.Clear(LFW::Colors::Grey);
+
+		// Example of how to use ScreenToWorldPoint()
+		if (LFW::Input::IsMouseButtonPressed(LFW::Mouse::Button0))
+		{
+			glm::vec2 mousePos = app.ScreenToWorldPoint();
+			orangeSprite.SetPosition(mousePos.x, mousePos.y);
+		}
 
 		app.Render(texturedSprite);
 		app.Render(orangeSprite);

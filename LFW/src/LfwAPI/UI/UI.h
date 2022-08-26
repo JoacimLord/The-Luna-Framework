@@ -36,8 +36,11 @@ namespace LFW {
 
 	public:
 		bool showDemo = false;
+		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
+
 	private:
 		std::shared_ptr<Framebuffer> m_Framebuffer;
+
 		bool blockevents = true;
 		bool m_DemoWindow = true;
 

@@ -34,5 +34,12 @@ namespace LFW {
 		static OrthographicCamera GetCamera();
 		static void SetCameraPosition(const glm::vec3 temppos);
 		static glm::vec3 GetCameraPosition();
+
+		//Returns the mouse position converted from world space to screen points in pixels. Origin is 0,0 (center of screen).
+		glm::vec2 WorldToScreenPoint(glm::vec2 screenCoords, float screenW, float screenH);
+
+		//Returns the mouse position converted from screen space to world point.
+		//This function only returns correct values if the viewport is not initialized and uses the "original" glfw window for rendering.
+		glm::vec2 ScreenToWorldPoint(float screenW, float screenH);
 	};
 }

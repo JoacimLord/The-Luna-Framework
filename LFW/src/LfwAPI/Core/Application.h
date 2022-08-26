@@ -20,24 +20,47 @@
 #include "LfwAPI/EventHandler/WindowEvents/WindowResize.h"
 #include "LfwAPI/EventHandler/EventDispatcher/EventDispatcher.h"
 
+#include "LfwAPI/Core/KeyCodes.h"
+
+
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
 #include "GLFW/glfw3.h"
 
 
 namespace LFW {
 
 	//TODO: Thinking about moving this to be initialized in the application constructor instead
-	//Sets a bool for the Dear ImGui Viewport
-	namespace Viewport
+	//Sets a bool for the Dear ImGui Panels
+	
+
+
+	//DebugGUI
+	namespace DebugGUI
 	{
-		static bool m_EnableViewport;
+		static bool m_EnableDebugGUI;
 
 		//If true this enables Dear ImGui in the application.
-		//If false, the application renders to the GLFW window instead.
+		//If false, the application renders directly to the GLFW window instead.
 		void Init(bool state);
 
-		//Checks if the viewport is enabled, used in Application.cpp at initialization and Clear()-checks.
+		//Checks if the GUI is enabled, used in Application.cpp at initialization and Clear()-checks.
 		bool IsEnabled();
 	}
+
+	namespace Docking
+	{
+		static bool m_EnableDocking;
+
+		//If true this enables Dear ImGui in the application.
+		//If false, the application renders directly to the GLFW window instead.
+		void Init(bool state);
+
+		//Checks if the GUI is enabled, used in Application.cpp at initialization and Clear()-checks.
+		bool IsEnabled();
+	}
+
 
 
 	class Application
@@ -68,6 +91,16 @@ namespace LFW {
 		//Needs to be called at the end of each frame (furthest down in while loop). Clears frame buffers and displays graphics
 		void Display();
 
+
+		//Returns the mouse position converted from world space to screen points in pixels. Origin is 0,0 (center of screen).
+		glm::vec2 WorldToScreenPoint();
+
+		//Returns the mouse position converted from screen space to world point.
+		//This function only returns correct values if the viewport is not initialized and uses the "original" glfw window for rendering.
+		glm::vec2 ScreenToWorldPoint();
+
+
+
 		/////////////////////////////////////////////
 		/* Window (GLFW) functionality */
 		/////////////////////////////////////////////
@@ -77,13 +110,14 @@ namespace LFW {
 
 		//Sets the icon of the LFW application
 		void SetIcon(std::string path);
+
 		//Sets the default icon to the application window title bar.
 		void SetDefaultIcon();
 
-		//Sets a custom image as the cursor. Wip, not done for usage.
+		//!!DON'T USE!! Sets a custom image as the cursor.
 		void SetCustomCursor();
 
-		//Sets the default cursor. Wip, not done for usage.
+		//!!DON'T USE!! Sets the default cursor.
 		void SetDefaultCursor();
 
 		//Sets the application window minimum and maximum size (minimum Width, minimum Height, maximum Width, maximum Height)
@@ -101,12 +135,17 @@ namespace LFW {
 		//Renders target sprite to screen
 		void Render(Sprite& sprite);
 
-		//TODO: Remove dt?
-		//Function for moving the camera. Currently controlled with the Arrow-keys
-		void CheckInputForCamera(DeltaTime dt);
+		//Function for moving the "in-game" camera. Currently controlled with the Arrow-keys. Uses DeltaTime.
+		void CheckInputForGameCamera(LFW::Key::KeyCode keyUp, LFW::Key::KeyCode keyDown, LFW::Key::KeyCode keyLeft, LFW::Key::KeyCode keyRight, DeltaTime dt, float speed);
+
+		//Function for moving the "debug" camera. Currently controlled with the Arrow-keys
+		void CheckInputForDebugCamera(float speed);
 
 		//Sets the camera to follow a specific transform (attached by default to sprites)
 		void SetCameraToFollowTransform(glm::vec3 transform);
+
+		//Returns the applications viewport IF GUI is enabled
+		glm::vec2 GetViewportSize();
 
 		//Needed to define and build your own UI with ImGui (documentation can be found it Dear ImGuis repo).
 		//This can only be used if the viewport is initialized and set to true.

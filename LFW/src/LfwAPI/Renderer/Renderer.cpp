@@ -92,6 +92,16 @@ namespace LFW {
         return GetCamera().GetPosition();
     }
 
+    glm::vec2 Renderer::WorldToScreenPoint(glm::vec2 screenCoords, float screenW, float screenH)
+    {
+        return s_OrthoCam.WorldToScreenPoint(screenCoords, screenW, screenH);
+    }
+
+    glm::vec2 Renderer::ScreenToWorldPoint(float screenW, float screenH)
+    {
+        return s_OrthoCam.ScreenToWorldPoint(screenW, screenH);
+    }
+
     void Renderer::Draw(Sprite& sprite)
     {
         //TODO: Move the camera setup into it's own function

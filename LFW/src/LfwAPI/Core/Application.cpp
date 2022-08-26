@@ -9,21 +9,38 @@
 
 namespace LFW {
 
-	void Viewport::Init(bool state)
+	void DebugGUI::Init(bool state)
 	{
-		m_EnableViewport = state;
+		m_EnableDebugGUI = state;
 	}
-	bool Viewport::IsEnabled()
+	bool DebugGUI::IsEnabled()
 	{
-		return m_EnableViewport;
+		return m_EnableDebugGUI;
+	}
+
+	void Docking::Init(bool state)
+	{
+		m_EnableDocking = state;
+	}
+	bool Docking::IsEnabled()
+	{
+		return m_EnableDocking;
 	}
 
 	Application* Application::s_Instance = nullptr;
 
 	Application::Application(const std::string name) //by ref?
 	{
-		if (Viewport::IsEnabled()) std::cout << "Viewport enabled\n";
-		if (!Viewport::IsEnabled()) std::cout << "Viewport not enabled\n";
+		if (!DebugGUI::IsEnabled() && !Docking::IsEnabled())
+		{
+			
+		}
+		if (DebugGUI::IsEnabled()) std::cout << "DebugGUI enabled\n";
+		if (!DebugGUI::IsEnabled()) std::cout << "DebugGUI not enabled\n";
+
+		if (Docking::IsEnabled()) std::cout << "Docking enabled\n";
+		if (!Docking::IsEnabled()) std::cout << "Docking not enabled\n";
+
 
 		s_Instance = this;
 		m_Window = std::unique_ptr<WindowInterface>(WindowInterface::Create(name));
@@ -31,10 +48,17 @@ namespace LFW {
 	
 		Renderer::Init();
 
-		if (Viewport::IsEnabled())
+		if (DebugGUI::IsEnabled())
 		{
 			m_UI = std::make_unique<UI>();
 			m_UI->OnAttach(); //Needs to happen here, crashes if it gets called in ImGuiLayers constructor.
+			//Renderer::GetCamera().SetViewportSize(m_UI->m_ViewportSize.x, m_UI->m_ViewportSize.y);
+		}
+		if (Docking::IsEnabled())
+		{
+			m_UI = std::make_unique<UI>();
+			m_UI->OnAttach(); //Needs to happen here, crashes if it gets called in ImGuiLayers constructor.
+			Renderer::GetCamera().SetViewportSize(m_UI->m_ViewportSize.x, m_UI->m_ViewportSize.y);
 		}
 	}
 
@@ -101,12 +125,11 @@ namespace LFW {
 
 	void Application::Clear(float r, float g, float b, float transparent)
 	{
-		if (Viewport::IsEnabled())
+		if (Docking::IsEnabled())
 		{
 			m_UI->BindFramebuffer(r, g, b, transparent);
 		}
-		//Added from the BindFB func if m_UI is nullptr
-		else if (!Viewport::IsEnabled())
+		else
 		{
 			Renderer::ClearColor(r, g, b, transparent);
 			Renderer::Clear();
@@ -115,11 +138,11 @@ namespace LFW {
 
 	void Application::Clear(glm::vec4& temp)
 	{
-		if (Viewport::IsEnabled())
+		if (Docking::IsEnabled())
 		{
 			m_UI->BindFramebuffer(temp.x, temp.y, temp.z, temp.w);
 		}
-		else if (!Viewport::IsEnabled())
+		else 
 		{
 			Renderer::ClearColor(temp.x, temp.y, temp.z, temp.w);
 			Renderer::Clear();
@@ -128,11 +151,11 @@ namespace LFW {
 
 	void Application::Clear()
 	{
-		if (Viewport::IsEnabled())
+		if (Docking::IsEnabled())
 		{
 			m_UI->BindFramebuffer(0, 0, 0, 1);
 		}
-		else if (!Viewport::IsEnabled())
+		else
 		{
 			Renderer::ClearColor(0, 0, 0, 1);
 			Renderer::Clear();
@@ -141,17 +164,38 @@ namespace LFW {
 
 	void Application::Display()
 	{
-		if (Viewport::IsEnabled())
+		//UpdateWindow();
+		if (DebugGUI::IsEnabled())
 		{
 			EndRendering();
 			DrawUI();
 			UpdateWindow();
 		}
-		else if (!Viewport::IsEnabled())
+		else if (Docking::IsEnabled())
+		{
+			EndRendering();
+			DrawUI();
+			UpdateWindow();
+		}
+		else
 		{
 			UpdateWindow();
 		}
 	}
+
+	glm::vec2 Application::WorldToScreenPoint()
+	{
+		float mouseX = Input::GetMousePositionX();
+		float mouseY = Input::GetMousePositionY();
+		glm::vec2 mouseCoords = glm::vec2(mouseX, mouseY);
+		return Renderer::GetCamera().WorldToScreenPoint(mouseCoords, (float)m_Window->GetWidth(), (float)m_Window->GetHeight());
+	}
+
+	glm::vec2 Application::ScreenToWorldPoint()
+	{
+		return Renderer::GetCamera().ScreenToWorldPoint(m_Window->GetWidth(), m_Window->GetHeight());
+	}
+
 
 	void Application::SetTitle(std::string title)
 	{
@@ -217,37 +261,76 @@ namespace LFW {
 		LFW::Renderer::Draw(sprite);
 	}
 	
-	void Application::CheckInputForCamera(DeltaTime dt)
+	void Application::CheckInputForGameCamera(LFW::Key::KeyCode keyUp, LFW::Key::KeyCode keyDown, LFW::Key::KeyCode keyLeft, LFW::Key::KeyCode keyRight, DeltaTime dt, float speed)
 	{
-		float x = LFW::Renderer::GetCameraPosition().x;
-		float y = LFW::Renderer::GetCameraPosition().y;
-		float z = LFW::Renderer::GetCameraPosition().z;
+		float x = Renderer::GetCameraPosition().x;
+		float y = Renderer::GetCameraPosition().y;
+		float z = Renderer::GetCameraPosition().z;
 
-		if (LFW::Input::IsKeyPressed(LFW::Key::Left))
+		if (LFW::Input::IsKeyPressed(keyLeft))
 		{
-			x -= 0.05f * dt;
-			LFW::Renderer::SetCameraPosition( { x, y, z } );
+			x -= speed * dt;
+			Renderer::SetCameraPosition( { x, y, z } );
 		}
-		else if (LFW::Input::IsKeyPressed(LFW::Key::Right))
+		else if (LFW::Input::IsKeyPressed(keyRight))
 		{
-			x += 0.05f * dt;
+			x += speed * dt;
+			Renderer::SetCameraPosition({ x, y, z });
+		}
+		if (LFW::Input::IsKeyPressed(keyDown))
+		{
+			y -= speed * dt;
+			Renderer::SetCameraPosition({ x, y, z });
+		}
+		else if (LFW::Input::IsKeyPressed(keyUp))
+		{
+			y += speed * dt;
+			Renderer::SetCameraPosition({ x, y, z });
+		}
+	}
+
+	void Application::CheckInputForDebugCamera(float speed)
+	{
+		float x = Renderer::GetCameraPosition().x;
+		float y = Renderer::GetCameraPosition().y;
+		float z = Renderer::GetCameraPosition().z;
+
+		if (Input::IsKeyPressed(LFW::Key::Left))
+		{
+			x -= speed;
 			LFW::Renderer::SetCameraPosition({ x, y, z });
 		}
-		if (LFW::Input::IsKeyPressed(LFW::Key::Down))
+		else if (Input::IsKeyPressed(LFW::Key::Right))
 		{
-			y -= 0.05f * dt;
+			x += speed;
 			LFW::Renderer::SetCameraPosition({ x, y, z });
+		}
+		if (Input::IsKeyPressed(LFW::Key::Down))
+		{
+			y -= speed;
+			Renderer::SetCameraPosition({ x, y, z });
 		}
 		else if (LFW::Input::IsKeyPressed(LFW::Key::Up))
 		{
-			y += 0.05f * dt;
-			LFW::Renderer::SetCameraPosition({ x, y, z });
+			y += speed;
+			Renderer::SetCameraPosition({ x, y, z });
 		}
 	}
 
 	void Application::SetCameraToFollowTransform(glm::vec3 transform)
 	{
-		LFW::Renderer::SetCameraPosition(transform);
+		Renderer::SetCameraPosition(transform);
+	}
+
+	glm::vec2 Application::GetViewportSize()
+	{
+		if (!DebugGUI::IsEnabled())
+		{
+			std::cout << "Viewport not enabled. Returning 0\n";
+			return glm::vec2(0,0);
+		}
+		glm::vec2 viewportSize = glm::vec2(m_UI->m_ViewportSize.x, m_UI->m_ViewportSize.y);
+		return viewportSize;
 	}
 
 	void Application::DrawUI()

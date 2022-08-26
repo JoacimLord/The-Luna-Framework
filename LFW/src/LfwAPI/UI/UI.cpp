@@ -4,6 +4,8 @@
 #include "LfwAPI/UI/ImGuiImpl.h"
 #include "LfwAPI/Core/Application.h"
 #include "LfwAPI/Core/Input.h"
+#include "LfwAPI/Camera/OrthographicCamera.h"
+#include "LfwAPI/Renderer/Renderer.h"
 
 #include <backends/imgui_impl_glfw.h> 
 #include <backends/imgui_impl_opengl3.h>
@@ -13,8 +15,6 @@
 
 
 namespace LFW {
-
-	glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
 
 	UI::UI()
 	{
@@ -58,18 +58,16 @@ namespace LFW {
 
 	void UI::OnEvent(Event& event) 
 	{ 
-		if (blockevents)
-		{
-			ImGuiIO& io = ImGui::GetIO();
-			event.m_HandledEvent |= event.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
-			event.m_HandledEvent |= event.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
-			std::cout << "Blocked event from app";
-		}
-
-		//EventDispatcher dispatcher(event); 
+		//if (blockevents)
+		//{
+		//	ImGuiIO& io = ImGui::GetIO();
+		//	event.m_HandledEvent |= event.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
+		//	event.m_HandledEvent |= event.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
+		//	std::cout << "Blocked event from app";
+		//}
+		//
 		//dispatcher.Dispatch<MouseButtonPressedEvent>(DEFINE_EVENT_TYPE(UI::OnMouseButtonPressedEvent));
 	}
-
 
 	void UI::StartRenderFrame()
 	{
@@ -80,16 +78,25 @@ namespace LFW {
 
 	void UI::BindFramebuffer(float r, float g, float b, float transparent)
 	{
-		//Wip
-		if (m_ViewportSize.x != m_Framebuffer->GetFramebufferSpecification().Width || m_ViewportSize.y != m_Framebuffer->GetFramebufferSpecification().Height)
+		//----------------------------------------------
+		// UN-COMMENT THIS CODE TO ENABLE DOCKING
+		//----------------------------------------------
+		
+		if (Docking::IsEnabled())
 		{
-			std::cout << "Resetting framebuffer!\n";
-			m_Framebuffer->ResizeFramebuffer((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-		}
+			if (m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && m_Framebuffer->GetFramebufferSpecification().Width != m_ViewportSize.x || m_Framebuffer->GetFramebufferSpecification().Height != m_ViewportSize.y)
+			{
+				std::cout << "Resetting framebuffer!\n";
+				m_Framebuffer->ResizeFramebuffer((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 
-		m_Framebuffer->Bind();
-		Renderer::ClearColor(r, g, b, transparent);
-		Renderer::Clear();
+				//Renderer::GetCamera().SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
+				Renderer::GetCamera().OnResize(m_ViewportSize.x, m_ViewportSize.y);
+			}
+
+			m_Framebuffer->Bind();
+			Renderer::ClearColor(r, g, b, transparent);
+			Renderer::Clear();
+		}
 	}
 
 	void UI::UnbindFramebuffer()
@@ -106,7 +113,9 @@ namespace LFW {
 	//Used in app
 	void UI::RenderFrame()
 	{
-			static bool dockspaceOpen = true;
+		if (Docking::IsEnabled())
+		{
+			static bool dockspaceOpen = false;
 			static bool opt_fullscreen_persistant = true;
 			bool opt_fullscreen = opt_fullscreen_persistant;
 			static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
@@ -131,8 +140,8 @@ namespace LFW {
 			//----------------------------------------------
 			//			MAIN WINDOW (DOCKSPACE)
 			//----------------------------------------------
-
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+
 
 			//==============================================
 			//Dockspace
@@ -161,7 +170,8 @@ namespace LFW {
 			ImGui::Begin("Viewport");
 			auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
 			auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
-			auto viewportOffset = ImGui::GetWindowPos();
+			//auto viewportOffset = ImGui::GetWindowPos();
+			//ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 
 			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 			m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
@@ -169,20 +179,16 @@ namespace LFW {
 			uint64_t textureID = m_Framebuffer->GetColorAttachment();
 			ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
-
 			ImGui::End();
 			ImGui::PopStyleVar();
-
 			ImGui::End();
+		}
 
-
-			//---------------------------------------------------
-			//					DEMO WINDOW
-			//---------------------------------------------------
-
-			if (showDemo) { OnUIRender(); }
-			LFW::Application::BuildUI();
-
+		//---------------------------------------------------
+		//					DEMO WINDOW && GUI
+		//---------------------------------------------------
+		if (showDemo) { OnUIRender(); }
+		LFW::Application::BuildUI();
 	}
 
 
@@ -202,6 +208,7 @@ namespace LFW {
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::Get();
 		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
+		//io.DisplaySize = ImVec2(m_ViewportSize.x, m_ViewportSize.y);
 
 		// Rendering
 		ImGui::Render();
