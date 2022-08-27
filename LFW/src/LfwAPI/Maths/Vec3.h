@@ -64,9 +64,9 @@ namespace LFW {
 		//Multiplies the parameter value with the whole vector
 		void Mult(float value)
 		{
-			x* value;
-			y* value;
-			z* value;
+			x *= value;
+			y *= value;
+			z *= value;
 		}
 
 		//Set the parameter value to the whole vector
@@ -100,9 +100,9 @@ namespace LFW {
 		//Multiplies the referenced vectors value to our member variables
 		void Mult(Vec3& vector)
 		{
-			x* vector.x;
-			y* vector.y;
-			z* vector.z;
+			x *= vector.x;
+			y *= vector.y;
+			z *= vector.z;
 		}
 
 		//Set the referenced vectors value to our member variables
