@@ -543,45 +543,45 @@ LFW::Mathf::Min(x, y);
 
 Current Math Lib Functionality
 
-Floor() -- Returns the largest integer smaller than or equal to (f)
-Clamp() -- Returns the given value between those numbers. Example: 1 & 3 return 2.
-PI() ----- Returns the PI number with 7,9 or 11 floating number.
-Sqrt() --- Returns the sqrt of argument value (support for int, float & double).  Wrapper around std::sqrt().
-Max() ---- Returns the largest of two values
-Min() ---- Returns the smallest of two values
+ Floor() -- Returns the largest integer smaller than or equal to (f)
+ Clamp() -- Returns the given value between those numbers. Example: 1 & 3 return 2.
+ PI() ----- Returns the PI number with 7,9 or 11 floating number.
+ Sqrt() --- Returns the sqrt of argument value (support for int, float & double).  Wrapper around std::sqrt().
+ Max() ---- Returns the largest of two values
+ Min() ---- Returns the smallest of two values
 
 
 Mathf Testcases
 
-//SQRT()
-std::cout << "Sqrt of 9: " << LFW::MathF::Sqrt(9) << "\n";
+ //SQRT()
+ std::cout << "Sqrt of 9: " << LFW::MathF::Sqrt(9) << "\n";
 
-//MAX()
-std::cout << "Biggest value of 10 and 5: " << LFW::MathF::Max(5.0f, 10.0f) << "\n";
-std::cout << "Biggest value of 30 and 1: " << LFW::MathF::Max(30.0f, 1.0f) << "\n";
-std::cout << "Biggest value of 14 and 14: " << LFW::MathF::Max(14.0f, 14.0f) << "\n";
+ //MAX()
+ std::cout << "Biggest value of 10 and 5: " << LFW::MathF::Max(5.0f, 10.0f) << "\n";
+ std::cout << "Biggest value of 30 and 1: " << LFW::MathF::Max(30.0f, 1.0f) << "\n";
+ std::cout << "Biggest value of 14 and 14: " << LFW::MathF::Max(14.0f, 14.0f) << "\n";
 	
-//MIN()
-std::cout << "Smallest value of 10 and 5: " << LFW::MathF::Min(5.0f, 10.0f) << "\n";
-std::cout << "Smallest value of 30 and 1: " << LFW::MathF::Min(30.0f, 1.0f) << "\n";
-std::cout << "Smallest value of 14 and 14: " << LFW::MathF::Min(14.0f, 14.0f) << "\n";
+ //MIN()
+ std::cout << "Smallest value of 10 and 5: " << LFW::MathF::Min(5.0f, 10.0f) << "\n";
+ std::cout << "Smallest value of 30 and 1: " << LFW::MathF::Min(30.0f, 1.0f) << "\n";
+ std::cout << "Smallest value of 14 and 14: " << LFW::MathF::Min(14.0f, 14.0f) << "\n";
 	
-//CLAMP()
-LFW::MathF::Clamp(0,5);    //Prints 5
-LFW::MathF::Clamp(3, 5);   //Prints 2
-LFW::MathF::Clamp(-2, 12); //Prints 14
-LFW::MathF::Clamp(-5,5);   //Prints 10
+ //CLAMP()
+ LFW::MathF::Clamp(0,5);    //Prints 5
+ LFW::MathF::Clamp(3, 5);   //Prints 2
+ LFW::MathF::Clamp(-2, 12); //Prints 14
+ LFW::MathF::Clamp(-5,5);   //Prints 10
 	
-//FLOOR()
-LFW::MathF::Floor(10.0f);  //Prints 10
-LFW::MathF::Floor(10.2f);  //Prints 10
-LFW::MathF::Floor(10.7f);  //Prints 10
-LFW::MathF::Floor(-10.0f); //Prints -10
-LFW::MathF::Floor(-10.2f); //Prints -10
-LFW::MathF::Floor(-10.7f); //Prints -11
-LFW::MathF::Floor(-20.9f); //Prints -21
-LFW::MathF::Floor(-13.6f); //Prints -14
-LFW::MathF::Floor(10.7f);  //Prints 10
+ //FLOOR()
+ LFW::MathF::Floor(10.0f);  //Prints 10
+ LFW::MathF::Floor(10.2f);  //Prints 10
+ LFW::MathF::Floor(10.7f);  //Prints 10
+ LFW::MathF::Floor(-10.0f); //Prints -10
+ LFW::MathF::Floor(-10.2f); //Prints -10
+ LFW::MathF::Floor(-10.7f); //Prints -11
+ LFW::MathF::Floor(-20.9f); //Prints -21
+ LFW::MathF::Floor(-13.6f); //Prints -14
+ LFW::MathF::Floor(10.7f);  //Prints 10
 
 
 
