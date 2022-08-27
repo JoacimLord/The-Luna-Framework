@@ -58,7 +58,7 @@ namespace LFW {
 		{
 			m_UI = std::make_unique<UI>();
 			m_UI->OnAttach(); //Needs to happen here, crashes if it gets called in ImGuiLayers constructor.
-			Renderer::GetCamera().SetViewportSize(m_UI->m_ViewportSize.x, m_UI->m_ViewportSize.y);
+			//Renderer::GetCamera().SetViewportSize(m_UI->m_ViewportSize.x, m_UI->m_ViewportSize.y);
 		}
 	}
 

@@ -34,8 +34,6 @@ namespace LFW {
 	//TODO: Thinking about moving this to be initialized in the application constructor instead
 	//Sets a bool for the Dear ImGui Panels
 	
-
-
 	//DebugGUI
 	namespace DebugGUI
 	{
@@ -98,8 +96,6 @@ namespace LFW {
 		//Returns the mouse position converted from screen space to world point.
 		//This function only returns correct values if the viewport is not initialized and uses the "original" glfw window for rendering.
 		glm::vec2 ScreenToWorldPoint();
-
-
 
 		/////////////////////////////////////////////
 		/* Window (GLFW) functionality */

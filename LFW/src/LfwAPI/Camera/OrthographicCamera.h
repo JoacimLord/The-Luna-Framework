@@ -40,12 +40,18 @@ namespace LFW {
 
 		void SetProjection(float left, float right, float bottom, float top);
 
+
+
+
 		//Returns the mouse position converted from world space to screen points in pixels. Origin is 0,0 (center of screen).
 		glm::vec2 WorldToScreenPoint(glm::vec2 screenCoords, float screenW, float screenH);
 
 		//Returns the mouse position converted from screen space to world point.
 		//This function only returns correct values if the viewport is not initialized and uses the "original" glfw window for rendering.
 		glm::vec2 ScreenToWorldPoint(float screenW, float screenH);
+
+
+
 
 		void OnEvent(Event& event);
 		void OnResize(float width, float height);
