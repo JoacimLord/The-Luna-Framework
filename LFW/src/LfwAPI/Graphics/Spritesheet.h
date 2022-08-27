@@ -4,6 +4,7 @@
 
 namespace LFW {
 
+	//Contains the spritesheet data
 	struct Spritesheet
 	{
 		//This needs to be set and pushed back before rendering.
@@ -19,7 +20,7 @@ namespace LFW {
 		Sprite& GetSprite(int index);
 	};
 
-
+	//Used to manage spritesheets
 	namespace SpritesheetManager
 	{
 		//Sets the texture

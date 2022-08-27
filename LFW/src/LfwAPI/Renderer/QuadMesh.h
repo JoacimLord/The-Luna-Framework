@@ -9,6 +9,8 @@
 
 namespace LFW {
 
+
+	//This is used by the renderer to render 2D quads
 	//Represents the data of 2D quads
 	struct QuadVertex
 	{
@@ -17,6 +19,7 @@ namespace LFW {
 		glm::vec2 texcoords;
 	};
 
+	//This is used by the renderer to render 2D quads
 	//Represents the 2D quad
 	struct QuadMesh
 	{
@@ -29,6 +32,7 @@ namespace LFW {
 		QuadMesh(std::vector<QuadVertex>& verts, std::vector<GLuint>& inds, std::vector<Texture>& texts);
 	};
 
+	//This is used by the renderer to render 2D quads
 	//Stores and sets the data of the 2D quads
 	struct QuadData
 	{
@@ -36,7 +40,7 @@ namespace LFW {
 		static GLuint quadInds[];
 		static glm::vec2 textureCoordinates[];
 
+		//Sets the verticies
 		static void SetQuadData(QuadMesh& quadMesh);
-		//SetQuadData(QuadMesh& mesh);
 	};
 }

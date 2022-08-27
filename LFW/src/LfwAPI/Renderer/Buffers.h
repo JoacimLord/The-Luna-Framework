@@ -1,9 +1,10 @@
 #pragma once
 
-//NEW----------------------------------
 typedef unsigned int GLuint;
-//NEW----------------------------------
+
 namespace LFW {
+
+	struct QuadVertex;
 
 	class ElementBuffer
 	{
@@ -18,7 +19,6 @@ namespace LFW {
 		uint32_t m_id;
 	};
 
-	struct QuadVertex;
 
 	class VertexBuffer
 	{

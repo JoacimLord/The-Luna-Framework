@@ -13,6 +13,7 @@
 
 namespace LFW {
 
+	//This class is used by Application to initialize and render GUI
 	class UI
 	{
 	public:

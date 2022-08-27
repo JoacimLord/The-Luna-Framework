@@ -10,7 +10,7 @@ namespace LFW {
 	public:
 		unsigned int id;
 
-		//Texture() = default;
+		//Takes in a filepath and if the texture should be pixelated or not
 		Texture(const char* image, bool pixelation);
 		~Texture();
 

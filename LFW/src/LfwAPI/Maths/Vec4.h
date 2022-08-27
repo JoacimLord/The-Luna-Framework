@@ -2,26 +2,18 @@
 
 #include "LFWpch.h"
 
-
 namespace LFW {
 
 	struct Vec4
 	{
-		//X value
 		float x;
 
-		//Y value
 		float y;
 
-		//Z value
 		float z;
 
-		//W value
 		float w;
 
-		//--------------------------------------------------------------------------
-		// Constructors
-		//--------------------------------------------------------------------------
 		Vec4()
 		{
 			x = 0;

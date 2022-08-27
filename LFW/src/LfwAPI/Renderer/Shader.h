@@ -22,8 +22,10 @@ namespace LFW {
 		void Bind();
 		void Unbind();
 
+		//Sets glUniformMatrix4fv
 		void SetMat4(glm::mat4 matrix, const char* name);
 
+		//Sets glUniform4fv
 		void SetVec4(glm::vec4 clr);
 
 

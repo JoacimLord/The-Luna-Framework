@@ -15,6 +15,8 @@ namespace LFW {
 		glm::vec4 orange = { 1.0f, .5f, 0.0f, 1.0f };
 		glm::vec4 yellow = { 1.0f, 1.0f, 0.0f, 1.0f };
 		glm::vec4 white = { 1.0f, 1.0f, 1.0f, 1.0f };
+		glm::vec4 black = { 0.0f, 0.0f, 0.0f, 1.0f };
 		glm::vec4 lightgreen = { .5f, 1.0f, 0.0f, 1.0f };
+
 	}
 }

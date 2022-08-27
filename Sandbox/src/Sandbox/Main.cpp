@@ -45,7 +45,6 @@ int main()
 	orangeSprite.SetSize(0.5f, 0.3f);
 	orangeSprite.SetPosition(0.5f, 0.0f);
 
-
 	//-------------------------------------------------------
 	//EXAMPLE - Spritesheet usage
 	//-------------------------------------------------------
@@ -59,7 +58,6 @@ int main()
 
 	//Load the spritesheet with the SpriteSheetManager. Takes in the spritesheet, filepath and if the sprites needs pixelation (for pixel art)
 	LFW::SpritesheetManager::LoadSpritesheet(spriteSheet, "path_to_spritesheet", true);
-
 
 	//Init the sprites to set their size & positions
 	LFW::Sprite sprite;
@@ -99,9 +97,8 @@ int main()
 
 		//Draw from the spritesheet
 		app.Render(spriteSheet);
-
-		app.Render(texturedSprite);
-		app.Render(orangeSprite);
+		//app.Render(texturedSprite);
+		//app.Render(orangeSprite);
 
 		app.Display();
 	}

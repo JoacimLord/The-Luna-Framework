@@ -31,10 +31,7 @@
 
 namespace LFW {
 
-	//TODO: Thinking about moving this to be initialized in the application constructor instead
-	//Sets a bool for the Dear ImGui Panels
 	
-	//DebugGUI
 	namespace DebugGUI
 	{
 		static bool enableDebugGUI;
@@ -43,7 +40,7 @@ namespace LFW {
 		//If false, the application renders directly to the GLFW window instead.
 		void Init(bool state);
 
-		//Checks if the GUI is enabled, used in Application.cpp at initialization and Clear()-checks.
+		//Checks if the DebugGUI is enabled, used in Application.cpp at initialization and Clear()-checks.
 		bool IsEnabled();
 	}
 
@@ -55,10 +52,9 @@ namespace LFW {
 		//If false, the application renders directly to the GLFW window instead.
 		void Init(bool state);
 
-		//Checks if the GUI is enabled, used in Application.cpp at initialization and Clear()-checks.
+		//Checks if the Docking is enabled, used in Application.cpp at initialization and Clear()-checks.
 		bool IsEnabled();
 	}
-
 
 
 	class Application
@@ -89,17 +85,12 @@ namespace LFW {
 		//Needs to be called at the end of each frame (furthest down in while loop). Clears frame buffers and displays graphics
 		void Display();
 
-
 		//Returns the mouse position converted from world space to screen points in pixels. Origin is 0,0 (center of screen).
 		glm::vec2 WorldToScreenPoint();
 
 		//Returns the mouse position converted from screen space to world point.
 		//This function only returns correct values if the viewport is not initialized and uses the "original" glfw window for rendering.
 		glm::vec2 ScreenToWorldPoint();
-
-		/////////////////////////////////////////////
-		/* Window (GLFW) functionality */
-		/////////////////////////////////////////////
 
 		//Sets the title of the LFW application
 		void SetTitle(std::string title);
@@ -151,6 +142,7 @@ namespace LFW {
 		static void BuildUI();
 
 	public:
+		//Returns the singleton instance of the application
 		inline static Application& Get() { return *s_instance; }
 		WindowInterface& GetWindow() const { return *m_window; }
 

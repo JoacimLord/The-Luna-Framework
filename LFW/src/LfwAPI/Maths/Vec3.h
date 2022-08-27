@@ -3,24 +3,16 @@
 #include "LFWpch.h"
 
 
-
 namespace LFW {
 
 	struct Vec3
 	{
-		//X value
 		float x;
 
-		//Y value
 		float y;
 
-		//Z value
 		float z;
 
-
-		//--------------------------------------------------------------------------
-		// Constructors
-		//--------------------------------------------------------------------------
 		Vec3()
 		{
 			x = 0;

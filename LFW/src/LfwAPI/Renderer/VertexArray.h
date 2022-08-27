@@ -15,7 +15,11 @@ namespace LFW {
 		void Unbind();
 
 		void AddElementBuffer(uint32_t* indices);
+
+		//Used for sprites that use textures
 		void AddVertexBufferTexture(std::shared_ptr<VertexBuffer>& vertexBuffer);
+
+		//Used for sprites that use colors
 		void AddVertexBufferColor(std::shared_ptr<VertexBuffer>& vertexBuffer);
 
 	private:

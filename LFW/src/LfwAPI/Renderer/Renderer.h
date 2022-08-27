@@ -34,7 +34,10 @@ namespace LFW {
 		//Renders 2D sprites from a spritesheet
 		static void DrawFromSpritesheet(Spritesheet& spriteSheet);
 
+		//Used to draw using OpenGL
 		static void DrawElements(std::shared_ptr<VertexArray>& vertexArray, uint32_t size);
+
+		//Enables OpenGL flags
 		static void OpenGLEnables();
 
 		static void OnWindowResize(float width, float height);
