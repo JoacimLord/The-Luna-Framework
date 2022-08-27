@@ -4,20 +4,18 @@
 #include "Anchor.h"
 #include "LfwAPI/Renderer/Texture.h"
 #include "LfwAPI/Core/Defines.h"
+#include "LfwAPI/Renderer/QuadMesh.h"
 
 namespace LFW {
 
-	struct Sprite
+	class Sprite
 	{
+	public:
 		//Default constructor
 		Sprite() = default;
 
 		//Sets the sprites position and size at construction
 		Sprite(glm::vec2 position, glm::vec2 size);
-
-		//The sprites placement and orientation in the world.
-		//The anchor is a basic matrix with position, scale and rotation (transform).
-		Anchor anchor;
 
 		//Adds a texture to the sprite. Load the texture with a filePath and "SetTexture()"
 		AddTexture texture;
@@ -38,8 +36,14 @@ namespace LFW {
 		//Sets the position of the sprite in 2D space (x, y)
 		void SetPosition(float x, float y);
 
+		//Gets the sprites position in 2D space (x,y)
+		glm::vec2 GetPosition();
+
 		//Sets the size of the sprite in 2D space (x, y)
 		void SetSize(float w, float h);
+
+		//Get the size of the sprite in 2D space (x, y)
+		glm::vec2 GetSize();
 
 		//Sets the rotation of the sprite in 2D space (x axis)
 		void SetRotationX(float rotation);
@@ -49,5 +53,14 @@ namespace LFW {
 
 		//Sets the rotation of the sprite in 2D space (z axis)
 		void SetRotationZ(float rotation);
+
+		//Returns the sprites transform. Only used by the renderer to position it properly.
+		glm::mat4 GetTransform();
+
+	private:
+		//The sprites placement and orientation in the world.
+		//The anchor is a basic matrix with position, scale and rotation (transform).
+		Anchor anchor;
+	};
 	};
 }

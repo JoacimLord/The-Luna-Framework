@@ -1,5 +1,8 @@
 #pragma once
 
+//NEW----------------------------------
+typedef unsigned int GLuint;
+//NEW----------------------------------
 namespace LFW {
 
 	class ElementBuffer
@@ -15,11 +18,14 @@ namespace LFW {
 		uint32_t m_ID;
 	};
 
+	struct QuadVertex;
+
 	class VertexBuffer
 	{
 
 	public:
 		VertexBuffer(float* vertices, uint32_t size);
+		VertexBuffer(std::vector<QuadVertex>& verticies);
 		~VertexBuffer();
 
 		void Bind();

@@ -8,11 +8,14 @@
 #include "LfwAPI/Graphics/Anchor.h"
 #include "LfwAPI/Graphics/Sprite.h"
 #include "LfwAPI/Camera/OrthographicCamera.h"
+#include "LfwAPI/Renderer/QuadMesh.h"
 
 #include "glm/glm.hpp"
 
 namespace LFW {
 
+	//Everything in the renderer class is supposed to be called internally and therefore not by the user.
+	//The functionality that's supposed to be reached is wrapped in 'Application' and reachable from there.
 	class Renderer
 	{
 	public:
@@ -24,6 +27,7 @@ namespace LFW {
 		static void Clear();
 		static void ClearColor(float r, float g, float b, float transparent);
 
+		//Renders 2D sprites (quads)
 		static void Draw(Sprite& sprite);
 
 		static void DrawElements(std::shared_ptr<VertexArray>& vertexArray, uint32_t size);
@@ -31,8 +35,13 @@ namespace LFW {
 
 		static void OnWindowResize(float width, float height);
 
+		//Returns the orthographic camera (read only)
 		static OrthographicCamera GetCamera();
+
+		//Sets the cameras position (x,y,z)
 		static void SetCameraPosition(const glm::vec3 temppos);
+
+		//Returns the cameras position (read only)
 		static glm::vec3 GetCameraPosition();
 
 		//Returns the mouse position converted from world space to screen points in pixels. Origin is 0,0 (center of screen).

@@ -39,31 +39,6 @@ namespace LFW {
         //Color
         s_RendererData.ColorVertexArray = std::make_shared<VertexArray>();
         s_RendererData.ColorShader = std::make_shared<Shader>(ColorShaderFile);
-
-        GLfloat vertices[] =
-        {
-            //CORDINATES				//COLORS		//TEXCORDS
-           -0.5f, -0.5f, 0.0f, 1.0f,	0.0f, 0.0f,		 0.0f,	0.0f,
-            0.5f, -0.5f, 0.0f, 1.0f,	1.0f, 0.0f,		 1.0f,	0.0f,
-            0.5f,  0.5f, 0.0f, 1.0f,	0.0f, 1.0f,		 1.0f,	1.0f,
-           -0.5f,  0.5f, 0.0f, 1.0f,	1.0f, 1.0f,		 0.0f,	1.0f
-        };
-
-        GLuint indices[] =
-        {
-            0, 2, 1,
-            0, 3, 2
-        };
-
-        std::shared_ptr<VertexBuffer> VBOtexture = std::make_shared<VertexBuffer>(vertices, sizeof(vertices));
-        std::shared_ptr<VertexBuffer> VBOcolor = std::make_shared<VertexBuffer>(vertices, sizeof(vertices));
-
-        s_RendererData.TextureVertexArray->AddElementBuffer(indices);
-        s_RendererData.TextureVertexArray->AddVertexBufferTexture(VBOtexture);
-
-        //Clr
-        s_RendererData.ColorVertexArray->AddElementBuffer(indices);
-        s_RendererData.ColorVertexArray->AddVertexBufferColor(VBOcolor);
     }
 
     void Renderer::Clear()
@@ -104,12 +79,18 @@ namespace LFW {
 
     void Renderer::Draw(Sprite& sprite)
     {
-        //TODO: Move the camera setup into it's own function
         if (sprite.texture)
         {
+            s_RendererData.TextureVertexArray->AddElementBuffer(QuadData::quadInds);
+            QuadMesh quadMesh;
+            QuadData::SetQuadData(quadMesh);
+            std::shared_ptr<VertexBuffer> VBO = std::make_shared<VertexBuffer>(quadMesh.verticies);
+            s_RendererData.TextureVertexArray->AddVertexBufferTexture(VBO);
+
+
             s_RendererData.TextureShader->Bind();
             s_RendererData.TextureShader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj");
-            s_RendererData.TextureShader->SetMat4(sprite.anchor.GetTransform(), "scale");   
+            s_RendererData.TextureShader->SetMat4(sprite.GetTransform(), "scale");
 
             //Bind the texture and draw
             glBindTexture(GL_TEXTURE_2D, sprite.texture->id);
@@ -119,9 +100,16 @@ namespace LFW {
 
         else
         {
+            s_RendererData.ColorVertexArray->AddElementBuffer(QuadData::quadInds);
+
+            QuadMesh quadMesh;
+            QuadData::SetQuadData(quadMesh);
+            std::shared_ptr<VertexBuffer> VBO = std::make_shared<VertexBuffer>(quadMesh.verticies);
+            s_RendererData.ColorVertexArray->AddVertexBufferColor(VBO);
+
             s_RendererData.ColorShader->Bind();
             s_RendererData.ColorShader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj");
-            s_RendererData.ColorShader->SetMat4(sprite.anchor.GetTransform(), "scale");
+            s_RendererData.ColorShader->SetMat4(sprite.GetTransform(), "scale");
 
             //Sumbit a color and draw
             s_RendererData.ColorShader->SetVec4(sprite.color);

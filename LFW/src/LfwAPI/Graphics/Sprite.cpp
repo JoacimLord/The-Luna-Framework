@@ -30,11 +30,23 @@ namespace LFW {
 		anchor.Translation.y = y;
 	}
 
+	//Gets the sprites position in 2D space (x,y)
+	glm::vec2 Sprite::GetPosition()
+	{
+		return glm::vec2(anchor.Translation.x, anchor.Translation.y);
+	}
+
 	void Sprite::SetSize(float w, float h)
 	{
 		anchor.Scale.x = w;
 		anchor.Scale.y = h;
 	}
+
+	glm::vec2 Sprite::GetSize()
+	{
+		return glm::vec2(anchor.Scale.x, anchor.Scale.y);
+	}
+
 
 	void Sprite::SetRotationX(float rotation)
 	{
@@ -48,5 +60,10 @@ namespace LFW {
 	void Sprite::SetRotationZ(float rotation)
 	{
 		anchor.Rotation.z += rotation;
+	}
+
+	glm::mat4 Sprite::GetTransform()
+	{
+		return anchor.GetTransform();
 	}
 }

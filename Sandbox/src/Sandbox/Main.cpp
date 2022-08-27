@@ -1,7 +1,7 @@
 //Welcome to LFW(THE LUNA FRAMEWORK)!
 /*
 	@author Joacim Lord (c) 2020-2022.
-	<This project was last edited 220826>
+	<This project was last edited 220827>
 */
 
 //Contains everything you need!

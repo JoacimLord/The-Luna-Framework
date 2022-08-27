@@ -1,6 +1,8 @@
 #include "LFWpch.h"
 #include "Buffers.h"
 
+#include "Renderer.h"
+
 #include <glad/glad.h>
 
 namespace LFW {
@@ -32,6 +34,13 @@ namespace LFW {
         glGenBuffers(1, &m_ID);
         glBindBuffer(GL_ARRAY_BUFFER, m_ID);
         glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+    }
+
+    VertexBuffer::VertexBuffer(std::vector<QuadVertex>& verticies)
+    {
+        glGenBuffers(1, &m_ID);
+        glBindBuffer(GL_ARRAY_BUFFER, m_ID);
+        glBufferData(GL_ARRAY_BUFFER, verticies.size() * sizeof(QuadVertex), verticies.data(), GL_STATIC_DRAW);
     }
 
     VertexBuffer::~VertexBuffer()
