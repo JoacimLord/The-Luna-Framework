@@ -7,14 +7,10 @@
 
 namespace LFW {
 
-	using str = std::string; //std::string
-	using i16 = uint16_t;    //uint16
-	using i32 = uint32_t;    //uint32
-	using i64 = uint64_t;    //uint64
-
-	//std::vector<T>
-	template <typename T>
-	using Vec = std::vector<T>;
+	using str = std::string;
+	using i16 = uint16_t;
+	using i32 = uint32_t;
+	using i64 = uint64_t;
 
 	//Adds unitialized texture
 	using AddTexture = std::shared_ptr<LFW::Texture>;

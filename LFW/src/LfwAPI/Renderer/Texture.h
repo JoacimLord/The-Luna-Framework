@@ -16,9 +16,5 @@ namespace LFW {
 
 		void Bind();
 		void Unbind();
-
-	private:
-		uint32_t m_ID;
-		uint32_t m_Type;
 	};
 }

@@ -15,7 +15,7 @@ namespace LFW {
 		void Unbind();
 
 	private:
-		uint32_t m_ID;
+		uint32_t m_id;
 	};
 
 	struct QuadVertex;
@@ -32,6 +32,6 @@ namespace LFW {
 		void Unbind();
 
 	private:
-		uint32_t m_ID;
+		uint32_t m_id;
 	};
 }

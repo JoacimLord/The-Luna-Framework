@@ -18,7 +18,7 @@ namespace LFW {
 
 	UI::UI()
 	{
-		m_Framebuffer = std::make_shared<Framebuffer>();
+		m_framebuffer = std::make_shared<Framebuffer>();
 	}
 
 	UI::~UI()
@@ -44,8 +44,8 @@ namespace LFW {
 		ImGui_ImplOpenGL3_Init("#version 410");
 
 		LFW::FramebufferSpecification spec;
-		spec.Width = 1280;
-		spec.Height = 720;
+		spec.width = 1280;
+		spec.height = 720;
 		SetFramebufferSpec(spec);
 	}
 	
@@ -84,16 +84,16 @@ namespace LFW {
 		
 		if (Docking::IsEnabled())
 		{
-			if (m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && m_Framebuffer->GetFramebufferSpecification().Width != m_ViewportSize.x || m_Framebuffer->GetFramebufferSpecification().Height != m_ViewportSize.y)
+			if (viewportSize.x > 0.0f && viewportSize.y > 0.0f && m_framebuffer->GetFramebufferSpecification().width != viewportSize.x || m_framebuffer->GetFramebufferSpecification().height != viewportSize.y)
 			{
 				std::cout << "Resetting framebuffer!\n";
-				m_Framebuffer->ResizeFramebuffer((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+				m_framebuffer->ResizeFramebuffer((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 
 				//Renderer::GetCamera().SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
-				Renderer::GetCamera().OnResize(m_ViewportSize.x, m_ViewportSize.y);
+				Renderer::GetCamera().OnResize(viewportSize.x, viewportSize.y);
 			}
 
-			m_Framebuffer->Bind();
+			m_framebuffer->Bind();
 			Renderer::ClearColor(r, g, b, transparent);
 			Renderer::Clear();
 		}
@@ -101,13 +101,13 @@ namespace LFW {
 
 	void UI::UnbindFramebuffer()
 	{
-		m_Framebuffer->Unbind();
+		m_framebuffer->Unbind();
 	}
 
 	void UI::SetFramebufferSpec(FramebufferSpecification spec)
 	{
-		m_Framebuffer->CreateFramebufferSpecification(spec);
-		m_Framebuffer->Invalidate();
+		m_framebuffer->CreateFramebufferSpecification(spec);
+		m_framebuffer->Invalidate();
 	}
 
 	//Used in app
@@ -174,10 +174,10 @@ namespace LFW {
 			//ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 
 			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-			m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+			viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 
-			uint64_t textureID = m_Framebuffer->GetColorAttachment();
-			ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+			uint64_t textureID = m_framebuffer->GetColorAttachment();
+			ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ viewportSize.x, viewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
 			ImGui::End();
 			ImGui::PopStyleVar();
@@ -197,8 +197,8 @@ namespace LFW {
 	{
 		ImGui::Begin("Demo");
 		ImGui::Text("Click for ImGui Demo Window");
-		ImGui::Checkbox("Demo", &m_DemoGuiWindow);
-		if (m_DemoGuiWindow) { ImGui::ShowDemoWindow(&m_DemoGuiWindow); }
+		ImGui::Checkbox("Demo", &m_demoGuiWindow);
+		if (m_demoGuiWindow) { ImGui::ShowDemoWindow(&m_demoGuiWindow); }
 		ImGui::End();
 	}
 

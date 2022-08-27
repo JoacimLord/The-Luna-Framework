@@ -31,7 +31,7 @@ namespace LFW {
 		void CompileErrors(unsigned int shader, const char* type);
 
 	private:
-		GLuint m_ID;
+		GLuint m_id;
 	};
 
 	//Move to a separate "Reader" class

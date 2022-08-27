@@ -24,16 +24,16 @@ namespace LFW {
 
 	void WindowLogic::SetWindowData(const Window& data)
 	{
-		m_Data.Title = data.Title;
-		m_Data.Width = data.Width;
-		m_Data.Height = data.Height;
+		m_data.title = data.title;
+		m_data.width = data.width;
+		m_data.height = data.height;
 	}
 
 	void WindowLogic::Init(const Window& data)
 	{
-		m_Data.Title = data.Title;
-		m_Data.Width = data.Width;
-		m_Data.Height = data.Height;
+		m_data.title = data.title;
+		m_data.width = data.width;
+		m_data.height = data.height;
 
 		if (!s_GLFWInitialize)
 		{
@@ -41,13 +41,13 @@ namespace LFW {
 			s_GLFWInitialize = true;
 		}
 
-		m_Window = glfwCreateWindow((int)data.Width, (int)data.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		glfwFocusWindow(m_Window);
+		m_window = glfwCreateWindow((int)data.width, (int)data.height, m_data.title.c_str(), nullptr, nullptr);
+		glfwFocusWindow(m_window);
 
-		glfwMakeContextCurrent(m_Window);
+		glfwMakeContextCurrent(m_window);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
-		glfwSetWindowUserPointer(m_Window, &m_Data);
+		glfwSetWindowUserPointer(m_window, &m_data);
 		SetVSync(true);
 
 		//Set callbacks
@@ -62,14 +62,14 @@ namespace LFW {
 
 	void WindowLogic::Shutdown()
 	{
-		glfwDestroyWindow(m_Window);
+		glfwDestroyWindow(m_window);
 		glfwTerminate();
 	}
 
 	void WindowLogic::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window); //add this
+		glfwSwapBuffers(m_window); //add this
 	}
 
 
@@ -78,24 +78,24 @@ namespace LFW {
 		if (enabled) { glfwSwapInterval(1); }
 		else { glfwSwapInterval(0); }
 			
-		m_Data.VSync = enabled;
+		m_data.vSync = enabled;
 	}
 
-	bool WindowLogic::VSyncActive() const { return m_Data.VSync; }
+	bool WindowLogic::VSyncActive() const { return m_data.vSync; }
 
 	void WindowLogic::SetCallbackResize()
 	{
 		//Callback - Resize
-		glfwSetWindowSizeCallback(m_Window,
+		glfwSetWindowSizeCallback(m_window,
 			[](GLFWwindow* window, int width, int height)
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-				data.Width = width;
-				data.Height = height;
+				data.width = width;
+				data.height = height;
 
 				WindowResizeEvent event(width, height);
-				data.EventCallback(event);
+				data.eventCallback(event);
 			});
 	}
 
@@ -103,20 +103,20 @@ namespace LFW {
 	{
 
 		//Callback - Close
-		glfwSetWindowCloseCallback(m_Window,
+		glfwSetWindowCloseCallback(m_window,
 			[](GLFWwindow* window)
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
 				WindowCloseEvent event;
-				data.EventCallback(event);
+				data.eventCallback(event);
 			});
 	}
 
 	void WindowLogic::SetCallbackKeyboard()
 	{
 		//Callback - Keys
-		glfwSetKeyCallback(m_Window,
+		glfwSetKeyCallback(m_window,
 			[](GLFWwindow* window, int key, int scancode, int action, int mods)
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
@@ -126,7 +126,7 @@ namespace LFW {
 				case GLFW_PRESS:
 				{
 					KeyPressedEvent event(key, 0);
-					data.EventCallback(event);
+					data.eventCallback(event);
 
 					break;
 				}
@@ -134,7 +134,7 @@ namespace LFW {
 				case GLFW_RELEASE:
 				{
 					KeyReleasedEvent event(key);
-					data.EventCallback(event);
+					data.eventCallback(event);
 
 					break;
 				}
@@ -142,7 +142,7 @@ namespace LFW {
 				case GLFW_REPEAT:
 				{
 					KeyPressedEvent event(key, 1);
-					data.EventCallback(event);
+					data.eventCallback(event);
 
 					break;
 				}
@@ -154,13 +154,13 @@ namespace LFW {
 	{
 
 		//Callback - Char
-		glfwSetCharCallback(m_Window,
+		glfwSetCharCallback(m_window,
 			[](GLFWwindow* window, unsigned int keycode)
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
 				KeyTypedEvent event(keycode);
-				data.EventCallback(event);
+				data.eventCallback(event);
 			});
 	}
 
@@ -168,7 +168,7 @@ namespace LFW {
 	{
 
 		//Callback - MouseButton
-		glfwSetMouseButtonCallback(m_Window,
+		glfwSetMouseButtonCallback(m_window,
 			[](GLFWwindow* window, int button, int action, int mods)
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
@@ -178,7 +178,7 @@ namespace LFW {
 				case GLFW_PRESS:
 				{
 					MouseButtonPressedEvent event(button);
-					data.EventCallback(event);
+					data.eventCallback(event);
 
 					break;
 				}
@@ -186,7 +186,7 @@ namespace LFW {
 				case GLFW_RELEASE:
 				{
 					MouseButtonReleasedEvent event(button);
-					data.EventCallback(event);
+					data.eventCallback(event);
 
 					break;
 				}
@@ -198,25 +198,25 @@ namespace LFW {
 	{
 
 		//Callback - MouseScroll
-		glfwSetScrollCallback(m_Window,
+		glfwSetScrollCallback(m_window,
 			[](GLFWwindow* window, double xOffset, double yOffset)
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
 				MouseWheelScrolledEvent event((float)xOffset, (float)yOffset);
-				data.EventCallback(event);
+				data.eventCallback(event);
 			});
 	}
 	void WindowLogic::SetCallbackCursorPos()
 	{
 		//Callback - CursorPos
-		glfwSetCursorPosCallback(m_Window,
+		glfwSetCursorPosCallback(m_window,
 			[](GLFWwindow* window, double xPos, double yPos)
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
 				MouseMovedEvent event((float)xPos, (float)yPos);
-				data.EventCallback(event);
+				data.eventCallback(event);
 			});
 	}
 

@@ -41,7 +41,7 @@ int main()
 	texturedSprite.SetPosition(-0.5f, 0.0f);
 
 	LFW::Sprite orangeSprite;
-	orangeSprite.color = LFW::Colors::Orange;
+	orangeSprite.color = LFW::Colors::orange;
 	orangeSprite.SetSize(0.5f, 0.3f);
 	orangeSprite.SetPosition(0.5f, 0.0f);
 
@@ -88,7 +88,7 @@ int main()
 		LFW::DeltaTime deltaTime = elapsedTime - lastFrameTime;
 		lastFrameTime = elapsedTime;
 
-		app.Clear(LFW::Colors::Grey);
+		app.Clear(LFW::Colors::grey);
 
 		// Example of how to use ScreenToWorldPoint()
 		if (LFW::Input::IsMouseButtonPressed(LFW::Mouse::Button0))
@@ -100,8 +100,8 @@ int main()
 		//Draw from the spritesheet
 		app.Render(spriteSheet);
 
-		//app.Render(texturedSprite);
-		//app.Render(orangeSprite);
+		app.Render(texturedSprite);
+		app.Render(orangeSprite);
 
 		app.Display();
 	}

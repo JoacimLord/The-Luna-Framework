@@ -11,13 +11,13 @@ namespace LFW {
 	struct Anchor
 	{
 		//Position in world space
-		glm::vec3 Translation = { 0.0f, 0.0f, 0.0f };
+		glm::vec3 translation = { 0.0f, 0.0f, 0.0f };
 
 		//Rotation in world space
-		glm::vec3 Rotation = { 0.0f, 0.0f, 0.0f };
+		glm::vec3 rotation = { 0.0f, 0.0f, 0.0f };
 
 		//Scale in world space
-		glm::vec3 Scale = { 1.0f, 1.0f, 1.0f };
+		glm::vec3 scale = { 1.0f, 1.0f, 1.0f };
 
 		Anchor() = default;
 		Anchor(const Anchor&) = default;

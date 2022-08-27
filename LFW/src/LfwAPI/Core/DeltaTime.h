@@ -8,17 +8,17 @@ namespace LFW {
 	{
 	public:
 		DeltaTime(float deltaTime)
-			: m_Time(deltaTime) {}
+			: m_time(deltaTime) {}
 
-		operator float() const { return m_Time; }
+		operator float() const { return m_time; }
 
 		//Return time
-		float GetSeconds() const { return m_Time; }
+		float GetSeconds() const { return m_time; }
 
 		//Return time in ms
-		float GetMilliSeconds() const { return m_Time * 1000.0f; } //seconds * 1000 (milli)
+		float GetMilliSeconds() const { return m_time * 1000.0f; } //seconds * 1000 (milli)
 
 	private:
-		float m_Time;
+		float m_time;
 	};
 }

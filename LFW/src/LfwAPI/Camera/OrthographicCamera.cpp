@@ -12,11 +12,11 @@ namespace LFW {
 		SetProjection(l, r, b, t);
 	}
 
-	const glm::vec3& OrthographicCamera::GetPosition() const { return pos; }
+	const glm::vec3& OrthographicCamera::GetPosition() const { return position; }
 
 	void OrthographicCamera::RecalcMatrix()
 	{
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) *
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
 			glm::rotate(glm::mat4(1.0f), rotation, glm::vec3(0, 0, 1));
 
 		viewMatrix = glm::inverse(transform);
@@ -25,9 +25,9 @@ namespace LFW {
 
 	void OrthographicCamera::SetPosition(const glm::vec3& temppos) 
 	{
-		pos = temppos; 
-		xOffset = pos.x;
-		yOffset = pos.y;
+		position = temppos; 
+		xOffset = position.x;
+		yOffset = position.y;
 		std::cout << "X: " << xOffset << "\n";
 		std::cout << "Y: " << yOffset << "\n";
 		RecalcMatrix(); 
@@ -43,8 +43,8 @@ namespace LFW {
 	{
 		screenCoords -= glm::vec2((float)screenW / 2, (float)screenH / 2);
 		screenCoords /= zoomLevel;
-		screenCoords.x += pos.x;
-		screenCoords.y += pos.y;
+		screenCoords.x += position.x;
+		screenCoords.y += position.y;
 
 		// Flips the y-axis
 		glm::vec2 temp = glm::vec2(screenCoords.x, -screenCoords.y);
@@ -94,7 +94,7 @@ namespace LFW {
 	{
 		aspectRatio = width / height;
 		bounds = { -aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel };
-		SetProjection(bounds.Left, bounds.Right, bounds.Bottom, bounds.Top);
+		SetProjection(bounds.left, bounds.right, bounds.bottom, bounds.top);
 
 		//Debug
 		//std::cout << "Width: " << width << ", height: " << height << ", ar: " << aspectRatio << "\n";

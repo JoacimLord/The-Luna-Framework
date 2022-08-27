@@ -4,7 +4,7 @@ namespace LFW {
 
 	struct FramebufferSpecification
 	{
-		uint32_t Height, Width;
+		uint32_t height, width;
 	};
 
 	class Framebuffer
@@ -26,9 +26,9 @@ namespace LFW {
 		FramebufferSpecification& GetFramebufferSpecification();
 	
 	private:
-		uint32_t m_ID;
-		uint32_t m_ColorAttachment;
-		uint32_t m_DepthAttachment;
-		FramebufferSpecification m_FramebufferSpecification;
+		uint32_t m_id;
+		uint32_t m_colorAttachment;
+		uint32_t m_depthAttachment;
+		FramebufferSpecification m_framebufferSpecification;
 	};
 }

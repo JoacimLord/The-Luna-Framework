@@ -37,7 +37,7 @@ namespace LFW {
 	//DebugGUI
 	namespace DebugGUI
 	{
-		static bool m_EnableDebugGUI;
+		static bool enableDebugGUI;
 
 		//If true this enables Dear ImGui in the application.
 		//If false, the application renders directly to the GLFW window instead.
@@ -49,7 +49,7 @@ namespace LFW {
 
 	namespace Docking
 	{
-		static bool m_EnableDocking;
+		static bool m_enableDocking;
 
 		//If true this enables Dear ImGui in the application.
 		//If false, the application renders directly to the GLFW window instead.
@@ -151,8 +151,8 @@ namespace LFW {
 		static void BuildUI();
 
 	public:
-		inline static Application& Get() { return *s_Instance; }
-		WindowInterface& GetWindow() const { return *m_Window; }
+		inline static Application& Get() { return *s_instance; }
+		WindowInterface& GetWindow() const { return *m_window; }
 
 	private:
 		//Handles application events
@@ -168,9 +168,9 @@ namespace LFW {
 		void OnGUIClose();
 
 	private:
-		static Application* s_Instance;
-		bool m_IsRunning = true;
-		std::unique_ptr<WindowInterface> m_Window = nullptr;
-		std::unique_ptr<UI> m_UI = nullptr;
+		static Application* s_instance;
+		bool m_isRunning = true;
+		std::unique_ptr<WindowInterface> m_window = nullptr;
+		std::unique_ptr<UI> m_ui = nullptr;
 	};
 }

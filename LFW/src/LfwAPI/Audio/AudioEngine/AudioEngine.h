@@ -60,18 +60,18 @@ namespace LFW {
 
 	private:
 		//Not needed?
-		const char* m_FilePath;
+		const char* m_filePath;
 
 		//Stores specified filepaths to sound files in an unordered_map
-		SoundMap m_SoundMap;
+		SoundMap m_soundMap;
 
 		//miniaudio objects
-		ma_result m_LoaderResult;
-		ma_engine m_MiniAudioEngine;
-		ma_decoder m_Decoder;
-		ma_device_config m_DeviceConfig;
-		ma_device m_Device;
-		bool m_DeviceActive = false;
-		bool m_DecoderActive = false;
+		ma_result m_loaderResult;
+		ma_engine m_miniAudioEngine;
+		ma_decoder m_decoder;
+		ma_device_config m_deviceConfig;
+		ma_device m_device;
+		bool m_deviceActive = false;
+		bool m_decoderActive = false;
 	};
 }

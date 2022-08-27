@@ -74,13 +74,13 @@ namespace LFW {
 
             CompileErrors(fragmentShader, "FRAGMENT");
 
-            m_ID = glCreateProgram();
+            m_id = glCreateProgram();
 
-            glAttachShader(m_ID, vertexShader);
-            glAttachShader(m_ID, fragmentShader);
-            glLinkProgram(m_ID);
+            glAttachShader(m_id, vertexShader);
+            glAttachShader(m_id, fragmentShader);
+            glLinkProgram(m_id);
 
-            CompileErrors(m_ID, "PROGRAM");
+            CompileErrors(m_id, "PROGRAM");
 
             //Cleanup
             glDeleteShader(vertexShader);
@@ -101,13 +101,13 @@ namespace LFW {
 
             CompileErrors(fragmentShader, "FRAGMENT");
 
-            m_ID = glCreateProgram();
+            m_id = glCreateProgram();
 
-            glAttachShader(m_ID, vertexShader);
-            glAttachShader(m_ID, fragmentShader);
-            glLinkProgram(m_ID);
+            glAttachShader(m_id, vertexShader);
+            glAttachShader(m_id, fragmentShader);
+            glLinkProgram(m_id);
 
-            CompileErrors(m_ID, "PROGRAM");
+            CompileErrors(m_id, "PROGRAM");
 
             //Cleanup
             glDeleteShader(vertexShader);
@@ -117,12 +117,12 @@ namespace LFW {
 
     Shader::~Shader()
     {
-        glDeleteProgram(m_ID);
+        glDeleteProgram(m_id);
     }
 
     void Shader::Bind()
     {
-        glUseProgram(m_ID);
+        glUseProgram(m_id);
     }
 
     void Shader::Unbind()
@@ -132,13 +132,13 @@ namespace LFW {
 
     void Shader::SetMat4(glm::mat4 matrix, const char* name)
     {
-        GLuint uniID = glGetUniformLocation(m_ID, name);
+        GLuint uniID = glGetUniformLocation(m_id, name);
         glUniformMatrix4fv(uniID, 1, GL_FALSE, glm::value_ptr(matrix));
     }
 
     void Shader::SetVec4(glm::vec4 clr)
     {
-        GLuint particleShader = glGetUniformLocation(m_ID, "u_Color");
+        GLuint particleShader = glGetUniformLocation(m_id, "u_Color");
         glUniform4fv(particleShader, 1, glm::value_ptr(clr));
     }
 

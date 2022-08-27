@@ -8,14 +8,14 @@ namespace LFW {
 	{
 	protected:
 		KeyEvent(int keycode)
-			: m_KeyCode(keycode) {}
+			: m_keyCode(keycode) {}
 
 	public:
-		inline int GetKeyCode() const { return m_KeyCode; }
+		inline int GetKeyCode() const { return m_keyCode; }
 		CHECK_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 
 	protected:
-		int m_KeyCode;
+		int m_keyCode;
 	};
 }
 

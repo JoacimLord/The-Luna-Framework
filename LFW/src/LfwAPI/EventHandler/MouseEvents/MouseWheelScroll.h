@@ -10,16 +10,16 @@ namespace LFW {
 	{
 	public:
 		MouseWheelScrolledEvent(float xOffset, float yOffset)
-			: m_XOffset(xOffset), m_YOffset(yOffset) {}
+			: m_xOffset(xOffset), m_yOffset(yOffset) {}
 
-		inline float GetXOffset() const { return m_XOffset; }
-		inline float GetYOffset() const { return m_YOffset; }
+		inline float GetXOffset() const { return m_xOffset; }
+		inline float GetYOffset() const { return m_yOffset; }
 
 		CHECK_TYPE(MouseWheelScrolled)
 		CHECK_CATEGORY(EventCategoryMouse | EventCategoryInput)
 
 	private:
-		float m_XOffset;
-		float m_YOffset;
+		float m_xOffset;
+		float m_yOffset;
 	};
 }

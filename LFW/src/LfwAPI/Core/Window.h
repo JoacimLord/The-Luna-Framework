@@ -21,14 +21,14 @@ namespace LFW {
 
 	struct Window
 	{
-		std::string Title;
-		uint32_t Width;
-		uint32_t Height;
+		std::string title;
+		uint32_t width;
+		uint32_t height;
 
 		Window(const std::string& title = "LFW App",
 			uint32_t width = 1280,
 			uint32_t height = 720)
-			: Title(title), Width(width), Height(height)
+			: title(title), width(width), height(height)
 		{
 		}
 	};

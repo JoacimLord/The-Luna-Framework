@@ -12,7 +12,7 @@ namespace LFW {
 
 	public:
 		EventDispatcher(Event& event)
-			: m_Event(event)
+			: m_event(event)
 		{
 			//Do nothing
 		}
@@ -20,15 +20,15 @@ namespace LFW {
 		template <typename T>
 		bool Dispatch(EventFn<T> func)
 		{
-			if (m_Event.GetEventType() == T::GetStaticType())
+			if (m_event.GetEventType() == T::GetStaticType())
 			{
-				m_Event.m_HandledEvent = func(*(T*)&m_Event);
+				m_event.m_handledEvent = func(*(T*)&m_event);
 				return true;
 			}
 			return false;
 		}
 
 	private:
-		Event& m_Event;
+		Event& m_event;
 	};
 }

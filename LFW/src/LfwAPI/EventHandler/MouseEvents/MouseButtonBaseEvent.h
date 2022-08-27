@@ -9,13 +9,13 @@ namespace LFW {
 	{
 	public:
 		MouseButtonEvent(int mouseButton)
-			: m_MouseButton(mouseButton) {}
+			: m_mouseButton(mouseButton) {}
 
-		inline float GetMouseButton() const { return m_MouseButton; }
+		inline float GetMouseButton() const { return m_mouseButton; }
 
 		CHECK_CATEGORY(EventCategoryMouse | EventCategoryInput | EventCategoryMouseButton)
 
 	protected:
-		int m_MouseButton;
+		int m_mouseButton;
 	};
 }

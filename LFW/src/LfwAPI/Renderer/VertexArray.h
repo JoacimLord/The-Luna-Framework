@@ -19,8 +19,8 @@ namespace LFW {
 		void AddVertexBufferColor(std::shared_ptr<VertexBuffer>& vertexBuffer);
 
 	private:
-		std::shared_ptr<ElementBuffer> m_ElementBuffer;
-		std::vector<std::shared_ptr<VertexBuffer>> m_VertexBuffers;
-		uint32_t m_ID;
+		std::shared_ptr<ElementBuffer> m_elementBuffer;
+		std::vector<std::shared_ptr<VertexBuffer>> m_vertexBuffers;
+		uint32_t m_id;
 	};
 }

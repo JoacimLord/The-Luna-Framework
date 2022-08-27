@@ -21,8 +21,8 @@ namespace LFW {
 
 	void AudioEngine::Init()
 	{
-		m_LoaderResult = ma_engine_init(NULL, &m_MiniAudioEngine);
-		if (m_LoaderResult != MA_SUCCESS)
+		m_loaderResult = ma_engine_init(NULL, &m_miniAudioEngine);
+		if (m_loaderResult != MA_SUCCESS)
 		{
 			//Debug msg
 			return;
@@ -34,19 +34,19 @@ namespace LFW {
 	void AudioEngine::Deactivate()
 	{
 		//Shut down everything (even if looping wasn't enabled)
-		ma_engine_uninit(&m_MiniAudioEngine);
+		ma_engine_uninit(&m_miniAudioEngine);
 			
 		//Check if device and decoder is initalized (to prevent crashes)
-		if (m_DeviceActive) ma_device_uninit(&m_Device);
-		if (m_DecoderActive) ma_decoder_uninit(&m_Decoder);
+		if (m_deviceActive) ma_device_uninit(&m_device);
+		if (m_decoderActive) ma_decoder_uninit(&m_decoder);
 
-		m_DeviceActive = false;
-		m_DecoderActive = false;
+		m_deviceActive = false;
+		m_decoderActive = false;
 	}
 
 	void AudioEngine::PlayAudioFromFile(const char* filePath)
 	{
-		ma_engine_play_sound(&m_MiniAudioEngine, filePath, NULL);
+		ma_engine_play_sound(&m_miniAudioEngine, filePath, NULL);
 	}
 
 	void AudioEngine::PlayAudioFromStreamedFile(ma_engine engine, ma_sound sound, const char* filePath)
@@ -71,42 +71,42 @@ namespace LFW {
 
 	void AudioEngine::PlayAudioWithLooping(const char* filePath)
 	{
-		m_LoaderResult = ma_decoder_init_file(filePath, NULL, &m_Decoder);
-		if (m_LoaderResult != MA_SUCCESS) return; //& debug msg?
+		m_loaderResult = ma_decoder_init_file(filePath, NULL, &m_decoder);
+		if (m_loaderResult != MA_SUCCESS) return; //& debug msg?
 
-		m_DecoderActive = true;
-		m_DeviceActive = true;
+		m_decoderActive = true;
+		m_deviceActive = true;
 
-		ma_data_source_set_looping(&m_Decoder, MA_TRUE);
+		ma_data_source_set_looping(&m_decoder, MA_TRUE);
 
 
-		m_DeviceConfig = ma_device_config_init(ma_device_type_playback);
-		m_DeviceConfig.playback.format = m_Decoder.outputFormat;
-		m_DeviceConfig.playback.channels = m_Decoder.outputChannels;
-		m_DeviceConfig.sampleRate = m_Decoder.outputSampleRate;
-		m_DeviceConfig.dataCallback = InitLooping;
-		m_DeviceConfig.pUserData = &m_Decoder;
+		m_deviceConfig = ma_device_config_init(ma_device_type_playback);
+		m_deviceConfig.playback.format = m_decoder.outputFormat;
+		m_deviceConfig.playback.channels = m_decoder.outputChannels;
+		m_deviceConfig.sampleRate = m_decoder.outputSampleRate;
+		m_deviceConfig.dataCallback = InitLooping;
+		m_deviceConfig.pUserData = &m_decoder;
 
 		//Just in case! If null, de-activate
-		if (ma_device_init(NULL, &m_DeviceConfig, &m_Device) != MA_SUCCESS)
+		if (ma_device_init(NULL, &m_deviceConfig, &m_device) != MA_SUCCESS)
 		{
-			ma_decoder_uninit(&m_Decoder);
-			m_DecoderActive = false;
+			ma_decoder_uninit(&m_decoder);
+			m_decoderActive = false;
 		}
 
-		if (ma_device_start(&m_Device) != MA_SUCCESS)
+		if (ma_device_start(&m_device) != MA_SUCCESS)
 		{
-			ma_device_uninit(&m_Device);
-			ma_decoder_uninit(&m_Decoder);
-			m_DeviceActive = false;
-			m_DecoderActive = false;
+			ma_device_uninit(&m_device);
+			ma_decoder_uninit(&m_decoder);
+			m_deviceActive = false;
+			m_decoderActive = false;
 		}
 
 	}
 
 	void AudioEngine::SetMasterVolume(int volume)
 	{
-		ma_engine_set_volume(&m_MiniAudioEngine, volume);
+		ma_engine_set_volume(&m_miniAudioEngine, volume);
 	}
 
 	void AudioEngine::SetSoundVolume(ma_sound sound, int volume)
@@ -131,11 +131,11 @@ namespace LFW {
 
 	void AudioEngine::AddSoundToMap(std::string key, const char* filePath)
 	{
-		m_SoundMap.insert(SoundMap::value_type(key, filePath));
+		m_soundMap.insert(SoundMap::value_type(key, filePath));
 	}
 
 	const char* AudioEngine::GetSoundFromMap(std::string key)
 	{
-		return m_SoundMap.at(key);
+		return m_soundMap.at(key);
 	}
 }

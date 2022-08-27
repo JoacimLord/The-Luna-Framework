@@ -65,6 +65,6 @@ namespace LFW {
 			return GetCategoryFlags() & category;
 		}
 
-		bool m_HandledEvent = false;
+		bool m_handledEvent = false;
 	};
 }

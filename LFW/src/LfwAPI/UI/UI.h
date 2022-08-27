@@ -22,7 +22,7 @@ namespace LFW {
 		void OnAttach();
 		void OnDetach();
 		void OnEvent(Event& event);
-		void BlockEvent(bool block) { blockevents = block; }
+		void BlockEvent(bool block) { m_blockevents = block; }
 
 		void StartRenderFrame();
 		void RenderFrame();
@@ -36,16 +36,14 @@ namespace LFW {
 
 	public:
 		bool showDemo = false;
-		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
+		glm::vec2 viewportSize = { 0.0f, 0.0f };
 
 	private:
-		std::shared_ptr<Framebuffer> m_Framebuffer;
+		std::shared_ptr<Framebuffer> m_framebuffer;
 
-		bool blockevents = true;
-		bool m_DemoWindow = true;
+		bool m_blockevents = true;
+		bool m_demoWindow = true;
 
-		bool m_DemoGuiWindow = false;
-		bool m_ViewportFocused = false;
-		bool m_ViewportHovered = false;
+		bool m_demoGuiWindow = false;
 	};
 }

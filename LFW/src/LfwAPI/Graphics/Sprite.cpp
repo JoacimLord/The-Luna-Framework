@@ -6,11 +6,11 @@ namespace LFW {
 
 	Sprite::Sprite(glm::vec2 position, glm::vec2 size)
 	{
-		anchor.Translation.x = position.x;
-		anchor.Translation.y = position.y;
+		anchor.translation.x = position.x;
+		anchor.translation.y = position.y;
 
-		anchor.Scale.x = size.x;
-		anchor.Scale.y = size.y;
+		anchor.scale.x = size.x;
+		anchor.scale.y = size.y;
 	}
 
 	void Sprite::SetTexture(std::string path)
@@ -26,40 +26,40 @@ namespace LFW {
 
 	void Sprite::SetPosition(float x, float y)
 	{
-		anchor.Translation.x = x;
-		anchor.Translation.y = y;
+		anchor.translation.x = x;
+		anchor.translation.y = y;
 	}
 
 	//Gets the sprites position in 2D space (x,y)
 	glm::vec2 Sprite::GetPosition()
 	{
-		return glm::vec2(anchor.Translation.x, anchor.Translation.y);
+		return glm::vec2(anchor.translation.x, anchor.translation.y);
 	}
 
 	void Sprite::SetSize(float w, float h)
 	{
-		anchor.Scale.x = w;
-		anchor.Scale.y = h;
+		anchor.scale.x = w;
+		anchor.scale.y = h;
 	}
 
 	glm::vec2 Sprite::GetSize()
 	{
-		return glm::vec2(anchor.Scale.x, anchor.Scale.y);
+		return glm::vec2(anchor.scale.x, anchor.scale.y);
 	}
 
 
 	void Sprite::SetRotationX(float rotation)
 	{
-		anchor.Rotation.x += rotation;
+		anchor.rotation.x += rotation;
 	}
 
 	void Sprite::SetRotationY(float rotation)
 	{
-		anchor.Rotation.y += rotation;
+		anchor.rotation.y += rotation;
 	}
 	void Sprite::SetRotationZ(float rotation)
 	{
-		anchor.Rotation.z += rotation;
+		anchor.rotation.z += rotation;
 	}
 
 	glm::mat4 Sprite::GetTransform()
@@ -74,7 +74,7 @@ namespace LFW {
 
 	glm::vec3 Sprite::GetTranslation()
 	{
-		return anchor.Translation;
+		return anchor.translation;
 	}
 
 }
