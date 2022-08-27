@@ -1,4 +1,4 @@
-# LFW (The Luna Framework) - Version 1.10.01
+# LFW (The Luna Framework) - Version 1.10.02
 
 LFW is a low level framework based on the API of my 3D game engine "Luna" (currently in development).
 
@@ -24,7 +24,8 @@ The only file that you need to include is the "LFW.h" header file and the <imgui
 I suggest to rename the Sandbox project and use that as your starting point!
 
 
-# - API DOCUMENTATION
+
+# - API DOCUMENTATION -
 
 ## Modules
 
@@ -33,6 +34,7 @@ I suggest to rename the Sandbox project and use that as your starting point!
  ### - Application functionality
  ### - DeltaTime
  ### - Sprites
+ ### - Spritesheets
  ### - Input (keyboard & mouse)
  ### - Mouse Position
  ### - Camera
@@ -40,6 +42,8 @@ I suggest to rename the Sandbox project and use that as your starting point!
  ### - Debug Panel
  ### - Application window functionality
  ### - AudioEngine
+ ### - Features Soon To Come
+ ### - Disclaimer
 
 
 
@@ -79,6 +83,7 @@ int main()
 	}
 }
 ```
+
 
 
 # Debug GUI & Docking
@@ -239,6 +244,9 @@ int main()
 
 # Sprites
 
+In this example we render each sprite individually. This means that they have to be in separate files (.jpg, .png).
+To render sprites from a spritesheet, see the "Spritesheet" section.
+
 Initialize your sprites from the LFW namespace before the main loop of your application.
 ```cpp
 
@@ -255,7 +263,7 @@ orangeSprite.SetSize(0.5f, 0.3f);
 orangeSprite.SetPosition(0.5f, 0.0f);
 ```
 
-The sprite size is in 1:1 units from the cameras perspective and not in pixels.
+The sprite size is in 1:1 units from the cameras perspective and not in pixels (with center origin in the middle of the screen (0,0)).
 
 Sprite functionality:
 - SetTexture(takes in a filepath or uses the filepath variable as default if no argument is passed)
@@ -289,6 +297,19 @@ sprite_3.filePath = "your_filepath_here_with_image_extension";
 sprite_3.SetTexture();
 ```
 
+When they are set up we'll render them from within the main while-loop (after the clear() function and before Display())
+```cpp
+//Clears screen with color (or black as default)
+app.Clear();
+
+//Render the sprite
+app.Render(sprite);
+
+//Display graphics
+app.Display();
+```
+
+
 ## Textures or color
 Sprites can load in a texture or a color defined by "spriteName.color = value;"
 If a texture filepath is defined, the sprite will always load the texture.
@@ -299,9 +320,58 @@ Make sure to have either the texture or color defined before rendering your spri
 
 
 
+# Spritesheets
+
+LFW now also supports rendering from spritesheets!
+The spritesheet needs to initialized, created and loaded.
+After the spritesheet has been set, the sprites need to created "manually" and added with the SpriteSheetManager.
+
+Example
+```cpp
+
+//Init the spritesheet
+LFW::Spritesheet spriteSheet;
+
+//Create the 2D quads from the spritesheet with the SpriteSheetManager. 
+//Set spritesheet width & height, sprite width & height,
+//number of sprites and if there is any spacing between the sprites(in pixels)
+LFW::SpritesheetManager::CreateSpritesheet(spriteSheet, 40, 40, 5, 5, 5, 0);
+
+//Load the spritesheet with the SpriteSheetManager. Takes in the spritesheet, filepath and if the sprites needs pixelation (for pixel art)
+LFW::SpritesheetManager::LoadSpritesheet(spriteSheet, "path_to_spritesheet", true);
+
+
+//Init the sprites to set their size & positions
+LFW::Sprite sprite_1;
+LFW::Sprite sprite_2;
+LFW::Sprite sprite_3;
+
+sprite_1.SetSize(0.3f, 0.3f);
+sprite_2.SetSize(0.3f, 0.3f);
+sprite_3.SetSize(0.3f, 0.3f);
+
+sprite_1.SetPosition(-0.5f, 0.0f);
+sprite_2.SetPosition( 0.0f, 0.0f);
+sprite_3.SetPosition( 0.5f, 0.0f);
+
+//Add the sprites to the spritesheet
+spriteSheet.AddSprite(sprite_1);
+spriteSheet.AddSprite(sprite_2);
+spriteSheet.AddSprite(sprite_3);
+```
+
+And then in the while-loop you render it as usual with Render() (from the application instance):
+
+```cpp
+
+app.Render(spriteSheet);
+```
+
+
+
 # Input (keyboard & mouse)
 
-Use "LFW::Input" to access keypressed or mousepressed events.
+Use "LFW::Input" to access key-pressed or mouse-pressed events.
 
 Example:
 ```cpp
@@ -343,29 +413,38 @@ int main()
 		lastFrameTime = elapsedTime;
 
 		app.Clear(1.0f, 0.0f, 1.0f, 1.0f);
-		
+
+
 		///W key for moving up
 		if (LFW::Input::IsKeyPressed(LFW::Key::W))
 		{
-			orangeSprite.anchor.Translation.y += playerSpeed * deltaTime;
+			glm::vec2 newPosition = glm::vec2(orangeSprite.GetPosition());
+			newPosition.y += playerSpeed * deltaTime;
+			orangeSprite.SetPosition(newPosition.x, newPosition.y);
 		}
 
 		//S key for moving down
 		else if (LFW::Input::IsKeyPressed(LFW::Key::S))
 		{
-			orangeSprite.anchor.Translation.y -= playerSpeed * deltaTime;
+			glm::vec2 newPosition = glm::vec2(orangeSprite.GetPosition());
+			newPosition.y -= playerSpeed * deltaTime;
+			orangeSprite.SetPosition(newPosition.x, newPosition.y);
 		}
 
 		//A key for moving left
 		if (LFW::Input::IsKeyPressed(LFW::Key::A))
 		{
-			orangeSprite.anchor.Translation.x -= playerSpeed * deltaTime;
+			glm::vec2 newPosition = glm::vec2(orangeSprite.GetPosition());
+			newPosition.x -= playerSpeed * deltaTime;
+			orangeSprite.SetPosition(newPosition.x, newPosition.y);
 		}
 
 		//D key for moving right
 		else if (LFW::Input::IsKeyPressed(LFW::Key::D))
 		{
-			orangeSprite.anchor.Translation.x += playerSpeed * deltaTime;
+			glm::vec2 newPosition = glm::vec2(orangeSprite.GetPosition());
+			newPosition.x += playerSpeed * deltaTime;
+			orangeSprite.SetPosition(newPosition.x, newPosition.y);
 		}
 
 
@@ -375,9 +454,20 @@ int main()
 }
 ```
 
+This will only work with sprites that's initialized as seperate sprites and not from a spritesheet.
+To move sprites that belong to the spritesheet it's needed to acccess the sprite the GetSprite(index) function.
+This needs the index number of the sprite (but will be updated later on).
+```cpp
+
+glm::vec2 newPosition = glm::vec2(2.0f, 0.0f);
+
+//Since we want to access the first sprite we added, we use '0' as the argument
+spriteSheet.GetSprite(0).SetPosition(newPosition.x, newPosition.y);
+```
 
 
- ### - Mouse Position
+
+# - Mouse Position
 
 The application can return the mouse position with ScreenToWorld() or WorldToScreen().
 
@@ -414,85 +504,84 @@ The "Debug" version of the camera controlls is currently using the arrow keys as
 
 ```cpp
 
-	//Enables controls for the camera. Current control scheme: Arrow-keys.
-	//This function needs to have the DeltaTime variable, speed (float) and specified keys passed in (Up, Down, Left, Right).
-	app.CheckInputForGameCamera(LFW::Key::W, LFW::Key::S, LFW::Key::A, LFW::Key::D, deltaTime, 5.0f);
-
+//Enables controls for the camera. Current control scheme: Arrow-keys.
+//This function needs to have the DeltaTime variable, speed (float) and specified keys passed in (Up, Down, Left, Right).
+app.CheckInputForGameCamera(LFW::Key::W, LFW::Key::S, LFW::Key::A, LFW::Key::D, deltaTime, 5.0f);
 	
-	//Enables controls for the camera while debugging (not depending on DeltaTime). Current control scheme: Arrow-keys.
-	app.CheckInputForDebugCamera(speed);
+//Enables controls for the camera while debugging (not depending on DeltaTime). Current control scheme: Arrow-keys.
+app.CheckInputForDebugCamera(speed);
 
-	//Sets the cameras position follow a specific anchor point.
-	app.SetCameraToFollowTransform(orangeSprite.anchor);
+//Sets the cameras position follow a specified sprites translation in 2D space.
+app.SetCameraToFollowTransform(orangeSprite.GetTranslation());
 
 ```
 
 
 # Math Library
 
-LFWs own implementation of vectors. This is heavily WIP and I recommend to just use the glm library for vectors.
+LFWs own implementation of vectors.
 These structs can be initialized with and without constructor arguments to set length.
 ```cpp
 
-	//How to use LFW::Vectors
-	LFW::Vec2 vec2;
-	LFW::Vec3 vec3;
-	LFW::Vec3 vec4;
+//How to use LFW::Vectors
+LFW::Vec2 vec2;
+LFW::Vec3 vec3;
+LFW::Vec3 vec4;
 ```
 
 Small Math library inmplemented in LFW for mathematical operations.
 ```cpp
 
-	//How to use LFW::Mathf
-	LFW::Mathf::Floor(x, y);
-	LFW::Mathf::Clamp(x, y);
-	LFW::Mathf::PI();
-	LFW::Mathf::Sqrt(x);
-	LFW::Mathf::Max(x, y);
-	LFW::Mathf::Min(x, y);	
+//How to use LFW::Mathf
+LFW::Mathf::Floor(x, y);
+LFW::Mathf::Clamp(x, y);
+LFW::Mathf::PI();
+LFW::Mathf::Sqrt(x);
+LFW::Mathf::Max(x, y);
+LFW::Mathf::Min(x, y);	
 ```
 
 Current Math Lib Functionality
 
-	Floor() -- Returns the largest integer smaller than or equal to (f)
-	Clamp() -- Returns the given value between those numbers. Example: 1 & 3 return 2.
-	PI() ----- Returns the PI number with 7,9 or 11 floating number.
-	Sqrt() --- Returns the sqrt of argument value (support for int, float & double).  Wrapper around std::sqrt().
-	Max() ---- Returns the largest of two values
-	Min() ---- Returns the smallest of two values
+Floor() -- Returns the largest integer smaller than or equal to (f)
+Clamp() -- Returns the given value between those numbers. Example: 1 & 3 return 2.
+PI() ----- Returns the PI number with 7,9 or 11 floating number.
+Sqrt() --- Returns the sqrt of argument value (support for int, float & double).  Wrapper around std::sqrt().
+Max() ---- Returns the largest of two values
+Min() ---- Returns the smallest of two values
 
 
 Mathf Testcases
 
-	//SQRT()
-	std::cout << "Sqrt of 9: " << LFW::MathF::Sqrt(9) << "\n";
+//SQRT()
+std::cout << "Sqrt of 9: " << LFW::MathF::Sqrt(9) << "\n";
 
-	//MAX()
-	std::cout << "Biggest value of 10 and 5: " << LFW::MathF::Max(5.0f, 10.0f) << "\n";
-	std::cout << "Biggest value of 30 and 1: " << LFW::MathF::Max(30.0f, 1.0f) << "\n";
-	std::cout << "Biggest value of 14 and 14: " << LFW::MathF::Max(14.0f, 14.0f) << "\n";
+//MAX()
+std::cout << "Biggest value of 10 and 5: " << LFW::MathF::Max(5.0f, 10.0f) << "\n";
+std::cout << "Biggest value of 30 and 1: " << LFW::MathF::Max(30.0f, 1.0f) << "\n";
+std::cout << "Biggest value of 14 and 14: " << LFW::MathF::Max(14.0f, 14.0f) << "\n";
 	
-	//MIN()
-	std::cout << "Smallest value of 10 and 5: " << LFW::MathF::Min(5.0f, 10.0f) << "\n";
-	std::cout << "Smallest value of 30 and 1: " << LFW::MathF::Min(30.0f, 1.0f) << "\n";
-	std::cout << "Smallest value of 14 and 14: " << LFW::MathF::Min(14.0f, 14.0f) << "\n";
+//MIN()
+std::cout << "Smallest value of 10 and 5: " << LFW::MathF::Min(5.0f, 10.0f) << "\n";
+std::cout << "Smallest value of 30 and 1: " << LFW::MathF::Min(30.0f, 1.0f) << "\n";
+std::cout << "Smallest value of 14 and 14: " << LFW::MathF::Min(14.0f, 14.0f) << "\n";
 	
-	// CLAMP()
-	LFW::MathF::Clamp(0,5);    //Prints 5
-	LFW::MathF::Clamp(3, 5);   //Prints 2
-	LFW::MathF::Clamp(-2, 12); //Prints 14
-	LFW::MathF::Clamp(-5,5);   //Prints 10
+//CLAMP()
+LFW::MathF::Clamp(0,5);    //Prints 5
+LFW::MathF::Clamp(3, 5);   //Prints 2
+LFW::MathF::Clamp(-2, 12); //Prints 14
+LFW::MathF::Clamp(-5,5);   //Prints 10
 	
-	//FLOOR()
-	LFW::MathF::Floor(10.0f);  //Prints 10
-	LFW::MathF::Floor(10.2f);  //Prints 10
-	LFW::MathF::Floor(10.7f);  //Prints 10
-	LFW::MathF::Floor(-10.0f); //Prints -10
-	LFW::MathF::Floor(-10.2f); //Prints -10
-	LFW::MathF::Floor(-10.7f); //Prints -11
-	LFW::MathF::Floor(-20.9f); //Prints -21
-	LFW::MathF::Floor(-13.6f); //Prints -14
-	LFW::MathF::Floor(10.7f);  //Prints 10
+//FLOOR()
+LFW::MathF::Floor(10.0f);  //Prints 10
+LFW::MathF::Floor(10.2f);  //Prints 10
+LFW::MathF::Floor(10.7f);  //Prints 10
+LFW::MathF::Floor(-10.0f); //Prints -10
+LFW::MathF::Floor(-10.2f); //Prints -10
+LFW::MathF::Floor(-10.7f); //Prints -11
+LFW::MathF::Floor(-20.9f); //Prints -21
+LFW::MathF::Floor(-13.6f); //Prints -14
+LFW::MathF::Floor(10.7f);  //Prints 10
 
 
 
@@ -502,11 +591,12 @@ The Debug namespace contains my own version of a Dear ImGui panel that functions
 To build the Debug Log Panel the Viewport needs to be initialized, <imgui> included in your Main file and the LFW::Application::BuildUI() added to your file.
 
 ```cpp
-	//Build your own UI here by declairing this function!
-	void LFW::Application::BuildUI()
-	{
-		Debug::BuildLogWindow();
-	}
+
+//Build your own UI here by declairing this function!
+void LFW::Application::BuildUI()
+{
+	Debug::BuildLogWindow();
+}
 
 ```
 
@@ -518,19 +608,21 @@ Add a Debug::Log(msg, int) in your Main.cpp to choose a specific color.
 (Or just a default message (white text)).
 
 ```cpp
-	//Debug examples
-	Debug::Log("Msg_WhiteColor");
-	Debug::Log("Msg_GreenColor", 0);
-	Debug::Log("Msg_YellowColor", 1);
-	Debug::Log("Msg_OrangeColor", 2);
-	Debug::Log("Msg_RedColor", 3);
+
+//Debug examples
+Debug::Log("Msg_WhiteColor");
+Debug::Log("Msg_GreenColor", 0);
+Debug::Log("Msg_YellowColor", 1);
+Debug::Log("Msg_OrangeColor", 2);
+Debug::Log("Msg_RedColor", 3);
 ```
 
 This can also be used in runtime like the example below
 
 ```cpp
-	//Example of Debug:Log() in runtime
-	if (LFW::Input::IsKeyPressed(LFW::Key::Space)) Debug::Log("Spacebar was pressed!");
+
+//Example of Debug:Log() in runtime
+if (LFW::Input::IsKeyPressed(LFW::Key::Space)) Debug::Log("Spacebar was pressed!");
 ```
 
 
@@ -543,37 +635,39 @@ Currently it supports playing audio from files, looping, setting the volume and 
 Basic example:
 ```cpp
 
-	//Instantiate the engine
-	LFW::AudioEngine engine;
+//Instantiate the engine
+LFW::AudioEngine engine;
 
-	//Sets the master volume with an integer. 0 is silent, 1 is "max"
-	engine.SetMasterVolume(value);
+//Sets the master volume with an integer. 0 is silent, 1 is "max"
+engine.SetMasterVolume(value);
 
-	//Play a .wav file from source, plays once (uses miniaudios ma_engine)
-	engine.PlayAudioFromFile("filepath");
+//Play a .wav file from source, plays once (uses miniaudios ma_engine)
+engine.PlayAudioFromFile("filepath");
 
-	//Play a .wav file from source, loops (uses miniaudios ma_device)
-	engine.PlayAudioWithLooping("filepath");
+//Play a .wav file from source, loops (uses miniaudios ma_device)
+engine.PlayAudioWithLooping("filepath");
 
-	//Add a single const char* filePath to a sound file to an unordered map with a specified key. WIP.
-	engine.AddSoundToMap(key, value);
+//Add a single const char* filePath to a sound file to an unordered map with a specified key. WIP.
+engine.AddSoundToMap(key, value);
 
-	//Retrieves a const char* value with a specified key. WIP.
-	engine.GetSoundFromMap(key);
+//Retrieves a const char* value with a specified key. WIP.
+engine.GetSoundFromMap(key);
 ```
+
+
+
+# Features Soon To Come
+
+- [x] Screen to world Point
+- [x] World to screen Point (in pixels)
+- [x] Support for spritesheets
+- [ ] Fonts
+- [ ] Sprite batching
 
 
 
 # Disclaimer
 
 This repo and documentation is heavily in progress and will be frequently changed!
-
-Features soon to come:
-- [x] Screen to world Point
-- [x] World to screen Point (in pixels)
-- [ ] Fonts
-- [ ] Support for spritesheets (currently has to have each sprite in their seperate files)
-- [ ] Sprite batching
-
 
 Thank you for checking it out!

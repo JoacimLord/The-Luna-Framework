@@ -118,9 +118,8 @@ namespace LFW {
     }
 
 
-    void Renderer::DrawFromSpritesheet(Spritesheet& spriteSheet, int textureWidth, int textureHeight, int spriteWidth, int spriteHeight, int numberofSprites, int spacing)
+    void Renderer::DrawFromSpritesheet(Spritesheet& spriteSheet)
     {
-        // TODO: Fix this
         if (spriteSheet.loaded)
         {
             for (size_t i = 0; i < spriteSheet.sprites.size(); i++)
@@ -133,7 +132,7 @@ namespace LFW {
                 s_RendererData.TextureShader->Bind();
                 s_RendererData.TextureShader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj");
                 s_RendererData.TextureShader->SetMat4(spriteSheet.sprites[i].GetTransform(), "scale");
-                glBindTexture(GL_TEXTURE_2D, spriteSheet.sprites[i].texture->id);
+                glBindTexture(GL_TEXTURE_2D, spriteSheet.spritesheet->id);
                 DrawElements(s_RendererData.TextureVertexArray, s_RendererData.QUAD_SIZE);
                 glBindTexture(GL_TEXTURE_2D, 0);
             }

@@ -260,6 +260,11 @@ namespace LFW {
 	{
 		LFW::Renderer::Draw(sprite);
 	}
+
+	void Application::Render(Spritesheet& spritesheet)
+	{
+		LFW::Renderer::DrawFromSpritesheet(spritesheet);
+	}
 	
 	void Application::CheckInputForGameCamera(LFW::Key::KeyCode keyUp, LFW::Key::KeyCode keyDown, LFW::Key::KeyCode keyLeft, LFW::Key::KeyCode keyRight, DeltaTime dt, float speed)
 	{

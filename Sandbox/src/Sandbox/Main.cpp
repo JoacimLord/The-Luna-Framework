@@ -28,10 +28,13 @@ int main()
 	//LFW::Docking::Init(true);
 	LFW::Application app("App");
 
-	//Example of how to load and set up a sprite with a texture and color! (Documentation will come later on)
+	//-------------------------------------------------------
+	//EXAMPLE - How to load and set up a sprite with a texture and color!
+	//-------------------------------------------------------
+	
 	//Add your own filepath, the example is placeholder!
 	LFW::Sprite texturedSprite;
-	texturedSprite.filePath = "your_filepath_here_with_image_extension(.jpg, .png)";
+	texturedSprite.filePath = "path_to_texture";
 	texturedSprite.pixelated = false;
 	texturedSprite.SetTexture(texturedSprite.filePath);
 	texturedSprite.SetSize(0.5f, 0.3f);
@@ -42,7 +45,33 @@ int main()
 	orangeSprite.SetSize(0.5f, 0.3f);
 	orangeSprite.SetPosition(0.5f, 0.0f);
 
-	//Example of the Audio Engine
+
+	//-------------------------------------------------------
+	//EXAMPLE - Spritesheet usage
+	//-------------------------------------------------------
+	//Init the spritesheet
+	LFW::Spritesheet spriteSheet;
+
+	//Create the 2D quads from the spritesheet with the SpriteSheetManager. 
+	//Set spritesheet width & height, sprite width & height,
+	//number of sprites and if there is any spacing between the sprites(in pixels)
+	LFW::SpritesheetManager::CreateSpritesheet(spriteSheet, 40, 40, 5, 5, 5, 0);
+
+	//Load the spritesheet with the SpriteSheetManager. Takes in the spritesheet, filepath and if the sprites needs pixelation (for pixel art)
+	LFW::SpritesheetManager::LoadSpritesheet(spriteSheet, "path_to_spritesheet", true);
+
+
+	//Init the sprites to set their size & positions
+	LFW::Sprite sprite;
+	sprite.SetSize(0.3f, 0.3f);
+	sprite.SetPosition(-0.5f, 0.0f);
+
+	spriteSheet.AddSprite(sprite);
+
+	//-------------------------------------------------------
+	//EXAMPLE - How to use the Audio Engine
+	//-------------------------------------------------------
+
 	//const char* soundFilePath = "";
 	//LFW::AudioEngine audioEngine;
 	//audioEngine.PlayAudioFromFile(soundFilePath);
@@ -65,11 +94,14 @@ int main()
 		if (LFW::Input::IsMouseButtonPressed(LFW::Mouse::Button0))
 		{
 			glm::vec2 mousePos = app.ScreenToWorldPoint();
-			orangeSprite.SetPosition(mousePos.x, mousePos.y);
+			spriteSheet.GetSprite(0).SetPosition(mousePos.x, mousePos.y);
 		}
 
-		app.Render(texturedSprite);
-		app.Render(orangeSprite);
+		//Draw from the spritesheet
+		app.Render(spriteSheet);
+
+		//app.Render(texturedSprite);
+		//app.Render(orangeSprite);
 
 		app.Display();
 	}

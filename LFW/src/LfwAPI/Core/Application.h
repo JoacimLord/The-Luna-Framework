@@ -131,6 +131,9 @@ namespace LFW {
 		//Renders target sprite to screen
 		void Render(Sprite& sprite);
 
+		//Renders target sprite to screen (from spritesheet)
+		void Render(Spritesheet& spritesheet);
+
 		//Function for moving the "in-game" camera. Currently controlled with the Arrow-keys. Uses DeltaTime.
 		void CheckInputForGameCamera(LFW::Key::KeyCode keyUp, LFW::Key::KeyCode keyDown, LFW::Key::KeyCode keyLeft, LFW::Key::KeyCode keyRight, DeltaTime dt, float speed);
 
