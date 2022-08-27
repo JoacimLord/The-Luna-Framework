@@ -117,6 +117,30 @@ namespace LFW {
         }
     }
 
+
+    void Renderer::DrawFromSpritesheet(Spritesheet& spriteSheet, int textureWidth, int textureHeight, int spriteWidth, int spriteHeight, int numberofSprites, int spacing)
+    {
+        // TODO: Fix this
+        if (spriteSheet.loaded)
+        {
+            for (size_t i = 0; i < spriteSheet.sprites.size(); i++)
+            {
+                s_RendererData.TextureVertexArray->AddElementBuffer(QuadData::quadInds);
+
+                std::shared_ptr<VertexBuffer> VBO = std::make_shared<VertexBuffer>(spriteSheet.quads[i].verticies);
+                s_RendererData.TextureVertexArray->AddVertexBufferTexture(VBO);
+
+                s_RendererData.TextureShader->Bind();
+                s_RendererData.TextureShader->SetMat4(s_OrthoCam.viewProjMatrix, "u_ViewProj");
+                s_RendererData.TextureShader->SetMat4(spriteSheet.sprites[i].GetTransform(), "scale");
+                glBindTexture(GL_TEXTURE_2D, spriteSheet.sprites[i].texture->id);
+                DrawElements(s_RendererData.TextureVertexArray, s_RendererData.QUAD_SIZE);
+                glBindTexture(GL_TEXTURE_2D, 0);
+            }
+        }
+    }
+
+
     void Renderer::DrawElements(std::shared_ptr<VertexArray>& vertexArray, uint32_t size)
     {
         vertexArray->Bind();

@@ -30,6 +30,9 @@ namespace LFW {
 		//Renders 2D sprites (quads)
 		static void Draw(Sprite& sprite);
 
+		//Renders 2D sprites from a spritesheet
+		static void DrawFromSpritesheet(Spritesheet& spriteSheet, int textureWidth, int textureHeight, int spriteWidth, int spriteHeight, int numberofSprites, int spacing);
+
 		static void DrawElements(std::shared_ptr<VertexArray>& vertexArray, uint32_t size);
 		static void OpenGLEnables();
 
