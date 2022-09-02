@@ -1,4 +1,4 @@
-# LFW (The Luna Framework) - Version 1.10.02
+# LFW (The Luna Framework) - Version 1.10.03
 
 LFW is a low level framework based on the API of my 3D game engine "Luna" (currently in development).
 
@@ -32,9 +32,11 @@ I suggest to rename the Sandbox project and use that as your starting point!
  ### - Simple LFW Example
  ### - Debug GUI & Docking
  ### - Application functionality
+ ### - Clock
  ### - DeltaTime
  ### - Sprites
  ### - Spritesheets
+ ### - Instanced rendering
  ### - Input (keyboard & mouse)
  ### - Mouse Position
  ### - Camera
@@ -216,7 +218,24 @@ int main()
 
 
 
+# Clock
+
+Use the clock to return elapsed time since start of application.
+The clock can reset, return elapsed time in specified formats, and reset after specified amount of time!
+More documentation can be found in the source file.
+
+```cpp
+int main()
+{
+	//Instantiate the clock
+	LFW::Clock clock;
+}
+```
+
+
+
 # DeltaTime
+
 DeltaTime is calculated to make your sprites and logic update with frametime in consideration.
 ```cpp
 int main()
@@ -224,14 +243,10 @@ int main()
 	//How to initalize a window and name it.
 	LFW::Application app("App"); 
 
-	//For calculating frame time
-	float lastFrameTime = 0.0f;
 	while (app.IsRunning())
 	{
-		//Calculate delta
-		float elapsedTime = app.GetElapsedRuntime();
-		LFW::DeltaTime deltaTime = elapsedTime - lastFrameTime;
-		lastFrameTime = elapsedTime;
+		//Get DeltaTime from Application
+		LFW::DeltaTime deltaTime = app.GetDeltaTime();
 
 		app.Clear(1.0f, 0.0f, 1.0f, 1.0f);
 		app.Render();
@@ -269,7 +284,16 @@ Sprite functionality:
 - SetTexture(takes in a filepath or uses the filepath variable as default if no argument is passed)
 - color (takes in a glm::vec4 value)
 - SetPosition(x, y)
+- GetPosition()
 - SetSize(x, y)
+- SetWidth(x)
+- SetHeight(y)
+- GetSize()
+- GetWidth()
+- GetHeight()
+- GetAnchor()
+- GetTranslation()
+- GetTransform()
 - .filePath (to load the texture)
 - SetRotation(X, Y, Z)
 - pixelated (needs to be set to true if the texture in use is pixelart, else it's set to false as default)
@@ -311,6 +335,7 @@ app.Display();
 
 
 ## Textures or color
+
 Sprites can load in a texture or a color defined by "spriteName.color = value;"
 If a texture filepath is defined, the sprite will always load the texture.
 If no filepath is defined the sprite uses the colorvalue (0 by default).
@@ -328,7 +353,6 @@ After the spritesheet has been set, the sprites need to created "manually" and a
 
 Example
 ```cpp
-
 //Init the spritesheet
 LFW::Spritesheet spriteSheet;
 
@@ -342,29 +366,47 @@ LFW::SpritesheetManager::LoadSpritesheet(spriteSheet, "path_to_spritesheet", tru
 
 
 //Init the sprites to set their size & positions
-LFW::Sprite sprite_1;
-LFW::Sprite sprite_2;
-LFW::Sprite sprite_3;
-
-sprite_1.SetSize(0.3f, 0.3f);
-sprite_2.SetSize(0.3f, 0.3f);
-sprite_3.SetSize(0.3f, 0.3f);
-
-sprite_1.SetPosition(-0.5f, 0.0f);
-sprite_2.SetPosition( 0.0f, 0.0f);
-sprite_3.SetPosition( 0.5f, 0.0f);
+LFW::Sprite sprite;
+sprite.SetSize(0.3f, 0.3f);
+sprite.SetPosition(-0.5f, 0.0f);
 
 //Add the sprites to the spritesheet
-spriteSheet.AddSprite(sprite_1);
-spriteSheet.AddSprite(sprite_2);
-spriteSheet.AddSprite(sprite_3);
+spriteSheet.AddSprite(sprite);
 ```
 
-And then in the while-loop you render it as usual with Render() (from the application instance):
+And then in the while-loop you render it as usual with Render() (from the application instance).
+Pass in the spritesheet and which index position you want to render:
 
 ```cpp
+app.Render(spriteSheet, index);
+```
 
-app.Render(spriteSheet);
+This can be used for animation by changing the index value for a single sprite:
+```cpp
+//Renders the first texture in the top left corner of the spritesheet.
+//This can be iterated with (for example) keyboard input to set indexPosition to 1, 2, 3.  etc to switch texture.
+int indexPosition = 0;
+app.Render(spriteSheet, indexPosition);
+```
+
+
+
+### - Instanced rendering
+
+LFW support instanced rendering for a single texture to not use as single draw call for each texture in the 'batch'.
+This is WIP and is not perfect, but it works.
+I don't recommend to use this as it is, but it will be updated to work properly.
+
+Know issues:
+- Sprites get centered by default even if the position is set differently when creating the sprite.
+
+```cpp
+//Example of how to use instanced rendering. Only push back a single sprite!
+LFW::Batch batch;
+batch.sprites.push_back(texturedSprite);
+
+//Draw instanced textures
+app.Render(batch, 1);
 ```
 
 
@@ -458,7 +500,6 @@ This will only work with sprites that's initialized as seperate sprites and not 
 To move sprites that belong to the spritesheet it's needed to acccess the sprite the GetSprite(index) function.
 This needs the index number of the sprite (but will be updated later on).
 ```cpp
-
 glm::vec2 newPosition = glm::vec2(2.0f, 0.0f);
 
 //Since we want to access the first sprite we added, we use '0' as the argument
@@ -503,8 +544,7 @@ Reach it from the Application instance. Remember to not use both functions at th
 The "Debug" version of the camera controlls is currently using the arrow keys as default while the "Game" version needs custom keys as arguments in the function.
 
 ```cpp
-
-//Enables controls for the camera. Current control scheme: Arrow-keys.
+//Enables controls for the camera.
 //This function needs to have the DeltaTime variable, speed (float) and specified keys passed in (Up, Down, Left, Right).
 app.CheckInputForGameCamera(LFW::Key::W, LFW::Key::S, LFW::Key::A, LFW::Key::D, deltaTime, 5.0f);
 	
@@ -513,7 +553,6 @@ app.CheckInputForDebugCamera(speed);
 
 //Sets the cameras position follow a specified sprites translation in 2D space.
 app.SetCameraToFollowTransform(orangeSprite.GetTranslation());
-
 ```
 
 
@@ -522,7 +561,6 @@ app.SetCameraToFollowTransform(orangeSprite.GetTranslation());
 LFWs own implementation of vectors.
 These structs can be initialized with and without constructor arguments to set length.
 ```cpp
-
 //How to use LFW::Vectors
 LFW::Vec2 vec2;
 LFW::Vec3 vec3;
@@ -531,58 +569,24 @@ LFW::Vec3 vec4;
 
 Small Math library inmplemented in LFW for mathematical operations.
 ```cpp
-
-//How to use LFW::Mathf
+//Returns the largest integer smaller than or equal to (f)
 LFW::Mathf::Floor(x, y);
+
+//Returns the given value between those numbers. Example: 1 & 3 return 2.
 LFW::Mathf::Clamp(x, y);
+
+//Returns the PI number with 7,9 or 11 floating number.
 LFW::Mathf::PI();
+
+//Returns the sqrt of argument value (support for int, float & double).  Wrapper around std::sqrt().
 LFW::Mathf::Sqrt(x);
+
+//Returns the largest of two values
 LFW::Mathf::Max(x, y);
+
+//Returns the smallest of two values
 LFW::Mathf::Min(x, y);	
 ```
-
-Current Math Lib Functionality
-
- Floor() -- Returns the largest integer smaller than or equal to (f)
- Clamp() -- Returns the given value between those numbers. Example: 1 & 3 return 2.
- PI() ----- Returns the PI number with 7,9 or 11 floating number.
- Sqrt() --- Returns the sqrt of argument value (support for int, float & double).  Wrapper around std::sqrt().
- Max() ---- Returns the largest of two values
- Min() ---- Returns the smallest of two values
-
-
-Mathf Testcases
-
- //SQRT()
- std::cout << "Sqrt of 9: " << LFW::MathF::Sqrt(9) << "\n";
-
- //MAX()
- std::cout << "Biggest value of 10 and 5: " << LFW::MathF::Max(5.0f, 10.0f) << "\n";
- std::cout << "Biggest value of 30 and 1: " << LFW::MathF::Max(30.0f, 1.0f) << "\n";
- std::cout << "Biggest value of 14 and 14: " << LFW::MathF::Max(14.0f, 14.0f) << "\n";
-	
- //MIN()
- std::cout << "Smallest value of 10 and 5: " << LFW::MathF::Min(5.0f, 10.0f) << "\n";
- std::cout << "Smallest value of 30 and 1: " << LFW::MathF::Min(30.0f, 1.0f) << "\n";
- std::cout << "Smallest value of 14 and 14: " << LFW::MathF::Min(14.0f, 14.0f) << "\n";
-	
- //CLAMP()
- LFW::MathF::Clamp(0,5);    //Prints 5
- LFW::MathF::Clamp(3, 5);   //Prints 2
- LFW::MathF::Clamp(-2, 12); //Prints 14
- LFW::MathF::Clamp(-5,5);   //Prints 10
-	
- //FLOOR()
- LFW::MathF::Floor(10.0f);  //Prints 10
- LFW::MathF::Floor(10.2f);  //Prints 10
- LFW::MathF::Floor(10.7f);  //Prints 10
- LFW::MathF::Floor(-10.0f); //Prints -10
- LFW::MathF::Floor(-10.2f); //Prints -10
- LFW::MathF::Floor(-10.7f); //Prints -11
- LFW::MathF::Floor(-20.9f); //Prints -21
- LFW::MathF::Floor(-13.6f); //Prints -14
- LFW::MathF::Floor(10.7f);  //Prints 10
-
 
 
 # "Debug" namespace
@@ -591,13 +595,11 @@ The Debug namespace contains my own version of a Dear ImGui panel that functions
 To build the Debug Log Panel the Viewport needs to be initialized, <imgui> included in your Main file and the LFW::Application::BuildUI() added to your file.
 
 ```cpp
-
 //Build your own UI here by declairing this function!
 void LFW::Application::BuildUI()
 {
 	Debug::BuildLogWindow();
 }
-
 ```
 
 Add a Debug::Log(msg, int) in your Main.cpp to choose a specific color.
@@ -608,7 +610,6 @@ Add a Debug::Log(msg, int) in your Main.cpp to choose a specific color.
 (Or just a default message (white text)).
 
 ```cpp
-
 //Debug examples
 Debug::Log("Msg_WhiteColor");
 Debug::Log("Msg_GreenColor", 0);
@@ -620,7 +621,6 @@ Debug::Log("Msg_RedColor", 3);
 This can also be used in runtime like the example below
 
 ```cpp
-
 //Example of Debug:Log() in runtime
 if (LFW::Input::IsKeyPressed(LFW::Key::Space)) Debug::Log("Spacebar was pressed!");
 ```
@@ -634,7 +634,6 @@ Currently it supports playing audio from files, looping, setting the volume and 
 
 Basic example:
 ```cpp
-
 //Instantiate the engine
 LFW::AudioEngine engine;
 
@@ -661,8 +660,8 @@ engine.GetSoundFromMap(key);
 - [x] Screen to world Point
 - [x] World to screen Point (in pixels)
 - [x] Support for spritesheets
+- [x] Instanced rendering
 - [ ] Fonts
-- [ ] Sprite batching
 
 
 

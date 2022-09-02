@@ -20,11 +20,11 @@ namespace LFW {
 
 	void Docking::Init(bool state)
 	{
-		m_enableDocking = state;
+		enableDocking = state;
 	}
 	bool Docking::IsEnabled()
 	{
-		return m_enableDocking;
+		return enableDocking;
 	}
 
 	Application* Application::s_instance = nullptr;
@@ -112,6 +112,16 @@ namespace LFW {
 	{
 		return (float)glfwGetTime();
 	}
+
+	DeltaTime Application::GetDeltaTime()
+	{
+		float elapsedTime = GetElapsedRuntime();
+		LFW::DeltaTime deltaTime = elapsedTime - m_lastFrameTime;
+		m_lastFrameTime = elapsedTime;
+		return deltaTime;
+	}
+
+
 
 	void Application::EndRendering()
 	{
@@ -256,15 +266,23 @@ namespace LFW {
 		if (!visible) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
 
+	//Render funcitons
 	void Application::Render(Sprite& sprite)
 	{
-		LFW::Renderer::Draw(sprite);
+		LFW::Renderer::Render(sprite);
 	}
 
-	void Application::Render(Spritesheet& spritesheet)
+	void Application::Render(Spritesheet& spritesheet, int indexPosition)
 	{
-		LFW::Renderer::DrawFromSpritesheet(spritesheet);
+		LFW::Renderer::RenderFromSpritesheet(spritesheet, indexPosition);
 	}
+
+	void Application::Render(Batch& batch, int amount)
+	{
+		LFW::Renderer::RenderInstanced(batch, amount);
+	}
+
+
 	
 	void Application::CheckInputForGameCamera(LFW::Key::KeyCode keyUp, LFW::Key::KeyCode keyDown, LFW::Key::KeyCode keyLeft, LFW::Key::KeyCode keyRight, DeltaTime dt, float speed)
 	{

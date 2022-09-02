@@ -1,6 +1,5 @@
 #pragma once
 
-//#include "LFWpch.h"
 #include "Anchor.h"
 #include "LfwAPI/Renderer/Texture.h"
 #include "LfwAPI/Core/Defines.h"
@@ -33,8 +32,11 @@ namespace LFW {
 		//Sets and loads a texture for the sprite. Use the filePath variable or write the filepath in the function argument
 		void SetTexture(std::string path = "");
 
-		//Sets the position of the sprite in 2D space (x, y)
+		//Sets the position of the sprite in 2D space with individual values (x, y)
 		void SetPosition(float x, float y);
+
+		//Sets the position of the sprite in 2D space with a single glm::vec2 (x, y)
+		void SetPosition(glm::vec2 newPosition);
 
 		//Gets the sprites position in 2D space (x,y)
 		glm::vec2 GetPosition();
@@ -42,16 +44,28 @@ namespace LFW {
 		//Sets the size of the sprite in 2D space (x, y)
 		void SetSize(float w, float h);
 
+		//Sets the width of the sprite (x axis)
+		void SetWidth(float w);
+
+		//Sets the height of the sprite (y axis)
+		void SetHeight(float h);
+
 		//Get the size of the sprite in 2D space (x, y)
 		glm::vec2 GetSize();
 
-		//Sets the rotation of the sprite in 2D space (x axis)
+		//Get the width of the sprite
+		float GetWidth();
+
+		//Get the height of the sprite
+		float GetHeight();
+
+		//Sets the rotation of the sprite (x axis)
 		void SetRotationX(float rotation);
 
-		//Sets the rotation of the sprite in 2D space (y axis)
+		//Sets the rotation of the sprite (y axis)
 		void SetRotationY(float rotation);
 
-		//Sets the rotation of the sprite in 2D space (z axis)
+		//Sets the rotation of the sprite (z axis)
 		void SetRotationZ(float rotation);
 
 		//Returns the sprites transform. Only used by the renderer to position it properly.

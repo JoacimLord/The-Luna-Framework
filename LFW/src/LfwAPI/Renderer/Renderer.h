@@ -29,13 +29,19 @@ namespace LFW {
 		static void ClearColor(float r, float g, float b, float transparent);
 
 		//Renders 2D sprites (quads)
-		static void Draw(Sprite& sprite);
+		static void Render(Sprite& sprite);
 
 		//Renders 2D sprites from a spritesheet
-		static void DrawFromSpritesheet(Spritesheet& spriteSheet);
+		static void RenderFromSpritesheet(Spritesheet& spritesheet, int index);
 
-		//Used to draw using OpenGL
+		//Renders instanced 2D sprites
+		static void RenderInstanced(Batch& batch, int amount);
+
+		//Used to draw a single texture using OpenGL
 		static void DrawElements(std::shared_ptr<VertexArray>& vertexArray, uint32_t size);
+
+		//Used to draw multiple instances of a single texture using OpenGL
+		static void DrawElementsInstanced(std::shared_ptr<VertexArray>& vertexArray, uint32_t size);
 
 		//Enables OpenGL flags
 		static void OpenGLEnables();

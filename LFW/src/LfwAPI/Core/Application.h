@@ -3,25 +3,23 @@
 #include "LfwAPI/Core/Defines.h"
 #include "LfwAPI/Core/Window.h" 
 #include "LfwAPI/Core/WindowInterface.h" 
-#include "LfwAPI/EventHandler/MainEventBaseClass.h"
-#include "LfwAPI/UI/UI.h"
 #include "LfwAPI/Core/DeltaTime.h"
+#include "LfwAPI/Core/KeyCodes.h"
+
+#include "LfwAPI/UI/UI.h"
+
 #include "LfwAPI/Renderer/Framebuffer.h"
 
-//MOUSE
+#include "LfwAPI/EventHandler/MainEventBaseClass.h"
 #include "LfwAPI/EventHandler/MouseEvents/MouseButtonBaseEvent.h"
 #include "LfwAPI/EventHandler/MouseEvents/MouseButtonPressed.h"
 #include "LfwAPI/EventHandler/MouseEvents/MouseButtonReleased.h"
 #include "LfwAPI/EventHandler/MouseEvents/MouseMove.h"
 #include "LfwAPI/EventHandler/MouseEvents/MouseWheelScroll.h"
 
-//WINDOW
 #include "LfwAPI/EventHandler/WindowEvents/WindowClose.h"
 #include "LfwAPI/EventHandler/WindowEvents/WindowResize.h"
 #include "LfwAPI/EventHandler/EventDispatcher/EventDispatcher.h"
-
-#include "LfwAPI/Core/KeyCodes.h"
-
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -31,7 +29,7 @@
 
 namespace LFW {
 
-	
+	//To enable 'floating' GUI panels
 	namespace DebugGUI
 	{
 		static bool enableDebugGUI;
@@ -40,19 +38,20 @@ namespace LFW {
 		//If false, the application renders directly to the GLFW window instead.
 		void Init(bool state);
 
-		//Checks if the DebugGUI is enabled, used in Application.cpp at initialization and Clear()-checks.
+		//Checks if the DebugGUI is enabled, used in Application.cpp at initialization and Clear()-checks
 		bool IsEnabled();
 	}
 
+	//To enable dockable GUI panels
 	namespace Docking
 	{
-		static bool m_enableDocking;
+		static bool enableDocking;
 
 		//If true this enables Dear ImGui in the application.
 		//If false, the application renders directly to the GLFW window instead.
 		void Init(bool state);
 
-		//Checks if the Docking is enabled, used in Application.cpp at initialization and Clear()-checks.
+		//Checks if the Docking is enabled, used in Application.cpp at initialization and Clear()-checks
 		bool IsEnabled();
 	}
 
@@ -60,6 +59,7 @@ namespace LFW {
 	class Application
 	{
 	public:
+		//Initializes the application with a name (title bar)
 		Application(const std::string name);
 		~Application() = default;
 
@@ -69,6 +69,9 @@ namespace LFW {
 
 		//Returns elapsed time since start of application
 		float GetElapsedRuntime();
+
+		//Returns DeltaTime
+		DeltaTime GetDeltaTime();
 
 		//Checks if application is runnning (use in main while loop as condition)
 		bool IsRunning();
@@ -98,13 +101,13 @@ namespace LFW {
 		//Sets the icon of the LFW application
 		void SetIcon(std::string path);
 
-		//Sets the default icon to the application window title bar.
+		//Sets the default icon to the application window title bar
 		void SetDefaultIcon();
 
-		//!!DON'T USE!! Sets a custom image as the cursor.
+		//!!DON'T USE!! Sets a custom image as the cursor
 		void SetCustomCursor();
 
-		//!!DON'T USE!! Sets the default cursor.
+		//!!DON'T USE!! Sets the default cursor
 		void SetDefaultCursor();
 
 		//Sets the application window minimum and maximum size (minimum Width, minimum Height, maximum Width, maximum Height)
@@ -122,10 +125,15 @@ namespace LFW {
 		//Renders target sprite to screen
 		void Render(Sprite& sprite);
 
-		//Renders target sprite to screen (from spritesheet)
-		void Render(Spritesheet& spritesheet);
+		//Renders target sprite to screen (from spritesheet). 
+		//Takes in the index number of the texture (0 is in the top left corner of the texture)
+		void Render(Spritesheet& spritesheet, int indexPosition);
 
-		//Function for moving the "in-game" camera. Currently controlled with the Arrow-keys. Uses DeltaTime.
+		//Renders instanced sprites(textures). Takes in amount of textures to render
+		void Render(Batch& batch, int amount);
+
+		//Function for moving the "in-game" camera. 
+		//Uses DeltaTime and specified keys for controls (in order: Up, Down, Left, Right).
 		void CheckInputForGameCamera(LFW::Key::KeyCode keyUp, LFW::Key::KeyCode keyDown, LFW::Key::KeyCode keyLeft, LFW::Key::KeyCode keyRight, DeltaTime dt, float speed);
 
 		//Function for moving the "debug" camera. Currently controlled with the Arrow-keys
@@ -164,5 +172,6 @@ namespace LFW {
 		bool m_isRunning = true;
 		std::unique_ptr<WindowInterface> m_window = nullptr;
 		std::unique_ptr<UI> m_ui = nullptr;
+		float m_lastFrameTime = 0.0f;
 	};
 }

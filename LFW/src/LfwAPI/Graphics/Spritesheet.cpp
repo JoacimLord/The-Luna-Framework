@@ -14,7 +14,6 @@ namespace LFW {
 		return sprites[index];
 	}
 
-	//Loads in the texture
 	void SpritesheetManager::LoadSpritesheet(Spritesheet& spritesheet, const char* filePath, bool pixelation)
 	{
 		LoadTexture(spritesheet.spritesheet, filePath, pixelation);
@@ -35,26 +34,21 @@ namespace LFW {
 
 			//Init mesh & data, set data and push back in vector
 			{
-				QuadMesh quadMesh;
+				//Get the texture coordiantes
 				glm::vec2 textureCoordinates[4];
-				textureCoordinates[0] = glm::vec2(right, top);
-				textureCoordinates[1] = glm::vec2(right, bottom);
-				textureCoordinates[2] = glm::vec2(left,  bottom);
-				textureCoordinates[3] = glm::vec2(left,  top);
+				textureCoordinates[0] = glm::vec2(right, bottom);
+				textureCoordinates[1] = glm::vec2(left, bottom);
+				textureCoordinates[2] = glm::vec2(left, top);
+				textureCoordinates[3] = glm::vec2(right, top);
 
+				//Add the texture coordinates in vector to save for later usage
+				TextureCoords coords;
+				coords.coords[0] = textureCoordinates[0];
+				coords.coords[1] = textureCoordinates[1];
+				coords.coords[2] = textureCoordinates[2];
+				coords.coords[3] = textureCoordinates[3];
 
-				QuadVertex quadVerts[] =
-				{
-					QuadVertex{ glm::vec3(-0.5f, -0.5f, 0.0f),   glm::vec3(1.0f, 0.0f, 0.0f),   textureCoordinates[0] },
-					QuadVertex{ glm::vec3(0.5f, -0.5f, 0.0f),   glm::vec3(1.0f, 1.0f, 0.0f),   textureCoordinates[1] },
-					QuadVertex{ glm::vec3(0.5f,  0.5f, 0.0f),   glm::vec3(1.0f, 0.0f, 1.0f),   textureCoordinates[2] },
-					QuadVertex{ glm::vec3(-0.5f,  0.5f, 0.0f),   glm::vec3(1.0f, 1.0f, 1.0f),   textureCoordinates[3] },
-				};
-
-				//Set the verticies of the quads and add to vector
-				std::vector <QuadVertex> verts(quadVerts, quadVerts + sizeof(quadVerts) / sizeof(QuadVertex));
-				quadMesh.verticies = verts;
-				spritesheet.quads.push_back(quadMesh);
+				spritesheet.textureCoords.push_back(coords);
 			}
 
 			//Skip to next sprite in the spritesheet

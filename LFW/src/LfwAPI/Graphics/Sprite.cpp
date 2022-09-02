@@ -30,6 +30,12 @@ namespace LFW {
 		anchor.translation.y = y;
 	}
 
+	void Sprite::SetPosition(glm::vec2 newPosition)
+	{
+		anchor.translation.x = newPosition.x;
+		anchor.translation.y = newPosition.y;
+	}
+
 	//Gets the sprites position in 2D space (x,y)
 	glm::vec2 Sprite::GetPosition()
 	{
@@ -42,11 +48,31 @@ namespace LFW {
 		anchor.scale.y = h;
 	}
 
+	void Sprite::SetWidth(float w)
+	{
+		anchor.scale.x = w;
+	}
+
+	void Sprite::SetHeight(float h)
+	{
+		anchor.scale.y = h;
+	}
+
+
 	glm::vec2 Sprite::GetSize()
 	{
 		return glm::vec2(anchor.scale.x, anchor.scale.y);
 	}
 
+	float Sprite::GetWidth()
+	{
+		return anchor.scale.x;
+	}
+
+	float Sprite::GetHeight()
+	{
+		return anchor.scale.y;
+	}
 
 	void Sprite::SetRotationX(float rotation)
 	{
