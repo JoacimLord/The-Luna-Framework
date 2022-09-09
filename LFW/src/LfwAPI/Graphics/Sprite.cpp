@@ -13,6 +13,17 @@ namespace LFW {
 		anchor.scale.y = size.y;
 	}
 
+	Sprite::Sprite(glm::vec2 position, glm::vec2 size, std::string filePath)
+	{
+		anchor.translation.x = position.x;
+		anchor.translation.y = position.y;
+
+		anchor.scale.x = size.x;
+		anchor.scale.y = size.y;
+
+		SetTexture(filePath);
+	}
+
 	void Sprite::SetTexture(std::string path)
 	{
 		if (path == "")
@@ -36,7 +47,26 @@ namespace LFW {
 		anchor.translation.y = newPosition.y;
 	}
 
-	//Gets the sprites position in 2D space (x,y)
+	void Sprite::SetPositionX(float x)
+	{
+		anchor.translation.x = x;
+	}
+
+	void Sprite::SetPositionY(float y)
+	{
+		anchor.translation.y = y;
+	}
+
+	void Sprite::AddPositionX(float x)
+	{
+		anchor.translation.x += x;
+	}
+
+	void Sprite::AddPositionY(float y)
+	{
+		anchor.translation.y += y;
+	}
+
 	glm::vec2 Sprite::GetPosition()
 	{
 		return glm::vec2(anchor.translation.x, anchor.translation.y);
@@ -58,7 +88,6 @@ namespace LFW {
 		anchor.scale.y = h;
 	}
 
-
 	glm::vec2 Sprite::GetSize()
 	{
 		return glm::vec2(anchor.scale.x, anchor.scale.y);
@@ -76,14 +105,28 @@ namespace LFW {
 
 	void Sprite::SetRotationX(float rotation)
 	{
-		anchor.rotation.x += rotation;
+		anchor.rotation.x = rotation;
 	}
 
 	void Sprite::SetRotationY(float rotation)
 	{
-		anchor.rotation.y += rotation;
+		anchor.rotation.y = rotation;
 	}
 	void Sprite::SetRotationZ(float rotation)
+	{
+		anchor.rotation.z = rotation;
+	}
+	void Sprite::AddRotationX(float rotation)
+	{
+		anchor.rotation.x += rotation;
+	}
+
+	void Sprite::AddRotationY(float rotation)
+	{
+		anchor.rotation.y += rotation;
+	}
+
+	void Sprite::AddRotationZ(float rotation)
 	{
 		anchor.rotation.z += rotation;
 	}
@@ -102,5 +145,4 @@ namespace LFW {
 	{
 		return anchor.translation;
 	}
-
 }

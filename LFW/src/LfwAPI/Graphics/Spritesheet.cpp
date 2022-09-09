@@ -36,10 +36,10 @@ namespace LFW {
 			{
 				//Get the texture coordiantes
 				glm::vec2 textureCoordinates[4];
-				textureCoordinates[0] = glm::vec2(right, bottom);
-				textureCoordinates[1] = glm::vec2(left, bottom);
-				textureCoordinates[2] = glm::vec2(left, top);
-				textureCoordinates[3] = glm::vec2(right, top);
+				textureCoordinates[0] = glm::vec2(left, bottom);
+				textureCoordinates[1] = glm::vec2(right, bottom);
+				textureCoordinates[2] = glm::vec2(right, top);
+				textureCoordinates[3] = glm::vec2(left, top);
 
 				//Add the texture coordinates in vector to save for later usage
 				TextureCoords coords;

@@ -31,16 +31,10 @@ namespace LFW {
 
 	Application::Application(const std::string name) //by ref?
 	{
-		if (!DebugGUI::IsEnabled() && !Docking::IsEnabled())
-		{
-			
-		}
+
 		if (DebugGUI::IsEnabled()) std::cout << "DebugGUI enabled\n";
-		if (!DebugGUI::IsEnabled()) std::cout << "DebugGUI not enabled\n";
-
-		if (Docking::IsEnabled()) std::cout << "Docking enabled\n";
-		if (!Docking::IsEnabled()) std::cout << "Docking not enabled\n";
-
+		else if (Docking::IsEnabled()) std::cout << "Docking enabled\n";
+		else std::cout << "Dear ImGui disabled\n";
 
 		s_instance = this;
 		m_window = std::unique_ptr<WindowInterface>(WindowInterface::Create(name));
@@ -48,17 +42,10 @@ namespace LFW {
 	
 		Renderer::Init();
 
-		if (DebugGUI::IsEnabled())
+		if (DebugGUI::IsEnabled() || Docking::IsEnabled())
 		{
 			m_ui = std::make_unique<UI>();
-			m_ui->OnAttach(); //Needs to happen here, crashes if it gets called in ImGuiLayers constructor.
-			//Renderer::GetCamera().SetViewportSize(m_UI->m_ViewportSize.x, m_UI->m_ViewportSize.y);
-		}
-		if (Docking::IsEnabled())
-		{
-			m_ui = std::make_unique<UI>();
-			m_ui->OnAttach(); //Needs to happen here, crashes if it gets called in ImGuiLayers constructor.
-			//Renderer::GetCamera().SetViewportSize(m_UI->m_ViewportSize.x, m_UI->m_ViewportSize.y);
+			m_ui->OnAttach();
 		}
 	}
 
@@ -198,12 +185,15 @@ namespace LFW {
 		float mouseX = Input::GetMousePositionX();
 		float mouseY = Input::GetMousePositionY();
 		glm::vec2 mouseCoords = glm::vec2(mouseX, mouseY);
-		return Renderer::GetCamera().WorldToScreenPoint(mouseCoords, (float)m_window->GetWidth(), (float)m_window->GetHeight());
+
+		if (!Docking::IsEnabled()) return Renderer::GetCamera().WorldToScreenPoint(mouseCoords, (float)m_window->GetWidth(), (float)m_window->GetHeight());
+		if (Docking::IsEnabled())  return Renderer::GetCamera().WorldToScreenPoint(mouseCoords, GetViewportSize().x, GetViewportSize().y);
 	}
 
 	glm::vec2 Application::ScreenToWorldPoint()
 	{
-		return Renderer::GetCamera().ScreenToWorldPoint(m_window->GetWidth(), m_window->GetHeight());
+		if (!Docking::IsEnabled()) return Renderer::GetCamera().ScreenToWorldPoint(m_window->GetWidth(), m_window->GetHeight());
+		if (Docking::IsEnabled())  return Renderer::GetCamera().ScreenToWorldPoint(GetViewportSize().x, GetViewportSize().y);
 	}
 
 
@@ -288,27 +278,26 @@ namespace LFW {
 	{
 		float x = Renderer::GetCameraPosition().x;
 		float y = Renderer::GetCameraPosition().y;
-		float z = Renderer::GetCameraPosition().z;
 
 		if (LFW::Input::IsKeyPressed(keyLeft))
 		{
 			x -= speed * dt;
-			Renderer::SetCameraPosition( { x, y, z } );
+			Renderer::SetCameraPosition( { x, y, 0 } );
 		}
 		else if (LFW::Input::IsKeyPressed(keyRight))
 		{
 			x += speed * dt;
-			Renderer::SetCameraPosition({ x, y, z });
+			Renderer::SetCameraPosition({ x, y, 0 });
 		}
 		if (LFW::Input::IsKeyPressed(keyDown))
 		{
 			y -= speed * dt;
-			Renderer::SetCameraPosition({ x, y, z });
+			Renderer::SetCameraPosition({ x, y, 0 });
 		}
 		else if (LFW::Input::IsKeyPressed(keyUp))
 		{
 			y += speed * dt;
-			Renderer::SetCameraPosition({ x, y, z });
+			Renderer::SetCameraPosition({ x, y, 0 });
 		}
 	}
 
@@ -316,27 +305,26 @@ namespace LFW {
 	{
 		float x = Renderer::GetCameraPosition().x;
 		float y = Renderer::GetCameraPosition().y;
-		float z = Renderer::GetCameraPosition().z;
 
 		if (Input::IsKeyPressed(LFW::Key::Left))
 		{
 			x -= speed;
-			LFW::Renderer::SetCameraPosition({ x, y, z });
+			LFW::Renderer::SetCameraPosition({ x, y, 0 });
 		}
 		else if (Input::IsKeyPressed(LFW::Key::Right))
 		{
 			x += speed;
-			LFW::Renderer::SetCameraPosition({ x, y, z });
+			LFW::Renderer::SetCameraPosition({ x, y, 0 });
 		}
 		if (Input::IsKeyPressed(LFW::Key::Down))
 		{
 			y -= speed;
-			Renderer::SetCameraPosition({ x, y, z });
+			Renderer::SetCameraPosition({ x, y, 0 });
 		}
 		else if (LFW::Input::IsKeyPressed(LFW::Key::Up))
 		{
 			y += speed;
-			Renderer::SetCameraPosition({ x, y, z });
+			Renderer::SetCameraPosition({ x, y, 0 });
 		}
 	}
 
@@ -347,7 +335,7 @@ namespace LFW {
 
 	glm::vec2 Application::GetViewportSize()
 	{
-		if (!DebugGUI::IsEnabled())
+		if (!Docking::IsEnabled())
 		{
 			std::cout << "Viewport not enabled. Returning 0\n";
 			return glm::vec2(0,0);

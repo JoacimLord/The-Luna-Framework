@@ -28,8 +28,6 @@ namespace LFW {
 		position = temppos; 
 		xOffset = position.x;
 		yOffset = position.y;
-		std::cout << "X: " << xOffset << "\n";
-		std::cout << "Y: " << yOffset << "\n";
 		RecalcMatrix(); 
 	}
 
@@ -95,15 +93,11 @@ namespace LFW {
 		aspectRatio = width / height;
 		bounds = { -aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel };
 		SetProjection(bounds.left, bounds.right, bounds.bottom, bounds.top);
-
-		//Debug
-		//std::cout << "Width: " << width << ", height: " << height << ", ar: " << aspectRatio << "\n";
 	}
 
 
 	bool OrthographicCamera::OnResizedEvent(WindowResizeEvent& e)
 	{
-		std::cout << "Resizing from camera!" << "\n";
 		OnResize((float)e.GetWidth(), (float)e.GetHeight());
 		return false;
 	}

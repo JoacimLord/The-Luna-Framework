@@ -22,8 +22,6 @@ namespace LFW {
 
 		void OnAttach();
 		void OnDetach();
-		void OnEvent(Event& event);
-		void BlockEvent(bool block) { m_blockevents = block; }
 
 		void StartRenderFrame();
 		void RenderFrame();

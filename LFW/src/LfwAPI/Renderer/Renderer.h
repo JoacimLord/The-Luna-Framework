@@ -1,7 +1,5 @@
 #pragma once
 
-#include "LfwAPI/Renderer/Shader.h"
-#include "LfwAPI/Renderer/Framebuffer.h"
 #include "LfwAPI/Renderer/VertexArray.h"
 #include "LfwAPI/Renderer/Buffers.h"
 #include "LfwAPI/Renderer/Texture.h"

@@ -19,6 +19,5 @@ namespace LFW {
 		return glm::translate(glm::mat4(1.0f), translation)
 			* tempRotation
 			* glm::scale(glm::mat4(1.0f), scale);
-		//* glm::rotate(glm::mat4(1.0f), { 0.0f, 0.0f, 1.0f })); //TRANSLATES THE TEXTURE
 	}
 }

@@ -52,6 +52,7 @@ namespace LFW {
 	void AudioEngine::PlayAudioFromStreamedFile(ma_engine engine, ma_sound sound, const char* filePath)
 	{
 		ma_sound_init_from_file(&engine, filePath, MA_SOUND_FLAG_STREAM, NULL, NULL, &sound);
+		ma_sound_start(&sound);
 	}
 
 	// This function is specified outside of the scope of the AudioEngine class and
@@ -112,6 +113,16 @@ namespace LFW {
 	void AudioEngine::SetSoundVolume(ma_sound sound, int volume)
 	{
 		ma_sound_set_volume(&sound, volume);
+	}
+
+	void AudioEngine::StopMasterAudio()
+	{
+		ma_engine_stop(&m_miniAudioEngine);
+	}
+
+	void AudioEngine::StartMasterAudio()
+	{
+		ma_engine_start(&m_miniAudioEngine);
 	}
 
 	void AudioEngine::SetFadeTimer(ma_sound& sound, float startingTime, float endingTime, float fadeLengthInMilliSeconds)

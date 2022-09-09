@@ -43,6 +43,12 @@ namespace LFW {
 		//Controls volume of a single sound instance
 		void SetSoundVolume(ma_sound sound, int volume);
 
+		//Stops the master audio source (from engine)
+		void StopMasterAudio();
+
+		//Plays the master audio source (from engine)
+		void StartMasterAudio();
+
 		//Sets a fade timer for the beginning of an audio file
 		void SetFadeTimer(ma_sound& sound, float startingTime, float endingTime, float fadeLengthInMilliSeconds);
 
@@ -57,6 +63,10 @@ namespace LFW {
 
 		//Gets a sounds filepath with a specified key value
 		const char* GetSoundFromMap(std::string key);
+
+	public:
+		//TODO: Store these in a map or vector
+		ma_sound m_sound;
 
 	private:
 		//Not needed?

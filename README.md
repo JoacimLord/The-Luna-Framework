@@ -1,9 +1,9 @@
-# LFW (The Luna Framework) - Version 1.10.03
+# LFW (The Luna Framework) - Version 1.10.04
 
 LFW is a low level framework based on the API of my 3D game engine "Luna" (currently in development).
 
-The intention of this framework is to build any kind of GUI app, but it's probably most suitable for simple 2D games at this stage.
-It currently only support development on Windows with Visual Studio Community 2019 (this can be fixed by editing the Setup file).
+The intention of this framework is to build any kind of GUI app.
+It currently only support development on Windows with Visual Studio Community 2019.
 
 
 Third party libraries in use:
@@ -19,13 +19,17 @@ Third party libraries in use:
 
 # How to get started
 
-Clone, fork or download the project, and run the Setup/Setup.bat file to generate your solution.
-The only file that you need to include is the "LFW.h" header file and the <imgui/imgui.h> file.
-I suggest to rename the Sandbox project and use that as your starting point!
+Clone, fork or download the project. Run the Setup/Setup.bat file to generate your solution.
+The only file that you need to include to start is the "LFW.h" header file (this should be in your main file).
+Include <imgui/imgui.h> in your main file if you intend to use Dear ImGui in your application.
+Even if you don't want to use Dear ImGui the function "void LFW::Application::BuildUI() { }" needs to be defined before main(). Just leave it empty if you don't use it!
+If you run the applications executable the ImGui settings won't be saved and you have to dock and resize your GUI. To prevent this I recommend to copy over the "imgui.inl" file from the Sandbox folder to be in the same folder as the executable.
+
+I also suggest to just rename the Sandbox project and use that as your starting point!
 
 
 
-# - API DOCUMENTATION -
+# API DOCUMENTATION
 
 ## Modules
 
@@ -44,8 +48,7 @@ I suggest to rename the Sandbox project and use that as your starting point!
  ### - Debug Panel
  ### - Application window functionality
  ### - AudioEngine
- ### - Features Soon To Come
- ### - Disclaimer
+ ### - Soon To Come
 
 
 
@@ -68,7 +71,6 @@ int main()
 
 	while (app.IsRunning())
 	{
-		/* Disclaimer */
 		//This functionality has to happen in this specific order:
 		// 1. Clear()
 		// 2. Render(single_sprite)
@@ -79,7 +81,7 @@ int main()
 		//It can also be called with values (Clear(1.0f, 1.0f, 1.0f, 1.0f)) or as in this example, with LFW::Colors!
 		app.Clear(LFW::Colors::Grey);
 
-		app.Render();
+		app.Render(some_sprite);
 
 		app.Display(); 
 	}
@@ -93,12 +95,12 @@ int main()
 LFW uses Dear ImGui to make it easy to integrate debugging/GUI panels inside your application.
 
 There is 3 different options on how to use Dear ImGui in LFW.
-1. Docking (used for multimedia apps).
-2. DebugGUI (used mostly to debug games).
-3. Disable Dear ImGui in general.
+1. Docking
+2. DebugGUI
+3. Disable Dear ImGui in general
 
 Docking makes it possible to freely move around your panels and dock them where you feel like to. This also moves the rendering to be displayed in a ImGui Panel called "Viewport" that can be docked anywhere.
-DebugGUI enables "floating" panels that can't be docked, but can be moved around. This can be useful for debugging games. This renders to the GLFW window and not into a Dear ImGui panel.
+DebugGUI enables "floating" panels that can't be docked, but can be moved around. This can be useful for example while debugging games. This renders to the GLFW window and not into a Dear ImGui panel.
 If none of these options is enabled, LFW renders directly to the GLFW window.
 
 To create custom Dear ImGui panels, initialize them in the BuilUI function that LFW provides with the Dear ImGui API (documentation can be found in their repo on GitHub).
@@ -107,16 +109,14 @@ To create custom Dear ImGui panels, initialize them in the BuilUI function that 
 DISCLAIMERS
 1. Docking and DebugGUI CAN NOT be used together! Use ONE of these or none.
 2. This needs to happen BEFORE initalizing the application (as in the example).
-3. If you decide to use the Docking-feature, the function for converting ScreenToWorldPoint is not working properly since it gets calculated depending on the GLFW window, and screen resizing does not consider the framebuffer rendering to the Dear ImGui window (which can lead to strange "streches" in sprites if not set to the correct aspectratio). This issue is currently being worked on.
+3. If you decide to use the Docking-feature, the function for converting ScreenToWorldPoint/WorldToScreenPoint is not working properly but is currently being worked on.
 4. Both of these are initalized as false by default. If you don't want to use any of it, just initalize the application as normal.
-5. Even if this isn't used in your application, both the #include <imgui/imgui.h> and void LFW::Application::BuildUI() has to be defined inside the Main.cpp file (but can of course be left empty).
 
 Example - Docking:
 ```cpp
 #include "LFW.h"
 #include <imgui/imgui.h>
 
-//This needs to be included. If you don't want to use ImGui this can be left blank but still needs to be here!
 void LFW::Application::BuildUI()
 {
 }
@@ -142,7 +142,6 @@ Example - Debug GUI:
 #include "LFW.h"
 #include <imgui/imgui.h>
 
-//This needs to be included. If you don't want to use ImGui this can be left blank but still needs to be here!
 void LFW::Application::BuildUI()
 {
 }
@@ -168,7 +167,6 @@ Example - Disabled Dear ImGui:
 #include "LFW.h"
 #include <imgui/imgui.h>
 
-//This needs to be included. If you don't want to use ImGui this can be left blank but still needs to be here!
 void LFW::Application::BuildUI()
 {
 }
@@ -222,13 +220,18 @@ int main()
 
 Use the clock to return elapsed time since start of application.
 The clock can reset, return elapsed time in specified formats, and reset after specified amount of time!
-More documentation can be found in the source file.
 
 ```cpp
 int main()
 {
 	//Instantiate the clock
 	LFW::Clock clock;
+
+	//Print elapsed time with a specified format
+	clock.PrintElapsedTime(LFW::ClockFormats::TWO_DECIMAL);
+
+	//Reset the clock after x amount of time
+	clock.ResetAfterSeconds(1);
 }
 ```
 
@@ -264,7 +267,6 @@ To render sprites from a spritesheet, see the "Spritesheet" section.
 
 Initialize your sprites from the LFW namespace before the main loop of your application.
 ```cpp
-
 LFW::Sprite texturedSprite;
 texturedSprite.filePath = "your_filepath_here_with_image_extension(.jpg, .png)";
 texturedSprite.pixelation = false;
@@ -278,24 +280,32 @@ orangeSprite.SetSize(0.5f, 0.3f);
 orangeSprite.SetPosition(0.5f, 0.0f);
 ```
 
+Sprites can be intialized with a size and position in the constructor.
+Sprites can also be initialized with size, position and a texture filepath (that get's loaded).
+
 The sprite size is in 1:1 units from the cameras perspective and not in pixels (with center origin in the middle of the screen (0,0)).
 
 Sprite functionality:
 - SetTexture(takes in a filepath or uses the filepath variable as default if no argument is passed)
-- color (takes in a glm::vec4 value)
-- SetPosition(x, y)
+- color
+- filePath
+- SetPosition()
+- SetPositionX()
+- SetPositionY()
+- AddPositionX()
+- AddPositionY()
 - GetPosition()
-- SetSize(x, y)
-- SetWidth(x)
-- SetHeight(y)
+- SetSize()
+- SetWidth()
+- SetHeight()
 - GetSize()
 - GetWidth()
 - GetHeight()
 - GetAnchor()
 - GetTranslation()
 - GetTransform()
-- .filePath (to load the texture)
-- SetRotation(X, Y, Z)
+- SetRotation()
+- AddRotation()
 - pixelated (needs to be set to true if the texture in use is pixelart, else it's set to false as default)
 
 Sprites use "anchors" to manipulate it's orientation in the 2D world. Anchors are just transforms that control position, size and rotation.
@@ -305,7 +315,6 @@ Remember to render the objects in the correct order as you want to display them.
 
 Examples of how to load the texture of sprites
 ```cpp
-
 //Using the sprites filepath variable
 LFW::Sprite sprite_1;
 sprite_1.filePath = "your_filepath_here_with_image_extension";
@@ -347,9 +356,10 @@ Make sure to have either the texture or color defined before rendering your spri
 
 # Spritesheets
 
-LFW now also supports rendering from spritesheets!
+LFW also supports rendering from spritesheets!
 The spritesheet needs to initialized, created and loaded.
-After the spritesheet has been set, the sprites need to created "manually" and added with the SpriteSheetManager.
+After the spritesheet has been set, the sprite need to created "manually" and added with the SpriteSheetManager.
+If you intend to use a single sprite for the whole spritesheet (for example if it's animations) it's only needed to add one sprite to the spritesheet instance.
 
 Example
 ```cpp
@@ -370,7 +380,7 @@ LFW::Sprite sprite;
 sprite.SetSize(0.3f, 0.3f);
 sprite.SetPosition(-0.5f, 0.0f);
 
-//Add the sprites to the spritesheet
+//Add the sprite to the spritesheet
 spriteSheet.AddSprite(sprite);
 ```
 
@@ -405,7 +415,7 @@ Know issues:
 LFW::Batch batch;
 batch.sprites.push_back(texturedSprite);
 
-//Draw instanced textures
+//Draw instanced textures with the required amount of sprites
 app.Render(batch, 1);
 ```
 
@@ -449,10 +459,7 @@ int main()
 
 	while (app.IsRunning())
 	{
-		//Calculate delta
-		float elapsedTime = app.GetElapsedRuntime();
-		LFW::DeltaTime deltaTime = elapsedTime - lastFrameTime;
-		lastFrameTime = elapsedTime;
+		LFW::DeltaTime deltaTime = app.GetDeltaTime();
 
 		app.Clear(1.0f, 0.0f, 1.0f, 1.0f);
 
@@ -496,6 +503,13 @@ int main()
 }
 ```
 
+Sprites can also use their AddPositionX/Y function to add to a specified direction. Remember to use deltaTime here for correct results!
+```cpp
+float speed = 1.0f;			
+orangeSprite.AddPositionX(speed * deltaTime);
+```
+
+
 This will only work with sprites that's initialized as seperate sprites and not from a spritesheet.
 To move sprites that belong to the spritesheet it's needed to acccess the sprite the GetSprite(index) function.
 This needs the index number of the sprite (but will be updated later on).
@@ -521,7 +535,7 @@ Example of usage can be to position a sprite and the mouse location on click or 
 if (LFW::Input::IsMouseButtonPressed(LFW::Mouse::Button0))
 {
 	glm::vec2 mousePos = app.ScreenToWorldPoint();
-	orangeSprite.SetPosition(mousePos.x, mousePos.y);
+	orangeSprite.SetPosition(mousePos);
 }
 
 ```
@@ -646,6 +660,12 @@ engine.PlayAudioFromFile("filepath");
 //Play a .wav file from source, loops (uses miniaudios ma_device)
 engine.PlayAudioWithLooping("filepath");
 
+//Stops the engine and mutes everything
+engine.StopMasterAudio();
+
+//Starts the engine
+engine.StartMasterAudio();
+
 //Add a single const char* filePath to a sound file to an unordered map with a specified key. WIP.
 engine.AddSoundToMap(key, value);
 
@@ -655,7 +675,7 @@ engine.GetSoundFromMap(key);
 
 
 
-# Features Soon To Come
+# Soon To Come
 
 - [x] Screen to world Point
 - [x] World to screen Point (in pixels)
@@ -664,9 +684,5 @@ engine.GetSoundFromMap(key);
 - [ ] Fonts
 
 
-
-# Disclaimer
-
-This repo and documentation is heavily in progress and will be frequently changed!
-
+This repo and documentation is heavily in progress and will be changed frequently.
 Thank you for checking it out!

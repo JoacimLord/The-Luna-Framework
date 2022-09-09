@@ -8,6 +8,8 @@ namespace LFW {
     
     struct RendererData
     {
+        std::string textureShaderFile = "txt";
+        std::string colorShaderFile = "clr";
         const uint32_t QUAD_SIZE = 6;
 
         //Color
@@ -34,9 +36,6 @@ namespace LFW {
 
     void Renderer::Init()
     {
-        std::string textureShaderFile = "txt";
-        std::string colorShaderFile = "clr";
-
         OpenGLEnables();
 
         //----------------------------------------------------------------------
@@ -45,15 +44,15 @@ namespace LFW {
 
         //Texture
         s_rendererData.textureVertexArray = std::make_shared<VertexArray>();
-        s_rendererData.textureShader = std::make_shared<Shader>(textureShaderFile);
+        s_rendererData.textureShader = std::make_shared<Shader>(s_rendererData.textureShaderFile);
 
         //Spritesheet Textures
         s_rendererData.spritesheetTextureVertexArray = std::make_shared<VertexArray>();
-        s_rendererData.spritesheetTextureShader = std::make_shared<Shader>(textureShaderFile);
+        s_rendererData.spritesheetTextureShader = std::make_shared<Shader>(s_rendererData.textureShaderFile);
 
         //Color
         s_rendererData.colorVertexArray = std::make_shared<VertexArray>();
-        s_rendererData.colorShader = std::make_shared<Shader>(colorShaderFile);
+        s_rendererData.colorShader = std::make_shared<Shader>(s_rendererData.colorShaderFile);
 
 
         //----------------------------------------------------------------------
@@ -79,7 +78,6 @@ namespace LFW {
         std::shared_ptr<VertexBuffer> VBO = std::make_shared<VertexBuffer>(quadMesh.verticies);
 
         s_rendererData.textureVertexArray->AddVertexBufferTexture(VBO);
-        //s_RendererData.SpritesheetTextureVertexArray->AddVertexBufferTexture(VBO);
         s_rendererData.colorVertexArray->AddVertexBufferTexture(VBO);
     }
 
@@ -148,8 +146,6 @@ namespace LFW {
 
     void Renderer::RenderFromSpritesheet(Spritesheet& spritesheet, int index)
     {
-        /* TODO !!!!!! */
-        //Comment this, has to be done to replace coords
         if (spritesheet.loaded)
         {
             QuadVertex quadVerts[] =
@@ -219,14 +215,10 @@ namespace LFW {
     {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-        //This disabled transparency in textures
-        //glEnable(GL_DEPTH_TEST);
     }
 
     void Renderer::OnWindowResize(float width, float height)
     {
-        std::cout << "glViewport changing\n";
         glViewport(0, 0, width, height);
 
         s_orthoCam.OnResize(width, height);

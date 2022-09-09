@@ -56,19 +56,6 @@ namespace LFW {
 		ImGui::DestroyContext();
 	}
 
-	void UI::OnEvent(Event& event) 
-	{ 
-		//if (blockevents)
-		//{
-		//	ImGuiIO& io = ImGui::GetIO();
-		//	event.m_HandledEvent |= event.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
-		//	event.m_HandledEvent |= event.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
-		//	std::cout << "Blocked event from app";
-		//}
-		//
-		//dispatcher.Dispatch<MouseButtonPressedEvent>(DEFINE_EVENT_TYPE(UI::OnMouseButtonPressedEvent));
-	}
-
 	void UI::StartRenderFrame()
 	{
 		ImGui_ImplOpenGL3_NewFrame();
@@ -78,19 +65,13 @@ namespace LFW {
 
 	void UI::BindFramebuffer(float r, float g, float b, float transparent)
 	{
-		//----------------------------------------------
-		// UN-COMMENT THIS CODE TO ENABLE DOCKING
-		//----------------------------------------------
-		
 		if (Docking::IsEnabled())
 		{
+			//If the viewport is resized
 			if (viewportSize.x > 0.0f && viewportSize.y > 0.0f && m_framebuffer->GetFramebufferSpecification().width != viewportSize.x || m_framebuffer->GetFramebufferSpecification().height != viewportSize.y)
 			{
-				std::cout << "Resetting framebuffer!\n";
 				m_framebuffer->ResizeFramebuffer((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
-
-				//Renderer::GetCamera().SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
-				Renderer::GetCamera().OnResize(viewportSize.x, viewportSize.y);
+				Renderer::OnWindowResize(viewportSize.x, viewportSize.y);
 			}
 
 			m_framebuffer->Bind();
@@ -185,7 +166,7 @@ namespace LFW {
 		}
 
 		//---------------------------------------------------
-		//					DEMO WINDOW && GUI
+		//				DEMO WINDOW && GUI
 		//---------------------------------------------------
 		if (showDemo) { OnUIRender(); }
 		LFW::Application::BuildUI();
@@ -208,7 +189,7 @@ namespace LFW {
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::Get();
 		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
-		//io.DisplaySize = ImVec2(m_ViewportSize.x, m_ViewportSize.y);
+		//io.DisplaySize = ImVec2(viewportSize.x, viewportSize.y);
 
 		// Rendering
 		ImGui::Render();

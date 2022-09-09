@@ -17,7 +17,6 @@ namespace LFW {
     {
         if (m_id)
         {
-            std::cout << "Resizing framebuffer\n";
             glDeleteFramebuffers(1, &m_id);
             glDeleteTextures(1, &m_colorAttachment);
             glDeleteTextures(1, &m_depthAttachment);
@@ -41,10 +40,10 @@ namespace LFW {
 
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_colorAttachment, 0);
 
-        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
-        {
-            std::cout << "Framebuffer loaded!\n";
-        }
+        //if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
+        //{
+        //    std::cout << "Framebuffer loaded!\n";
+        //}
 
        glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
