@@ -49,31 +49,31 @@ namespace LFW {
 		return temp;
 	}
 
-	glm::vec2 OrthographicCamera::ScreenToWorldPoint(float screenW, float screenH)
+	glm::vec2 OrthographicCamera::ScreenToWorldPoint(float mouseX, float mouseY, float screenW, float screenH)
 	{
 		// X
-		float currentX = Input::GetMousePositionX();
-		currentX = (currentX / screenW) * 2.0f - 1.0f;
-		glm::vec4 tempX = glm::vec4(currentX, 0.0f, 0.0f, 1.0f);
+		//float currentX = Input::GetMousePositionX();
+		mouseX = (mouseX / screenW) * 2.0f - 1.0f;
+		glm::vec4 tempX = glm::vec4(mouseX, 0.0f, 0.0f, 1.0f);
 
 		glm::mat4 inversedProjectionX = glm::inverse(projMatrix);
 		glm::mat4 inversedViewX = glm::inverse(viewMatrix);
 
 		glm::vec4 viewProjMatrixX = tempX * inversedProjectionX * inversedViewX;
-		currentX = viewProjMatrixX.x;
+		mouseX = viewProjMatrixX.x;
 
 		// Y
-		float currentY = Input::GetMousePositionY();
-		currentY = (currentY / screenH) * 2.0f - 1.0f;
-		glm::vec4 tempY = glm::vec4(0.0f, currentY, 0.0f, 1.0f);
+		//float mouseY = Input::GetMousePositionY();
+		mouseY = (mouseY / screenH) * 2.0f - 1.0f;
+		glm::vec4 tempY = glm::vec4(0.0f, mouseY, 0.0f, 1.0f);
 
 		glm::mat4 inversedProjectionY = glm::inverse(projMatrix);
 		glm::mat4 inversedViewY = glm::inverse(viewMatrix);
 
 		glm::vec4 viewProjMatrixY = tempY * inversedProjectionY * inversedViewY;
-		currentY = -viewProjMatrixY.y;
+		mouseY = -viewProjMatrixY.y;
 
-		glm::vec2 mousePositionInWorld = glm::vec2(currentX, currentY);
+		glm::vec2 mousePositionInWorld = glm::vec2(mouseX, mouseY);
 
 
 		mousePositionInWorld.y += yOffset;

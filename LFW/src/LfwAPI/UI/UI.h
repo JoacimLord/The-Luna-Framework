@@ -36,6 +36,8 @@ namespace LFW {
 	public:
 		bool showDemo = false;
 		glm::vec2 viewportSize = { 0.0f, 0.0f };
+		glm::vec2 mousePosition = { 0.0f, 0.0f };
+		glm::vec2 m_ViewportBounds[2];
 
 	private:
 		std::shared_ptr<Framebuffer> m_framebuffer;

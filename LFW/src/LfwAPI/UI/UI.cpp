@@ -77,6 +77,18 @@ namespace LFW {
 			m_framebuffer->Bind();
 			Renderer::ClearColor(r, g, b, transparent);
 			Renderer::Clear();
+
+
+			//For getting correct mouse position with GUI attached	
+			auto guiPosition = ImGui::GetMousePos();
+			guiPosition.x -= m_ViewportBounds[0].x;
+			guiPosition.y -= m_ViewportBounds[0].y;
+
+			float mouseX = (float)guiPosition.x;
+			float mouseY = (float)guiPosition.y;
+
+			mousePosition.x = mouseX;
+			mousePosition.y = mouseY;
 		}
 	}
 
@@ -151,8 +163,9 @@ namespace LFW {
 			ImGui::Begin("Viewport");
 			auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
 			auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
-			//auto viewportOffset = ImGui::GetWindowPos();
-			//ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+			auto viewportOffset = ImGui::GetWindowPos();
+			m_ViewportBounds[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
+			m_ViewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
 
 			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 			viewportSize = { viewportPanelSize.x, viewportPanelSize.y };

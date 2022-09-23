@@ -45,7 +45,7 @@ namespace LFW {
 
 		//Returns the mouse position converted from screen space to world point.
 		//This function only returns correct values if the viewport is not initialized and uses the "original" glfw window for rendering.
-		glm::vec2 ScreenToWorldPoint(float screenW, float screenH);
+		glm::vec2 ScreenToWorldPoint(float mouseX, float mouseY, float screenW, float screenH);
 
 
 		void OnEvent(Event& event);

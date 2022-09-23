@@ -176,14 +176,7 @@ namespace LFW {
 
 	void Application::Display()
 	{
-		//UpdateWindow();
-		if (DebugGUI::IsEnabled())
-		{
-			EndRendering();
-			DrawUI();
-			UpdateWindow();
-		}
-		else if (Docking::IsEnabled())
+		if (DebugGUI::IsEnabled() || Docking::IsEnabled())
 		{
 			EndRendering();
 			DrawUI();
@@ -197,18 +190,32 @@ namespace LFW {
 
 	glm::vec2 Application::WorldToScreenPoint()
 	{
-		float mouseX = Input::GetMousePositionX();
-		float mouseY = Input::GetMousePositionY();
-		glm::vec2 mouseCoords = glm::vec2(mouseX, mouseY);
+		if (!Docking::IsEnabled())
+		{
+			float mouseX = Input::GetMousePositionX();
+			float mouseY = Input::GetMousePositionY();
+			glm::vec2 mouseCoords = glm::vec2(mouseX, mouseY);
+			return Renderer::GetCamera().WorldToScreenPoint(mouseCoords, (float)m_window->GetWidth(), (float)m_window->GetHeight());
+		}
 
-		if (!Docking::IsEnabled()) return Renderer::GetCamera().WorldToScreenPoint(mouseCoords, (float)m_window->GetWidth(), (float)m_window->GetHeight());
-		if (Docking::IsEnabled())  return Renderer::GetCamera().WorldToScreenPoint(mouseCoords, GetViewportSize().x, GetViewportSize().y);
+		if (Docking::IsEnabled())
+		{
+			return Renderer::GetCamera().WorldToScreenPoint(m_ui->mousePosition, GetViewportSize().x, GetViewportSize().y);
+		}
 	}
 
 	glm::vec2 Application::ScreenToWorldPoint()
 	{
-		if (!Docking::IsEnabled()) return Renderer::GetCamera().ScreenToWorldPoint(m_window->GetWidth(), m_window->GetHeight());
-		if (Docking::IsEnabled())  return Renderer::GetCamera().ScreenToWorldPoint(GetViewportSize().x, GetViewportSize().y);
+		if (!Docking::IsEnabled())
+		{
+			float mouseX = Input::GetMousePositionX();
+			float mouseY = Input::GetMousePositionY();
+			return Renderer::GetCamera().ScreenToWorldPoint(mouseX, mouseY, m_window->GetWidth(), m_window->GetHeight());
+		}
+		if (Docking::IsEnabled())
+		{
+			return Renderer::GetCamera().ScreenToWorldPoint(m_ui->mousePosition.x, m_ui->mousePosition.y, GetViewportSize().x, GetViewportSize().y);
+		}
 	}
 
 

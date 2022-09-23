@@ -78,7 +78,7 @@ namespace LFW {
         std::shared_ptr<VertexBuffer> VBO = std::make_shared<VertexBuffer>(quadMesh.verticies);
 
         s_rendererData.textureVertexArray->AddVertexBufferTexture(VBO);
-        s_rendererData.colorVertexArray->AddVertexBufferTexture(VBO);
+        s_rendererData.colorVertexArray->AddVertexBufferColor(VBO);
     }
 
     void Renderer::Clear()
@@ -112,9 +112,9 @@ namespace LFW {
         return s_orthoCam.WorldToScreenPoint(screenCoords, screenW, screenH);
     }
 
-    glm::vec2 Renderer::ScreenToWorldPoint(float screenW, float screenH)
+    glm::vec2 Renderer::ScreenToWorldPoint(float mouseX, float mouseY, float screenW, float screenH)
     {
-        return s_orthoCam.ScreenToWorldPoint(screenW, screenH);
+        return s_orthoCam.ScreenToWorldPoint(mouseX, mouseY, screenW, screenH);
     }
 
     void Renderer::Render(Sprite& sprite)
