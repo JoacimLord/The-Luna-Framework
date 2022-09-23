@@ -1,7 +1,7 @@
 //Welcome to LFW(THE LUNA FRAMEWORK)!
 /*
 	@author Joacim Lord (c) 2020-2022.
-	<This project was last edited 220909>
+	<This project was last edited 220923>
 */
 
 //Contains everything you need!
@@ -12,25 +12,32 @@
 
 void LFW::Application::BuildUI()
 {
-	////Basic example to show the framerate of your application
-	//ImGui::Begin("My own UI!");
-	//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	//ImGui::End();
-	//
-	////Builds the debug panel
-	//LFW::Debug::BuildLogWindow();
+	//Basic example to show the framerate of your application
+	ImGui::Begin("My own UI!");
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::End();
+	
+	//Builds the debug panel
+	LFW::Debug::BuildLogWindow();
 }
 
 int main()
 {
+	//Init vsync (false as default, needs to be called before the application is created)
+	LFW::VSYNC::Init(true);
+
+	//Init docking (false as default, needs to be called before the application is created)
+	LFW::Docking::Init(true);
+
 	//Init the application with a title
 	LFW::Application app("App");
 
 	//Setup of a sprite with a color
 	LFW::Sprite orangeSprite;
 	orangeSprite.color = LFW::Colors::orange;
-	orangeSprite.SetSize(0.5f, 0.3f);
-	orangeSprite.SetPosition(0.5f, 0.0f);
+
+	orangeSprite.SetSize(0.5f, 0.5f);
+	orangeSprite.SetPosition(0.0f, 0.0f);
 
 	//Main-loop
 	while (app.IsRunning())

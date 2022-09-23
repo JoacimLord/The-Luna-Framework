@@ -9,6 +9,16 @@
 
 namespace LFW {
 
+	void VSYNC::Init(bool state)
+	{
+		vsync = state;
+	}
+
+	bool VSYNC::IsEnabled()
+	{
+		return vsync;
+	}
+
 	void DebugGUI::Init(bool state)
 	{
 		enableDebugGUI = state;
@@ -38,6 +48,11 @@ namespace LFW {
 
 		s_instance = this;
 		m_window = std::unique_ptr<WindowInterface>(WindowInterface::Create(name));
+
+		if (VSYNC::IsEnabled()) m_window->SetVSync(true);
+		else m_window->SetVSync(false);
+
+
 		m_window->SetEventCallback(DEFINE_EVENT_TYPE(OnEvent));
 	
 		Renderer::Init();

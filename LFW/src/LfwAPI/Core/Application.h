@@ -29,6 +29,18 @@
 
 namespace LFW {
 
+	//To enable vsync in the application
+	namespace VSYNC
+	{
+		static bool vsync;
+
+		//Enables vsync if true, disabled if false4
+		void Init(bool state);
+
+		//Used internally to check if vsync is activated in the applications constructor
+		bool IsEnabled();
+	}
+
 	//To enable 'floating' GUI panels
 	namespace DebugGUI
 	{
